@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+  <title>Инвентарь</title>
+</head>
+<body th:align="center">
+<h1>Изменение инвенторя</h1>
+  <form th:action="${'/inventory/'+inventory.id+'/edit'}" method="post" th:object="${inventory}">
+    <br>
+    <label>Предмет</label>
+    <input th:field="*{predmet}" type="text" name="predmet" placeholder="Введите название тарифа">
+    <br>
+    <br>
+    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('predmet')}" th:errors="*{predmet}"></div>
+    <br>
+    <label>Количество</label>
+    <input th:field="*{kolvopredmet}" type="number" name="kolvopredmet" placeholder="Введите цену тарифа">
+    <br>
+    <br>
+    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('kolvopredmet')}" th:errors="*{kolvopredmet}"></div>
+
+    <button type="submit">Применить</button>
+</form>
+</body>
+</html>
+<style>
+  html *{
+    font-family: Arial !important;
+  }
+  h1{
+    font-size: 100px;
+  }
+  body{
+    color: whitesmoke;
+    background-color: royalblue;
+  }
+  a{
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: #000000;
+    background-color: dodgerblue;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 70px;
+    padding-right: 70px;
+    /*margin-top: 100px;*/
+
+    font-size: 1.2em;
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+  a:hover{
+    color: dodgerblue;
+    background-color: whitesmoke;
+    /*border-color: whitesmoke;*/
+    /*box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5);*/
+    /*font-weight: bold;*/
+  }
+  button{
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: #000000;
+    background-color: dodgerblue;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 70px;
+    padding-right: 70px;
+    /*margin-top: 100px;*/
+
+    font-size: 1.2em;
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+  button:hover{
+    color: dodgerblue;
+    background-color: whitesmoke;
+    /*border-color: whitesmoke;*/
+    /*box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5);*/
+    /*font-weight: bold;*/
+  }
+</style>

@@ -1,0 +1,289 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>МОРЕОФФ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body class="bg" th:align="center">
+
+<section>
+
+    <div class="shapka2">
+        <section>
+            <div class="shapka">
+
+            </div>
+
+            <div class="shapka">
+                <div>
+                    <link class="ots3" sec:authorize="isAuthenticated()">
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit">Выйти</button>
+                        </form>
+                    </link>
+                </div>
+                <div>
+                    <a class="ots3" th:if="${isSkladovshik}" href="/inventory">Инвентарь</a>
+                </div>
+                <div>
+                    <a class="ots3" th:if="${isSaler}" href="/stocks">Акции</a>
+                </div>
+                <div>
+                    <a class="ots3" th:if="${isSotrudnik}" href="/conntactinfo">Контактная информация</a>
+                </div>
+                <div>
+                    <a class="ots3" th:if="${isSotrudnik}" href="/safers">Спасатиели</a>
+                </div>
+                <div>
+                    <a class="ots3" th:if="${isAdmin}" href="/admin">Пользователи</a>
+                </div>
+                <div>
+                    <a class="ots3" th:if="${isSaler}" href="/tarifs">Тарифы</a>
+                </div>
+                <div>
+                    <a th:if="${isSaler}" href="/profile">Билеты</a>
+                </div>
+                <div>
+                    <a th:if="${isUser}" href="/profile">Билеты</a>
+                </div>
+
+                <div>
+                    <a class="ots3" th:if="${isSaler}" href="/usluga">Услуги</a>
+                </div>
+
+                <div>
+                    <a th:if="${isAdmin}" th:href="@{/database/index}">Управление БД</a>
+                </div>
+            </div>
+        </section>
+
+
+        <section>
+            <div class="ots">
+                <div>
+                    <img class="krugimg" style="width: 700px; height: 500px" src="/kartinki.jpg" alt="картинка"/>
+                </div>
+                <div >
+                    <h1 class="ots2">МОРЕ<span>OFF</span></h1>
+                    <h2 class="yellow">Самый маленький аквапарк в Москве.<br>
+                        Здесь вас ждет зима в любое время года!</h2>
+                    <h2 class="white">1 водная горка,нет детского городка, маленький волновой бассейн,<br> джакузи, кафе и невыгодные акции!</h2>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="mainbut">
+                        <a th:if="${isUser}" href="/blog/add">Купить билет</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <section th:if="${isUser}">
+
+            <div class="ots">
+                <div>
+                    <h2>ТАРИФЫ <br> цены на больших и маленьких</h2>
+                    <div  th:each="el : ${tarifs}">
+                        <h3 th:text="${el.nametarif+': '+el.price+' руб.'}"></h3>
+                    </div>
+                </div>
+                <img class="img" style="width: 650px; height: 450px" src="/cheliks.png" alt="картинка"/>
+
+                <img class="krugimg" style="width: 700px; height: 500px" src="/back.jpg" alt="картинка"/>
+            </div>
+
+            <div class="ots">
+                <img class="krugimg" style="width: 700px; height: 500px" src="/aqva1.jpg" alt="картинка"/>
+                <div class="ots4">
+                    <h2>ЗОНЫ ОТДЫХА <br> которые вы здесь можете посетить</h2>
+                    <div th:each="el : ${usluga}">
+                        <h3 th:text="${el.nameusluga}"></h3>
+                    </div>
+                    <img class="img" style="width: 250px; height: 250px" src="/zone2.png" alt="картинка"/>
+                </div>
+            </div>
+
+            <div class="ots">
+                <div>
+                    <h2>ВОДНЫЙ АТРИБУТ <br> также при желании можно взять </h2>
+                    <div th:each="el : ${inventory}">
+                        <h3 th:text="${el.predmet+': '+el.kolvopredmet+' шт.'}"></h3>
+                    </div>
+                    <img class="img3" style="width: 350px; height: 250px" src="/krug.png" alt="картинка"/>
+                    <img class="img" style="width: 350px; height: 250px" src="/podushki.png" alt="картинка"/>
+                </div>
+                <img class="krugimg2" style="width: 700px; height: 500px" src="/fff.jpg" alt="картинка"/>
+            </div>
+
+            <div class="ots">
+                <img class="krugimg" style="width: 700px; height: 500px" src="/800xsm.jpg" alt="картинка"/>
+                <div class="ots4">
+                    <h2>Акции <br> ожидайте в ближайшее время</h2>
+                    <div th:each="el : ${stocks}">
+                        <h3 th:text="${'Скидка на '+el.namestock+' '+el.value+' %'}"></h3>
+                    </div>
+                    <img class="img4" style="width: 250px; height: 250px" src="/skidki.jpg" alt="картинка"/>
+                </div>
+            </div>
+            <div class="ots">
+                <img class="img4" style="width: 450px; height: 450px" src="/map.png" alt="картинка"/>
+                <div class="map">
+                    <h2 class="-details">КАРТА АКВАПАРКА</h2>
+                    <h3>по ней вы можете ориентироваться в здании</h3>
+                </div>
+
+            </div>
+            <div>
+                <h2 class="-details">КОНТАКТНАЯ ИНФОРМАЦИЯ</h2>
+                <div class="-details" th:each="el : ${contactinfo}">
+                    <h2>по которой вы можете связаться с нами</h2>
+                    <h3 th:text="${'Почта: '+el.pochta}"></h3>
+                    <h3 th:text="${'Номер: '+el.phonenumber}"></h3>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <br>
+            <br>
+            <a th:if="${isUser}" class="ots3" href="/blog/add">Купить билет</a>
+            <br>
+            <br>
+        </section>
+    </div>
+</section>
+
+</body>
+</html>
+<style>
+    html *{
+        font-family: Arial !important;
+    }
+    .bg{
+        background-image: url("blueback.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+    .mainbut{
+        margin-left: 200px;
+        text-align: left;
+    }
+    .white{
+        font-size: 15px;
+        margin-left: 200px;
+        text-align: left;
+    }
+    .yellow{
+        margin-left: 200px;
+        text-align: left;
+        color: #ffca15;
+    }
+    .map{
+        margin-top: 150px;
+    }
+    .shapka{
+        display: flex;
+        margin: 15px;
+        /*width: 1460px;*/
+        /*height: 100px;*/
+        /*background: darkblue;*/
+    }
+    .shapka2{
+    }
+    .krugimg{
+        border-radius: 50px;
+    }
+    .krugimg2{
+        border-radius: 50px;
+        margin-left: 350px;
+    }
+    .img{
+        margin: 0px;
+
+    }
+    .img3{
+        position: absolute;
+        margin-left: 50px;
+        margin-top: 50px;
+    }
+    .img4{
+        border-top-left-radius: 50px;
+        border-bottom-right-radius: 50px;
+    }
+    h2{
+        color: whitesmoke;
+    }
+    h3{
+        color: #ffca15;
+    }
+    .ots{
+        display: flex;
+    }
+    .ots2{
+        margin-left: 200px;
+        text-align: left;
+    }
+    .ots3{
+        text-align: left;
+    }
+    .ots4{
+        margin-left: 250px;
+    }
+    span{
+        color: #ffca15;
+    }
+    h1{
+        font-size: 100px;
+    }
+    body{
+        color: whitesmoke;
+        background-color: royalblue;
+    }
+    a,button{
+        /*margin-top: 50px;*/
+        margin-left: 5px;
+        margin-bottom: 5px;
+
+        text-decoration: none;
+        font-size: 15px;
+        color: black;
+
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 30px;
+        border-color: #000000;
+        background-color: dodgerblue;
+
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+    button:hover,a:hover{
+        color: dodgerblue;
+        background-color: #ffca15;
+    }
+</style>

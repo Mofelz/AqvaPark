@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Регистрация</title>
+</head>
+<body topmargin="150px" th:align="center">
+<div align="center">
+  <div th:if="${#messages}">
+    <p th:text="${message}"></p>
+  </div>
+  <h1>Регистрация</h1>
+  <form th:action="@{/registration}" method="post">
+    <label>Login</label><br>
+        <div style="width: 250px; height: 40px; margin: 1px">
+            <input required type="text" name="login"/><br>
+        </div>
+      <br><br>
+    <label>Password</label><br>
+        <div style="width: 250px; height: 40px; margin: 1px">
+            <input required type="password" name="password"/>
+        </div>
+        <br>
+        <br>
+        <div>
+            <button type="submit" value="Зарегистрироваться">Зарегистрироваться</button>
+            <br>
+        </div>
+      <br>
+      <br>
+    <a href="/login">Авторизация</a>
+  </form>
+</div>
+</body>
+</html>
+<style>
+  /*div{*/
+  /*  margin-top: 25px;*/
+  /*}*/
+  html *{
+    font-family: Arial !important;
+  }
+  body{
+    color: whitesmoke;
+    background-color: royalblue;
+  }
+  a{
+      text-decoration: none;
+      font-size: 15px;
+      color: black;
+
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 20px;
+      border-color: #000000;
+      background-color: dodgerblue;
+
+      padding-top: 15px;
+      padding-bottom: 15px;
+      padding-left: 70px;
+      padding-right: 70px;
+      margin-top: 100px;
+
+      font-size: 1.2em;
+      text-transform: uppercase;
+      line-height: 1;
+      -webkit-transition: all 0.5s ease;
+      transition: all 0.5s ease;
+  }
+  a:hover{
+      color: dodgerblue;
+      background-color: whitesmoke;
+      /*box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5);*/
+      /*font-weight: bold;*/
+  }
+  p{
+      margin-top: 50px;
+  }
+  input{
+      margin-top: 15px;
+      color: black;
+      width: 200px;
+      height: 50px;
+      background-color: dodgerblue;
+      border-radius: 20px;
+  }
+  textarea{
+      color: black;
+      width: 200px;
+      height: 50px;
+      background-color: dodgerblue;
+      border-radius: 20px;
+  }
+  button {
+      text-decoration: none;
+      font-size: 15px;
+      color: black;
+
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 20px;
+      border-color: #000000;
+      background-color: dodgerblue;
+
+      padding-top: 15px;
+      padding-bottom: 15px;
+      padding-left: 70px;
+      padding-right: 70px;
+      margin-top: 100px;
+
+      font-size: 1.2em;
+      text-transform: uppercase;
+      line-height: 1;
+      -webkit-transition: all 0.5s ease;
+      transition: all 0.5s ease;
+  }
+  button:hover{
+      color: dodgerblue;
+      background-color: whitesmoke;
+      /*box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5);*/
+      /*font-weight: bold;*/
+  }
+</style>

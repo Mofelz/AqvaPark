@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Мой профиль</title>
+</head>
+<body th:align="center">
+<h1>Ваш билет</h1>
+<div class="bilet">
+  <h2>Билет</h2>
+  <div th:align="left" class="align" th:each="el : ${post}">
+
+<!--    <select hidden th:field="*{user}">-->
+<!--      <option th:each="us : ${users}"-->
+<!--              th:if="${(us.username == isAuth)}"-->
+<!--              th:value="${us.id}"-->
+<!--              th:text="${us.username}">-->
+
+<!--      </option>-->
+<!--    </select>-->
+
+    <h3 th:text="${'Номер билета: '+el.id}"></h3>
+    <h3 th:text="${'Дата: '+el.datapos}"></h3>
+    <h3 th:text="${'Номер услуги: '+el.uslaga}"></h3>
+    <h3 th:text="${'Взрослые: '+el.adults+' чел.'}"></h3>
+    <h3 th:text="${'Дети: '+el.children+' чел.'}"></h3>
+    <div class="itog">
+
+    </div>
+    <h3 th:text="${'Итого:'}"></h3>
+    <h3 th:text="${'Сумма: '+el.price+' руб.'}"></h3>
+    <h3 th:text="${'Посетители: '+el.visitors+' чел.'}"></h3>
+    <br>
+    <br>
+    <br>
+
+    <a th:href=" '/blog/' + ${el.id} + '/edit'">Редактировать</a>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+  <a href="/" style="font-size: 20px" >Главное Меню</a>
+</div>
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div id="app">
+
+  <div class="text">
+    <form>
+      <div class="form-group mx-3 my-3">
+        <label for="qrCodeText">Введите текст в поле:</label><br />
+        <textarea id="qrCodeText" class="form-control" rows="6"></textarea>
+
+      </div>
+      <div class="form-group  mx-3 my-3">
+        <input type="button"  class="btn btn-primary" value="Generate" id="generateQRCode">
+      </div>
+    </form>
+  </div>
+
+  <div id="qrCodeOutput" class="text-center">
+    Здесь будет сгенерированный QR-код
+  </div>
+
+</div>
+
+<!-- Подключаем библиотеку -->
+<script src="http://cosmic.mearie.org/2011/01/qrjs/qr.js"></script>
+
+<script>
+
+  const el = (selector) => document.querySelector(selector);
+
+
+  // при нажатии на кнопку
+  el('#generateQRCode').addEventListener('click', function() {
+
+    // получаем блок куда будет выводиться QR-код
+    let qrCodeOutput = el('#qrCodeOutput');
+
+    // получаем содержимое текстового поля
+    let text = el('#qrCodeText').value;
+
+    // очищаем блок с QR-кодом
+    qrCodeOutput.innerHTML = "";
+
+    // и помещаем в него сгенерированный библиотекой QR-код
+    qrCodeOutput.append(QRCode.generateHTML(text, {}))
+  });
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+<style>
+  html *{
+    font-family: Arial !important;
+  }
+  .itog{
+    border-radius: 30px;
+    width: 190px;
+    height: 10px;
+    background-color: #ffca15;
+  }
+  .align{
+    padding-left: 50px;
+  }
+  .bilet{
+    padding-top: 10px;
+    margin-left: 580px;
+    width: 300px;
+    height: 420px;
+    background-color: cornflowerblue;
+    border-radius: 30px;
+  }
+  h1{
+    font-size: 100px;
+  }
+  h3{
+    color: darkblue;
+  }
+  body{
+    color: whitesmoke;
+    background-color: royalblue;
+  }
+  button, a{
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: #000000;
+    background-color: dodgerblue;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+  button:hover,a:hover{
+    color: dodgerblue;
+    background-color: whitesmoke;
+  }
+</style>
