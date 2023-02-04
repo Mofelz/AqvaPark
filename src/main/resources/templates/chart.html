@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+    <title>График</title>
+</head>
+<body>
+
+<br>
+
+<a href="/" style="font-size: 20px" >Главное Меню</a>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+
+<script th:inline="javascript">
+    var post = /*[[${post}]]*/;
+    var inventory = /*[[${inventory}]]*/;
+</script>
+<script>
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Продажи', 'Инвентарь'],
+            datasets: [{
+                label: ['Продажи', 'Инвентарь'],
+                data: [post,inventory],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
+<style>
+    button, a{
+        text-decoration: none;
+        font-size: 15px;
+        color: black;
+
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 20px;
+        border-color: #000000;
+        background-color: dodgerblue;
+
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+        /*margin-top: 100px;*/
+
+        font-size: 1.2em;
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+    button:hover,a:hover{
+        color: dodgerblue;
+        background-color: whitesmoke;
+    }
+</style>

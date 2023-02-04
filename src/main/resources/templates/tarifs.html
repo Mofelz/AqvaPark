@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Тарифы</title>
+</head>
+<body th:align="center">
+  <h1>Тарифы</h1>
+  <a href="/tarifs/add">Добавить тариф</a>
+  <a href="/"  >Главное Меню</a>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <table th:align="center">
+      <tr>
+          <th><h3 th:text="${'Название тарифа'}"></h3></th>
+      </tr>
+
+          <div  th:each="el : ${tarifs}">
+              <tr>
+                  <th><h3 th:text="${el.nametarif}"></h3></th>
+                    <td><p><a th:href=" '/tarif/' + ${el.id} + '/edit'">Редактировать</a></p></td>
+                    <td>
+                         <form th:action=" '/tarif/' + ${el.id} + '/remove'" method="post">
+                            <button type="submit" class="btn btn-del">Удалить</button>
+                        </form>
+                        </td>
+              </tr>
+          </div>
+  </table>
+
+</body>
+</html>
+<style>
+  html *{
+    font-family: Arial !important;
+  }
+  h1{
+    font-size: 100px;
+  }
+  table{
+      text-align: center;
+      align: center;
+  }
+  th{
+      border-style: solid;
+      border-color: blanchedalmond;
+      width: 150px;
+  }
+  body{
+    color: whitesmoke;
+    background-color: royalblue;
+  }
+  button, a{
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 30px;
+    border-color: #000000;
+    background-color: dodgerblue;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+  button:hover, a:hover{
+    color: dodgerblue;
+    background-color: whitesmoke;
+  }
+</style>

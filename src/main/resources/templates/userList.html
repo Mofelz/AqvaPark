@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <title>Список пользователей</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body bgcolor="6600CC" th:align="center">
+<h1>Пользователи</h1>
+<br>
+<a href="/" style="font-size: 20px" class="bott">Главное Меню</a>
+<br>
+<br>
+<br>
+  <table th:align="center">
+    <tr>
+      <th><p th:text="${'Логин'}"></p></th>
+      <th><p th:text="${'Роль'}"></p></th>
+    </tr>
+      <div  th:each="el : ${users}">
+        <tr>
+          <th><p th:text="${el.username}"></p></th>
+          <th><p th:text="${el.roles}"></p></th>
+          <td>
+            <a th:href="'/admin/' + ${el.id} + '/edit'" class="bott">Редактировать</a>
+          </td>
+          <td>
+            <form th:action="@{/admin/delete}"  method="post">
+              <button type="submit" >Удалить</button>
+              <input type="hidden" th:value="${el.id}" name="user">
+            </form>
+          </td>
+        </tr>
+      </div>
+  </table>
+  <br>
+  <br>
+</body>
+</html>
+<style>
+
+  html *{
+    font-family: Arial !important;
+  }
+  table{
+    text-align: center;
+    align: center;
+  }
+  th{
+    border-style: solid;
+    border-color: blanchedalmond;
+    width: 150px;
+  }
+  body{
+    color: whitesmoke;
+    background-color: royalblue;
+  }
+  a{
+    text-decoration: none;
+    color: black;
+
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 30px;
+    border-color: #000000;
+    background-color: dodgerblue;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-top: 100px;
+
+    font-size: 1.2em;
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+  a:hover{
+    color: dodgerblue;
+    background-color: whitesmoke;
+  }
+  p{
+    margin-top: 40px;
+  }
+  input{
+    margin-top: 15px;
+    color: black;
+    width: 200px;
+    height: 50px;
+    background-color: dodgerblue;
+    border-radius: 20px;
+  }
+  textarea{
+    color: black;
+    width: 200px;
+    height: 50px;
+    background-color: dodgerblue;
+    border-radius: 20px;
+  }
+  button{
+    font-size: 15px;
+    background-color: dodgerblue;
+  }
+</style>

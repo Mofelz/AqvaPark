@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменение билета</title>
+</head>
+<body th:align="center">
+  <h1>Изменение билета</h1>
+  <form th:action="${'/blog/'+post.id+'/edit'}" method="post" th:object="${post}">
+
+
+    <div th:align="left" class="bilet">
+      <div>
+        <label>Дата посещения</label>
+        <br>
+        <br>
+        <input th:field="*{datapos}" th:value="${post.datapos}" type="date" name="datapos"><br>
+        <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('datapos')}" th:errors="*{datapos}"></div><br>
+
+        <label>Зоны отдыха</label>
+        <br>
+        <br>
+        <div>
+          <select th:field="*{uslaga}">
+            <div th:each="el : ${uslugas}">
+              <option th:value="${el.id}" th:text="${el.nameusluga}"/>
+            </div>
+          </select>
+        </div>
+        <br>
+
+        <label>Тариф</label>
+        <br>
+        <br>
+        <div>
+          <select th:field="*{tarif}" class="border">
+            <div th:each="el : ${tarifs}">
+              <option th:value="${el.id}" th:text="${el.nametarif}"/>
+            </div>
+          </select>
+        </div>
+        <br>
+
+        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('uslaga')}" th:errors="*{uslaga}"></div>
+
+        <script>
+          function allvixitors() {
+            var temp = document.getElementById("adults").value;
+            var temp2 = document.getElementById("children").value;
+            document.getElementById("visitors").value = +temp.toString() + +temp2.toString();
+          }
+        </script>
+
+        <label>Взрослые</label>
+        <br>
+        <br>
+        <input class="border" th:field="*{adults}" type="text" th:maxlength="1" name="visitors" id="adults"  oninput="change()">
+        <br>
+        <br>
+        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('adults')}" th:errors="*{adults}"></div>
+
+        <label>Дети</label>
+        <br>
+        <br>
+        <input class="border" th:field="*{children}" type="text" th:maxlength="1" name="visitors" id="children"  oninput="change()">
+        <br>
+        <br>
+        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('children')}" th:errors="*{children}"></div>
+
+        <input class="border" th:field="*{visitors}" th:maxlength="1"  name="visitors" id="visitors" oninput="allvixitors()">
+
+        <label>Итоговая сумма</label>
+        <br>
+        <br>
+        <input th:field="*{price}" type="number" name="price" id="price" oninput="change()">
+        <script>
+          function change() {
+            var temp = document.getElementById("adults").value;
+            var temp2 = document.getElementById("children").value;
+            document.getElementById("price").value = +temp.toString()*2400 + +temp2.toString()*3300;
+          }
+        </script>
+        <br>
+        <br>
+        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('price')}" th:errors="*{price}"></div>
+
+      </div>
+    </div>
+    <br>
+    <br>
+
+
+
+
+
+    <button type="submit">Применить</button>
+  </form>
+</body>
+</html>
+<style>
+  html *{
+    font-family: Arial !important;
+  }
+  .bilet{
+    padding: 20px;
+    margin-left: 580px;
+    width: 300px;
+    height: 570px;
+    background-color: cornflowerblue;
+    border-radius: 30px;
+  }
+  label{
+    font-size: 20px;
+    font-weight: 900;
+  }
+  select{
+    font-size: 20px;
+    width: 260px;
+    background-color: dodgerblue;
+    border-radius: 30px;
+    border: 2px solid dodgerblue;
+    color: whitesmoke;
+
+  }
+  .bord{
+    background-color: cornflowerblue;
+    width: 400px;
+    height: 580px;
+    padding: 20px;
+    border-radius: 20px;
+  }
+  input{
+    font-size: 20px;
+    border-radius: 30px;
+    color: whitesmoke;
+    background-color: dodgerblue;
+    border-style: none;
+  }
+  .bord{
+    background-color: cornflowerblue;
+    width: 400px;
+    height: 580px;
+    padding: 20px;
+    border-radius: 20px;
+
+  }
+  h1{
+    font-size: 100px;
+  }
+  body{
+    color: whitesmoke;
+    background-color: royalblue;
+  }
+  a{
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: #000000;
+    background-color: dodgerblue;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 70px;
+    padding-right: 70px;
+    /*margin-top: 100px;*/
+
+    font-size: 1.2em;
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+  a:hover{
+    color: dodgerblue;
+    background-color: whitesmoke;
+    /*border-color: whitesmoke;*/
+    /*box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5);*/
+    /*font-weight: bold;*/
+  }
+  button{
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: #000000;
+    background-color: dodgerblue;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 70px;
+    padding-right: 70px;
+    /*margin-top: 100px;*/
+
+    font-size: 1.2em;
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+  button:hover{
+    color: dodgerblue;
+    background-color: whitesmoke;
+    /*border-color: whitesmoke;*/
+    /*box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5);*/
+    /*font-weight: bold;*/
+  }
+</style>

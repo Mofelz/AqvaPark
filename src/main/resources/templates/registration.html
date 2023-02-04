@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Регистрация</title>
+</head>
+<body topmargin="150px" th:align="center" class="bg">
+<div align="center">
+    <div th:if="${errorMessageUsername}">
+        <p th:text="${errorMessageUsername}"></p>
+    </div>
+    <h1>Регистрация</h1>
+    <form th:object="${user}" th:action="@{/registration}" method="post">
+        <label>Login</label><br>
+        <div style="width: 250px; height: 40px; margin: 1px">
+            <input required type="text" th:field="*{login}"/><br>
+
+        </div>
+        <div class="error text-danger" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+        <div class="error text-danger" th:if="errorMessageUsername!=null"
+             th:text="${errorMessageUsername}"></div>
+        <br><br>
+        <label>Password</label><br>
+        <div style="width: 250px; height: 40px; margin: 1px">
+            <input required type="password" th:field="*{password}"/>
+        </div>
+        <div class="error text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div>
+            <button type="submit" value="Зарегистрироваться">Зарегистрироваться</button>
+        </div>
+        <br>
+        <br>
+        <a href="/login">Авторизация</a>
+    </form>
+</div>
+</body>
+</html>
+<style>
+    .bg {
+        background-image: url("Medlennaia.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+
+    a,button {
+        text-decoration: none;
+        color: black;
+
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 20px;
+        border-color: #000000;
+        background-color: dodgerblue;
+
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 40px;
+        padding-right: 40px;
+
+
+        font-size: 1.2em;
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    a:hover, button:hover {
+        color: dodgerblue;
+        background-color: whitesmoke;
+    }
+
+    input {
+        margin-top: 15px;
+        color: black;
+        width: 200px;
+        height: 50px;
+        background-color: dodgerblue;
+        border-radius: 20px;
+    }
+</style>

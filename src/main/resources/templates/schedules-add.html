@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/imask"></script>
+    <title>Расписание</title>
+</head>
+<body th:align="center">
+<h1>Расписание</h1>
+<form th:action="${'/schedule/add'}" method="post" th:object="${schedule}">
+    <div class="back">
+        <label>Введите дни недели</label>
+        <input th:field="*{day}" required name="day" data-mask="">
+        <br>
+        <br>
+        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('day')}"
+             th:errors="*{day}"></div>
+        <label>Введите время</label>
+        <input th:field="*{time}" required name="time" data-mask="times">
+        <br>
+        <br>
+        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('time')}"
+             th:errors="*{time}"></div>
+    </div>
+
+    <br>
+    <br>
+    <button type="submit">Добавить</button>
+    <br>
+    <br>
+    <br>
+    <a href="/">Главное Меню</a>
+</form>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const mask = (dataValue, options) => {
+            const elements = document.querySelectorAll(`[data-mask="${dataValue}"]`)
+            if (!elements) return
+
+            elements.forEach(el => {
+                IMask(el, options)
+            })
+        }
+        mask('days', {
+            mask: 'c xxx до xxx '
+        });
+        mask('times', {
+            mask: 'c 00:00 до 00:00 '
+        })
+    })
+</script>
+
+</html>
+<style>
+    html * {
+        font-family: Arial !important;
+    }
+
+    h1 {
+        font-size: 100px;
+    }
+
+    th {
+        border-style: solid;
+        border-color: blanchedalmond;
+    }
+
+    .back {
+        margin-left: 630px;
+        font-weight: 900;
+        text-align: left;
+        border-radius: 30px;
+        padding: 20px;
+        background-color: cornflowerblue;
+        width: 180px;
+        height: 170px;
+    }
+
+    input {
+        height: 30px;
+        color: whitesmoke;
+        border-style: none;
+        border-radius: 30px;
+        background-color: dodgerblue;
+    }
+
+    body {
+        color: whitesmoke;
+        background-color: royalblue;
+    }
+
+    button, a {
+        text-decoration: none;
+        font-size: 15px;
+        color: black;
+
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 30px;
+        border-color: #000000;
+        background-color: dodgerblue;
+
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    button:hover, a:hover {
+        color: dodgerblue;
+        background-color: whitesmoke;
+    }
+</style>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+  <meta charset="UTF-8">
+  <title>Купленные билеты</title>
+</head>
+<body th:align="center">
+<h1>Купленные билеты</h1>
+
+<a href="/" style="font-size: 20px" class="bott">Главное Меню</a>
+<br>
+<br>
+<br>
+<br>
+<table th:align="center">
+  <thead>
+  <!--      <th><h3 th:text="${'Логин пользователя'}"></h3></th>-->
+  <th><h3 th:text="${'Номер билета'}"></h3></th>
+  <th><h3 th:text="${'Дата посещения'}"></h3></th>
+  <th><h3 th:text="${'Номер услуги'}"></h3></th>
+  <th><h3 th:text="${'Посетители'}"></h3></th>
+  <th><h3 th:text="${'Взрослые'}"></h3></th>
+  <th><h3 th:text="${'Дети'}"></h3></th>
+  <th><h3 th:text="${'Итоговая цена'}"></h3></th>
+  </thead>
+  <tbody>
+
+  <form method="post" th:action="${'/profile/filter/result'}">
+    <h2>Обычный поиск</h2>
+    <input type="text" name="fam">
+
+    <div th:each="el : ${posts}">
+      <th><h3 th:text="${el.id}"></h3></th>
+      <th><h3 th:text="${el.datapos}"></h3></th>
+      <th><h3 th:text="${el.uslaga}"></h3></th>
+      <th><h3 th:text="${el.visitors}"></h3></th>
+      <th><h3 th:text="${el.adults}"></h3></th>
+      <th><h3 th:text="${el.children}"></h3></th>
+      <th><h3 th:text="${el.price}"></h3></th>
+    </div>
+   <button type="submit">Найти</button>
+    <br>
+  </form>
+
+  <form th:action="${'/profile/filter/result'}" method="post" th:each="el : ${posts}">
+    <div >
+
+      <!--  <div th:each="ele : ${User}">-->
+      <tr>
+        <!--    <td><h3 th:text="${ele.login}"></h3></td>-->
+        <th><h3 th:text="${el.id}"></h3></th>
+        <th><h3 th:text="${el.datapos}"></h3></th>
+        <th><h3 th:text="${el.uslaga}"></h3></th>
+        <th><h3 th:text="${el.visitors}"></h3></th>
+        <th><h3 th:text="${el.adults}"></h3></th>
+        <th><h3 th:text="${el.children}"></h3></th>
+        <th><h3 th:text="${el.price}"></h3></th>
+        <td>
+          <form th:action=" '/profile/' + ${el.id} + '/remove'" method="post">
+            <button type="submit" class="btn btn-del">Удалить</button>
+          </form>
+        </td>
+
+
+
+      </tr>
+    </div>
+  </form>
+
+  </tbody>
+</table>
+</div>
+</body>
+</html>
+<style>
+  html *{
+    font-family: Arial !important;
+  }
+  th {
+    border-style: solid;
+    border-color: blanchedalmond;
+
+
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  h1{
+    font-size: 100px;
+  }
+  body{
+    color: whitesmoke;
+    background-color: royalblue;
+  }
+  button, a{
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: #000000;
+    background-color: dodgerblue;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    /*margin-top: 100px;*/
+
+    font-size: 1.2em;
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+  button:hover,a:hover{
+    color: dodgerblue;
+    background-color: whitesmoke;
+    /*border-color: whitesmoke;*/
+    /*box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5);*/
+    /*font-weight: bold;*/
+  }
+</style>

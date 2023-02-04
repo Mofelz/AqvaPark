@@ -1,0 +1,204 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Покупка билета</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body th:align="center">
+<h1>Покупка билета</h1>
+  <form class="rovn" th:action="${'/blog/add'}" method="post" th:object="${post}">
+  <div class="bord">
+
+    <select hidden th:field="*{user}">
+      <option th:each="us : ${users}"
+              th:if="${(us.username == isAuth)}"
+              th:value="${us.id}"
+              th:text="${us.username}">
+      </option>
+    </select>
+
+    <label>Дата посещения</label>
+    <br>
+    <br>
+    <input class="border" th:field="*{datapos}" type="date" name="datapos" placeholder="Введите дату посещения">
+    <br>
+    <br>
+    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('datapos')}" th:errors="*{datapos}"></div>
+
+    <label>Зоны отдыха</label>
+    <br>
+    <br>
+    <div>
+      <select th:field="*{uslaga}" class="border">
+        <div th:each="el : ${uslugas}">
+          <option th:value="${el.id}" th:text="${el.usluga}"/>
+        </div>
+      </select>
+    </div>
+    <br>
+<!--    <br>-->
+<!--    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('uslaga')}" th:errors="*{uslaga}"></div>-->
+
+    <label>Тариф</label>
+    <br>
+    <br>
+<!--    <input class="border" th:field="*{ogranichenieVremeni}" type="text" name="ogranichenieVremeni" id="ogranichenieVremeni">-->
+
+<!--    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('ogranichenieVremeni')}" th:errors="*{ogranichenieVremeni}"></div>-->
+<!--    <br>-->
+<!--    <br>-->
+
+    <select th:field="*{tarif}" class="border">
+      <div th:each="el : ${tarifs}">
+        <option th:value="${el.id}" th:text="${el.nametarif}"/>
+      </div>
+    </select>
+
+    <label>Взрослые</label>
+    <br>
+    <br>
+    <div th:action="${'/blog/add'}" method="post" th:object="${stocks}">
+
+    </div>
+
+    <input class="border" th:field="*{adults}" type="text" th:maxlength="1" name="visitors" id="adults"  oninput="change()">
+    <br>
+    <br>
+    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('adults')}" th:errors="*{adults}"></div>
+    <label>Дети</label>
+    <br>
+    <br>
+    <input class="border" th:field="*{children}" type="text" th:maxlength="1" name="visitors" id="children" oninput="change()">
+    <br>
+    <br>
+    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('children')}" th:errors="*{children}"></div>
+
+
+
+    <label>Итого</label>
+
+    <br>
+    <br>
+
+    <input class="border" th:field="*{visitors}" th:maxlength="1" name="visitors" id="visitors" oninput="allvixitors()">
+    <script>
+      function allvixitors() {
+        var temp = document.getElementById("adults").value;
+        var temp2 = document.getElementById("children").value;
+        document.getElementById("visitors").value = +temp.toString() + +temp2.toString();
+      }
+    </script>
+
+    <br>
+    <br>
+<!--    <div th:each="ele : ${stocks}" >-->
+<!--        <form method="post" type="hidden">-->
+<!--          <input class="border" th:text="${ele.itogprice}"  name="" id="itogprice" oninput="change()">-->
+<!--        </form>-->
+<!--    </div>-->
+
+
+    <input class="border" th:field="*{price}" type="number" name="price" id="price" oninput="change()">
+    <script>
+      function change() {
+        var temp = document.getElementById("adults").value;
+        var temp2 = document.getElementById("children").value;
+        // var temp3 = document.getElementById("itogprice").value;
+        // var temp4 = document.getElementById("itogprice").value;
+        document.getElementById("price").value = +temp.toString() * 3300 + +temp2.toString() * 2400;
+      }
+    </script>
+
+
+
+    <br>
+    <br>
+    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('price')}" th:errors="*{price}"></div>
+  </div>
+    <br>
+    <br>
+    <button class="otsbut" type="submit">Купить билет</button>
+
+
+  </form>
+<br>
+<br>
+
+<a class="otsa" href="/" style="font-size: 20px" >Главное Меню</a>
+</body>
+</html>
+<style>
+  html *{
+    font-family: Arial !important;
+  }
+  .otsa{
+    margin-left: 30px;
+  }
+  .otsbut{
+    margin-left: 90px;
+  }
+  .bord{
+    background-color: cornflowerblue;
+    width: 400px;
+    height: 600px;
+    padding: 20px;
+    border-radius: 20px;
+  }
+  .border{
+    border-radius: 30px;
+    width: 380px;
+    height: 30px;
+  }
+  input{
+    font-size: 20px;
+    border-radius: 30px;
+    color: whitesmoke;
+    background-color: dodgerblue;
+    border-style: none;
+  }
+  input::placeholder {color: gray;}
+  label{
+    font-size: 20px;
+    font-weight: 900;
+    color: whitesmoke;
+  }
+  .rovn{
+    text-align: left;
+    margin-left: 530px;
+  }
+  h1{
+    font-size: 100px;
+  }
+  body{
+    color: whitesmoke;
+    background-color: royalblue;
+  }
+  button,a{
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: #000000;
+    background-color: dodgerblue;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 70px;
+    padding-right: 70px;
+
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+  button:hover, a:hover{
+    color: dodgerblue;
+    background-color: whitesmoke;
+    /*border-color: whitesmoke;*/
+    /*box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5);*/
+    /*font-weight: bold;*/
+  }
+</style>

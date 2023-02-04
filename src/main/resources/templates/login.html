@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Вход</title>
+</head>
+<body topmargin="150px" th:align="center" class="bg">
+<div align="center">
+    <h1>Авторизация</h1>
+    <div th:if="${param.error}">
+        Неверный пароль или логин
+    </div>
+    <br>
+    <div th:if="${param.logout}">
+        Вы вышли из аккаунта
+    </div>
+    <br>
+    <form th:action="@{/login}" method="post">
+
+        <label>Login</label><br>
+        <input required type="text" name="login"/><br>
+        <br>
+        <label>Password</label><br>
+        <input required type="password" name="password"/>
+        <br><br>
+        <input type="submit" value="Войти"/>
+    </form>
+    <br><br>
+    <a href="/registration">Регистрация</a>
+</div>
+
+</body>
+</html>
+<style>
+    .bg {
+        background-image: url("Medlennaia.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+
+    a,button {
+        text-decoration: none;
+        color: black;
+
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 20px;
+        border-color: #000000;
+        background-color: dodgerblue;
+
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 40px;
+        padding-right: 40px;
+
+
+        font-size: 1.2em;
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    a:hover, button:hover {
+        color: dodgerblue;
+        background-color: whitesmoke;
+    }
+
+    input {
+        margin-top: 15px;
+        color: black;
+        width: 200px;
+        height: 50px;
+        background-color: dodgerblue;
+        border-radius: 20px;
+    }
+</style>

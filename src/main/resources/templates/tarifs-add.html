@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление тарифа</title>
+</head>
+<body th:align="center">
+<form th:action="${'/tarifs/add'}" method="post" th:object="${tarif}">
+    <h1>Тарифы</h1>
+    <br>
+
+    <div class="back">
+        <label>Наиманование тарифа</label>
+        <br>
+
+        <input th:field="*{nametarif}" type="text" name="nametarif">
+        <br>
+        <br>
+        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nametarif')}"
+             th:errors="*{nametarif}"></div>
+
+    </div>
+    <br>
+
+    <button type="submit">Добавить</button>
+    <br>
+    <br>
+    <br>
+    <a href="/">Главное Меню</a>
+</form>
+</body>
+</html>
+<style>
+    html * {
+        font-family: Arial !important;
+    }
+
+    h1 {
+        font-size: 100px;
+    }
+
+    .back {
+        margin-left: 630px;
+        font-weight: 900;
+        text-align: left;
+        border-radius: 30px;
+        padding: 20px;
+        background-color: cornflowerblue;
+        width: 180px;
+        height: 150px;
+    }
+
+    input {
+        height: 30px;
+        color: whitesmoke;
+        border-style: none;
+        border-radius: 30px;
+        background-color: dodgerblue;
+    }
+
+    body {
+        color: whitesmoke;
+        background-color: royalblue;
+    }
+
+    button, a {
+        text-decoration: none;
+        font-size: 15px;
+        color: black;
+
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 30px;
+        border-color: #000000;
+        background-color: dodgerblue;
+
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    button:hover, a:hover {
+        color: dodgerblue;
+        background-color: whitesmoke;
+    }
+</style>
