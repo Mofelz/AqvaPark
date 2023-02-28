@@ -5,43 +5,57 @@
     <title>Регистрация</title>
 </head>
 <body topmargin="150px" th:align="center" class="bg">
-<div align="center">
-    <div th:if="${errorMessageUsername}">
-        <p th:text="${errorMessageUsername}"></p>
-    </div>
-    <h1>Регистрация</h1>
-    <form th:object="${user}" th:action="@{/registration}" method="post">
-        <label>Login</label><br>
-        <div style="width: 250px; height: 40px; margin: 1px">
-            <input required type="text" th:field="*{login}"/><br>
+<div class="con" align="center">
+    <div class="includediv">
+<!--        <div th:if="${errorMessageUsername}">-->
+<!--            <p th:text="${errorMessageUsername}"></p>-->
+<!--        </div>-->
+        <h1>Регистрация</h1>
+        <form th:object="${user}" th:action="@{/registration}" method="post">
+            <label>Login</label><br>
+            <div>
+                <input required type="text" th:field="*{login}"/><br>
+            </div>
+            <div  class="error text-danger" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+            <div style="color: red; font-size: 20px" class="error text-danger" th:if="errorMessageUsername!=null"
+                 th:text="${errorMessageUsername}"></div>
+            <br><br>
+            <label>Password</label><br>
+            <div style="width: 250px; height: 40px; margin: 1px">
+                <input required type="password" th:field="*{password}"/>
+            </div>
+            <div class="error text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            <br>
+            <br>
+            <br>
+            <div class="bt">
+                <button type="submit">Далее</button>
+                <br>
+                <br>
+                <br>
+                <a href="/login">Назад</a>
+            </div>
 
-        </div>
-        <div class="error text-danger" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
-        <div class="error text-danger" th:if="errorMessageUsername!=null"
-             th:text="${errorMessageUsername}"></div>
-        <br><br>
-        <label>Password</label><br>
-        <div style="width: 250px; height: 40px; margin: 1px">
-            <input required type="password" th:field="*{password}"/>
-        </div>
-        <div class="error text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <div>
-            <button type="submit" value="Зарегистрироваться">Зарегистрироваться</button>
-        </div>
-        <br>
-        <br>
-        <a href="/login">Авторизация</a>
-    </form>
+        </form>
+    </div>
 </div>
 </body>
 </html>
 <style>
+    .includediv {
+        margin-top: 100px;
+    }
+
+    .con {
+        margin-left: 110px;
+        background-color: ghostwhite;
+        width: 330px;
+        height: 440px;
+        border-radius: 20px;
+    }
+
     .bg {
-        background-image: url("Medlennaia.jpg");
+        background-image: url("intro.jpg");
         background-repeat: no-repeat;
         background-position: center center;
         background-attachment: fixed;
@@ -51,23 +65,23 @@
         background-size: cover;
     }
 
-    a,button {
+    a, button {
         text-decoration: none;
         color: black;
 
-        border-width: 2px;
+        font-size: 15px;
+        border-width: 0px;
         border-style: solid;
-        border-radius: 20px;
+        border-radius: 15px;
         border-color: #000000;
-        background-color: dodgerblue;
+        background-color: limegreen;
 
         padding-top: 15px;
         padding-bottom: 15px;
-        padding-left: 40px;
-        padding-right: 40px;
+        padding-left: 100px;
+        padding-right: 100px;
 
-
-        font-size: 1.2em;
+        /*font-size: 0.8em;*/
         text-transform: uppercase;
         line-height: 1;
         -webkit-transition: all 0.5s ease;
@@ -75,16 +89,17 @@
     }
 
     a:hover, button:hover {
-        color: dodgerblue;
-        background-color: whitesmoke;
+        color: black;
+        background-color: green;
     }
 
     input {
+        /*font-weight: bold;*/
         margin-top: 15px;
         color: black;
-        width: 200px;
+        width: 250px;
         height: 50px;
-        background-color: dodgerblue;
-        border-radius: 20px;
+        border-radius: 15px;
+        border-width: 1px;
     }
 </style>

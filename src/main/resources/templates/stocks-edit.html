@@ -2,113 +2,97 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-  <title>Акции</title>
+    <title>Ресторан</title>
 </head>
 <body th:align="center">
-<h1>Акции</h1>
-<script>
-  function counterStock() {
-    var temp = document.getElementById("value").value;
-    var temp2 = document.getElementById("price").value;
-    document.getElementById("itogprice").value = ((100 - +temp.toString()) * +temp2.toString())/100 ;
-  }
-</script>
-<div class="back">
-  <form th:action="${'/stocks/'+stocks.id+'/edit'}" method="post" th:object="${stocks}">
-    <label>Наименование акции</label>
-    <input th:field="*{namestock}" type="text" name="namestock" id="namestock">
+<h2>Ресторан</h2>
+<form th:action="${'/stocks/'+stocks.id+'/edit'}" method="post" th:object="${stocks}">
+    <div class="back">
+        <label>Наименование акции</label>
+        <input th:field="*{nameSnackbar}" type="text" name="nameSnackbar">
+        <br>
+        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nameSnackbar')}"
+             th:errors="*{nameSnackbar}"></div>
+    </div>
     <br>
-
-    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('namestock')}" th:errors="*{namestock}"></div>
-    <br>
-    <label>Величина акции</label>
-    <input th:field="*{value}" type="text" name="value" id="value">
-    <br>
-
-    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('value')}" th:errors="*{value}"></div>
-    <br>
-
-    <label>Прошлая цена</label>
-    <input th:field="*{price}" type="text" name="price" id="price" >
-    <br>
-
-    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('price')}" th:errors="*{price}"></div>
-    <br>
-
-    <label>Итоговая цена</label>
-    <input th:field="*{itogprice}" type="text" name="itogprice" id="itogprice" oninput="counterStock()">
-    <br>
-
-    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('itogprice')}" th:errors="*{itogprice}"></div>
-    <br>
-
-
     <button type="submit">Применить</button>
-  </form>
-</div>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
-
-<a href="/" >Главное Меню</a>
+    <a href="/">Главное Меню</a>
+</form>
 </body>
 </html>
 <style>
-  html *{
-    font-family: Arial !important;
-  }
-  h1{
-    font-size: 100px;
-  }
-  body{
-    color: whitesmoke;
-    background-color: royalblue;
-  }
-  .back{
-    margin-left: 630px;
-    font-weight: 900;
-    text-align: left;
-    border-radius: 30px;
-    padding: 20px;
-    background-color: cornflowerblue;
-    width: 180px;
-    height: 300px;
-  }
-  input{
-    height: 30px;
-    color: whitesmoke;
-    border-style: none;
-    border-radius: 30px;
-    background-color: dodgerblue;
-  }
-  button,a{
-    text-decoration: none;
-    font-size: 15px;
-    color: black;
+    html * {
+        font-family: Arial !important;
+    }
+    .back {
+        margin-left: 600px;
 
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 30px;
-    border-color: #000000;
-    background-color: dodgerblue;
+        display: block;
+        font-weight: 900;
+        text-align: left;
+        border-radius: 30px;
+        padding: 20px;
+        background-color: limegreen;
+        width: 250px;
+        height: 80px;
+    }
+    input {
+        margin-bottom: 20px;
+        height: 30px;
+        width: 250px;
+        color: black;
+        border-style: none;
+        border-radius: 30px;
+        background-color: white;
+    }
+    body {
+        color: black;
+        background-color: white;
+    }
+    .button {
+        display: block;
+        width: 240px;
+        height: 25px;
 
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-left: 30px;
-    padding-right: 30px;
+        background-color: limegreen;
+        padding: 10px;
+        text-align: center;
+        border-radius: 15px;
 
-    font-size: 1.2em;
-    text-transform: uppercase;
-    line-height: 1;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-  }
-  a:hover,button:hover{
-    color: dodgerblue;
-    background-color: whitesmoke;
-  }
+        color: white;
+        font-size: 15px;
+        line-height: 20px;
+
+        text-transform: uppercase;
+
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+    a, button {
+        text-decoration: none;
+        color: white;
+
+        font-size: 15px;
+        border-width: 0px;
+        border-style: solid;
+        border-radius: 15px;
+
+        background-color: limegreen;
+
+        margin-left: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    a:hover, button:hover {
+        color: white;
+        background-color: green;
+    }
 </style>

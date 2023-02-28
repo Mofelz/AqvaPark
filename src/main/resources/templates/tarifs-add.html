@@ -2,31 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Добавление тарифа</title>
+    <title>Добавление</title>
 </head>
 <body th:align="center">
-<form th:action="${'/tarifs/add'}" method="post" th:object="${tarif}">
-    <h1>Тарифы</h1>
-    <br>
-
+<form th:action="${'/tarifs/add'}" method="post" th:object="${tarif}" enctype="multipart/form-data">
+    <h2>Добавление продукции</h2>
     <div class="back">
-        <label>Наиманование тарифа</label>
-        <br>
+        <div>
+            <label>Наиманование продукции</label>
 
-        <input th:field="*{nametarif}" type="text" name="nametarif">
-        <br>
-        <br>
-        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nametarif')}"
-             th:errors="*{nametarif}"></div>
+            <input required th:field="*{nametarif}" type="text">
+            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nametarif')}"
+                 th:errors="*{nametarif}">
+            </div>
 
+            <label>Изображение</label>
+            <div class="form-group mt-2">
+                <input placeholder="Изображение" type="file" class="form-control" name="file"
+                       accept="image/png, image/jpg, image/jpeg">
+                <div class="error text-danger" th:if="errorMessageImage!=null" th:text="${errorMessageImage}"></div>
+            </div>
+
+            <label>Вес</label>
+            <br>
+            <input required th:field="*{weight}" type="text">
+            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('weight')}"
+                 th:errors="*{weight}">
+            </div>
+            <br>
+            <label>Цена</label>
+            <br>
+            <input required th:field="*{price}" type="text">
+            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('price')}"
+                 th:errors="*{price}">
+            </div>
+        </div>
     </div>
     <br>
-
     <button type="submit">Добавить</button>
-    <br>
-    <br>
-    <br>
-    <a href="/">Главное Меню</a>
+    <a class="" href="/">Главное Меню</a>
 </form>
 </body>
 </html>
@@ -34,46 +48,61 @@
     html * {
         font-family: Arial !important;
     }
-
-    h1 {
-        font-size: 100px;
-    }
-
     .back {
-        margin-left: 630px;
+        margin: 10px;
+       display: inline-flex;
         font-weight: 900;
         text-align: left;
         border-radius: 30px;
         padding: 20px;
-        background-color: cornflowerblue;
-        width: 180px;
-        height: 150px;
+        background-color: limegreen;
+        width: 260px;
+        height: 280px;
     }
-
     input {
+        margin-bottom: 20px;
         height: 30px;
-        color: whitesmoke;
+        width: 250px;
+        color: black;
         border-style: none;
         border-radius: 30px;
-        background-color: dodgerblue;
+        background-color: white;
     }
-
     body {
-        color: whitesmoke;
-        background-color: royalblue;
-    }
-
-    button, a {
-        text-decoration: none;
-        font-size: 15px;
         color: black;
+        background-color: white;
+    }
+    .button {
+        display: block;
+        width: 240px;
+        height: 25px;
 
-        border-width: 2px;
+        background-color: limegreen;
+        padding: 10px;
+        text-align: center;
+        border-radius: 15px;
+
+        color: white;
+        font-size: 15px;
+        line-height: 20px;
+
+        text-transform: uppercase;
+
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+    a, button {
+        text-decoration: none;
+        color: white;
+
+        font-size: 15px;
+        border-width: 0px;
         border-style: solid;
-        border-radius: 30px;
-        border-color: #000000;
-        background-color: dodgerblue;
+        border-radius: 15px;
 
+        background-color: limegreen;
+
+        margin-left: 10px;
         padding-top: 15px;
         padding-bottom: 15px;
         padding-left: 30px;
@@ -85,8 +114,8 @@
         transition: all 0.5s ease;
     }
 
-    button:hover, a:hover {
-        color: dodgerblue;
-        background-color: whitesmoke;
+    a:hover, button:hover {
+        color: white;
+        background-color: green;
     }
 </style>

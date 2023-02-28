@@ -5,13 +5,13 @@
     <title>Вход</title>
 </head>
 <body topmargin="150px" th:align="center" class="bg">
-<div align="center">
+<div align="center" class="con">
     <h1>Авторизация</h1>
-    <div th:if="${param.error}">
+    <div th:if="${param.error}" class="error">
         Неверный пароль или логин
     </div>
     <br>
-    <div th:if="${param.logout}">
+    <div th:if="${param.logout}" class="logout">
         Вы вышли из аккаунта
     </div>
     <br>
@@ -23,17 +23,51 @@
         <label>Password</label><br>
         <input required type="password" name="password"/>
         <br><br>
-        <input type="submit" value="Войти"/>
+        <button type="submit" value="Войти">Войти</button>
+        <br><br>
+        <a class="button" href="/registration">Регистрация</a>
     </form>
-    <br><br>
-    <a href="/registration">Регистрация</a>
 </div>
 
 </body>
 </html>
 <style>
+    .logout{
+        font-size: 20px;
+        color: green;
+    }
+    .error{
+        font-size: 20px;
+        color: red;
+    }
+    .button {
+        display: block;
+        width: 240px;
+        height: 25px;
+
+        background-color: limegreen;
+        padding: 10px;
+        text-align: center;
+        border-radius: 15px;
+
+        color: white;
+        font-size: 15px;
+        line-height: 20px;
+
+        text-transform: uppercase;
+
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+    .con {
+        margin-left: 110px;
+        background-color: ghostwhite;
+        width: 330px;
+        height: 450px;
+        border-radius: 20px;
+    }
     .bg {
-        background-image: url("Medlennaia.jpg");
+        background-image: url("intro.jpg");
         background-repeat: no-repeat;
         background-position: center center;
         background-attachment: fixed;
@@ -43,23 +77,23 @@
         background-size: cover;
     }
 
-    a,button {
+    a, button {
         text-decoration: none;
-        color: black;
+        color: white;
 
-        border-width: 2px;
+        font-size: 15px;
+        border-width: 0px;
         border-style: solid;
-        border-radius: 20px;
-        border-color: #000000;
-        background-color: dodgerblue;
+        border-radius: 15px;
+
+        background-color: limegreen;
 
         padding-top: 15px;
         padding-bottom: 15px;
-        padding-left: 40px;
-        padding-right: 40px;
+        padding-left: 100px;
+        padding-right: 100px;
 
-
-        font-size: 1.2em;
+        /*font-size: 0.8em;*/
         text-transform: uppercase;
         line-height: 1;
         -webkit-transition: all 0.5s ease;
@@ -67,16 +101,16 @@
     }
 
     a:hover, button:hover {
-        color: dodgerblue;
-        background-color: whitesmoke;
+        color: white;
+        background-color: green;
     }
 
     input {
         margin-top: 15px;
         color: black;
-        width: 200px;
+        width: 250px;
         height: 50px;
-        background-color: dodgerblue;
-        border-radius: 20px;
+        border-radius: 15px;
+        border-width: 1px;
     }
 </style>

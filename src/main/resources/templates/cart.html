@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+</head>
+<body th:align="center">
+  <h2>Утренний сет</h2>
+  <section class="flex">
+    <div th:each="el : ${carts}" class="element">
+
+        <h3 th:text="${el.tarif.nametarif}"></h3>
+    </div>
+  </section>
+<br>
+<a href="/" >Главное Меню</a>
+</body>
+</html>

@@ -17,31 +17,6 @@ public class User implements UserDetails {
     private String password;
     private boolean active;
 
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "profileId", referencedColumnName = "id")
-    private Profile profile;
-
-    public Safers getSafers() {
-        return safers;
-    }
-
-    public void setSafers(Safers safers) {
-        this.safers = safers;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "safersId", referencedColumnName = "id")
-    private Safers safers;
-
-
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",joinColumns = @JoinColumn(name="user_id"))

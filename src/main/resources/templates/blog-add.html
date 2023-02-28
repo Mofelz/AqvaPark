@@ -1,204 +1,151 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Покупка билета</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Фкусняшка</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body th:align="center">
-<h1>Покупка билета</h1>
-  <form class="rovn" th:action="${'/blog/add'}" method="post" th:object="${post}">
-  <div class="bord">
-
-    <select hidden th:field="*{user}">
-      <option th:each="us : ${users}"
-              th:if="${(us.username == isAuth)}"
-              th:value="${us.id}"
-              th:text="${us.username}">
-      </option>
-    </select>
-
-    <label>Дата посещения</label>
-    <br>
-    <br>
-    <input class="border" th:field="*{datapos}" type="date" name="datapos" placeholder="Введите дату посещения">
-    <br>
-    <br>
-    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('datapos')}" th:errors="*{datapos}"></div>
-
-    <label>Зоны отдыха</label>
-    <br>
-    <br>
-    <div>
-      <select th:field="*{uslaga}" class="border">
-        <div th:each="el : ${uslugas}">
-          <option th:value="${el.id}" th:text="${el.usluga}"/>
+<section class="flex" id="inner">
+    <form th:action="@{/cart/add}" method="post" th:object="${post}" class="flex" id="outer">
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{tableNumber}">
+        <div th:each="tarif : ${tarifs}">
+            <div class="element">
+                <img style="width: 150px;height: 150px;" class="rounded img-fluid pt-4 align-center"
+                     th:if="${tarif.image!=null}" th:src="'/image/' + ${tarif.image.idImage}" alt="">
+                <h3 th:text="${tarif.nametarif}"></h3>
+                <span><h3 th:text="${tarif.price+ ' руб.'}"></h3></span>
+                <span><h3 th:text="${tarif.weight+ ' г.'}"></h3></span>
+                <input class="checkbox" type="checkbox" th:field="*{tarifList}" th:value="${tarif.id}" onchange="this.form.submit()"/>
+            </div>
         </div>
-      </select>
-    </div>
-    <br>
-<!--    <br>-->
-<!--    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('uslaga')}" th:errors="*{uslaga}"></div>-->
-
-    <label>Тариф</label>
-    <br>
-    <br>
-<!--    <input class="border" th:field="*{ogranichenieVremeni}" type="text" name="ogranichenieVremeni" id="ogranichenieVremeni">-->
-
-<!--    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('ogranichenieVremeni')}" th:errors="*{ogranichenieVremeni}"></div>-->
-<!--    <br>-->
-<!--    <br>-->
-
-    <select th:field="*{tarif}" class="border">
-      <div th:each="el : ${tarifs}">
-        <option th:value="${el.id}" th:text="${el.nametarif}"/>
-      </div>
-    </select>
-
-    <label>Взрослые</label>
-    <br>
-    <br>
-    <div th:action="${'/blog/add'}" method="post" th:object="${stocks}">
-
-    </div>
-
-    <input class="border" th:field="*{adults}" type="text" th:maxlength="1" name="visitors" id="adults"  oninput="change()">
-    <br>
-    <br>
-    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('adults')}" th:errors="*{adults}"></div>
-    <label>Дети</label>
-    <br>
-    <br>
-    <input class="border" th:field="*{children}" type="text" th:maxlength="1" name="visitors" id="children" oninput="change()">
-    <br>
-    <br>
-    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('children')}" th:errors="*{children}"></div>
-
-
-
-    <label>Итого</label>
-
-    <br>
-    <br>
-
-    <input class="border" th:field="*{visitors}" th:maxlength="1" name="visitors" id="visitors" oninput="allvixitors()">
-    <script>
-      function allvixitors() {
-        var temp = document.getElementById("adults").value;
-        var temp2 = document.getElementById("children").value;
-        document.getElementById("visitors").value = +temp.toString() + +temp2.toString();
-      }
-    </script>
-
-    <br>
-    <br>
-<!--    <div th:each="ele : ${stocks}" >-->
-<!--        <form method="post" type="hidden">-->
-<!--          <input class="border" th:text="${ele.itogprice}"  name="" id="itogprice" oninput="change()">-->
-<!--        </form>-->
-<!--    </div>-->
-
-
-    <input class="border" th:field="*{price}" type="number" name="price" id="price" oninput="change()">
-    <script>
-      function change() {
-        var temp = document.getElementById("adults").value;
-        var temp2 = document.getElementById("children").value;
-        // var temp3 = document.getElementById("itogprice").value;
-        // var temp4 = document.getElementById("itogprice").value;
-        document.getElementById("price").value = +temp.toString() * 3300 + +temp2.toString() * 2400;
-      }
-    </script>
-
-
-
-    <br>
-    <br>
-    <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('price')}" th:errors="*{price}"></div>
-  </div>
-    <br>
-    <br>
-    <button class="otsbut" type="submit">Купить билет</button>
-
-
-  </form>
-<br>
-<br>
-
-<a class="otsa" href="/" style="font-size: 20px" >Главное Меню</a>
+    </form>
+</section>
 </body>
 </html>
 <style>
-  html *{
-    font-family: Arial !important;
-  }
-  .otsa{
-    margin-left: 30px;
-  }
-  .otsbut{
-    margin-left: 90px;
-  }
-  .bord{
-    background-color: cornflowerblue;
-    width: 400px;
-    height: 600px;
-    padding: 20px;
-    border-radius: 20px;
-  }
-  .border{
-    border-radius: 30px;
-    width: 380px;
-    height: 30px;
-  }
-  input{
-    font-size: 20px;
-    border-radius: 30px;
-    color: whitesmoke;
-    background-color: dodgerblue;
-    border-style: none;
-  }
-  input::placeholder {color: gray;}
-  label{
-    font-size: 20px;
-    font-weight: 900;
-    color: whitesmoke;
-  }
-  .rovn{
-    text-align: left;
-    margin-left: 530px;
-  }
-  h1{
-    font-size: 100px;
-  }
-  body{
-    color: whitesmoke;
-    background-color: royalblue;
-  }
-  button,a{
-    text-decoration: none;
-    font-size: 15px;
-    color: black;
+    img
+    {
+        max-width: 100%;
+    }
+    html * {
+        font-family: Arial !important;
+    }
+    #inner {
+        display: table;
+        margin: 0 auto;
+    }
+    #outer {
+        width:100%
+    }
+    .checkbox{
+        width: 50px;
+    }
+    .buts {
+        display: inline-flex;
+        margin-left: 10px;
+        padding: 0;
+    }
 
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 20px;
-    border-color: #000000;
-    background-color: dodgerblue;
+    .element {
 
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-left: 70px;
-    padding-right: 70px;
+        margin: 20px;
+        width: 180px;
+        height: 380px;
+        background-color: gray;
+        border-radius: 20px;
+    }
 
-    text-transform: uppercase;
-    line-height: 1;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-  }
-  button:hover, a:hover{
-    color: dodgerblue;
-    background-color: whitesmoke;
-    /*border-color: whitesmoke;*/
-    /*box-shadow: 0px 5px 10px 0px rgba(9, 1, 5, 0.5);*/
-    /*font-weight: bold;*/
-  }
+    /*.flex {*/
+    /*    display: inline-flex;*/
+    /*    !*height: 1500px;*!*/
+    /*    !*width: 800px;*!*/
+    /*    !*background-color: #ffca15;*!*/
+    /*}*/
+    .flex {
+
+        display: flex;
+        flex-wrap: wrap;
+        width: 900px;
+        /*background-color: #ffca15;*/
+    }
+    form {
+        align: center;
+    }
+
+    .button {
+        display: block;
+        width: 240px;
+        height: 25px;
+
+        background-color: limegreen;
+        padding: 10px;
+        text-align: center;
+        border-radius: 15px;
+
+        color: white;
+        font-size: 15px;
+        line-height: 20px;
+
+        text-transform: uppercase;
+
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    .con {
+        margin-left: 110px;
+        background-color: ghostwhite;
+        width: 330px;
+        height: 450px;
+        border-radius: 20px;
+    }
+
+    .bg {
+        background-image: url("intro.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+
+    a, button {
+        text-decoration: none;
+        color: white;
+
+        font-size: 15px;
+        border-width: 0px;
+        border-style: solid;
+        border-radius: 15px;
+
+        background-color: limegreen;
+
+        margin-left: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    a:hover, button:hover {
+        color: white;
+        background-color: green;
+    }
+
+    input {
+        margin-top: 15px;
+        color: black;
+        width: 250px;
+        height: 50px;
+        border-radius: 15px;
+        border-width: 1px;
+    }
 </style>

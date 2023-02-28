@@ -1,16 +1,17 @@
 package com.example.demo.controllers;
 
 
-import com.example.demo.models.ContactInfo;
+import com.example.demo.Service.TariffImageService;
 import com.example.demo.models.Tarif;
-import com.example.demo.models.Usluga;
 import com.example.demo.repo.TarifRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +20,11 @@ import java.util.Optional;
 public class TarifController {
     private final TarifRepository tarifRepository;
 
-    public TarifController(TarifRepository tarifRepository) {
+    private final TariffImageService tariffImageService;
+
+    public TarifController(TarifRepository tarifRepository, TariffImageService tariffImageService) {
         this.tarifRepository = tarifRepository;
+        this.tariffImageService = tariffImageService;
     }
 
     @GetMapping("/tarifs")
@@ -36,11 +40,12 @@ public class TarifController {
     }
 
     @PostMapping("/tarifs/add")
-    public Object tarifsPostAdd(@ModelAttribute("tarif") @Validated Tarif tarif, BindingResult bindingResult, Model model) {
+    public Object tarifsPostAdd(@ModelAttribute("tarif") @Validated Tarif tarif, BindingResult bindingResult,
+                                @RequestParam("file") MultipartFile file, Model model) throws IOException {
         Iterable<Tarif> tarifIterable = tarifRepository.findAll();
         model.addAttribute("tarifs", tarifIterable);
         if (bindingResult.hasErrors()) return "tarifs-add";
-        tarifRepository.save(tarif);
+       tariffImageService.saveImageAndTariff(tarif, file);
         return "redirect:/tarifs";
     }
 
@@ -75,13 +80,13 @@ public class TarifController {
             return "tarif-edit";
         }
         tarifRepository.save(tarif);
-        return "redirect:/";
+        return "redirect:/tarifs";
     }
 
     @PostMapping("/tarif/{id}/remove")
     public String tarifRemove(@PathVariable("id") long id, Model model) {
         Tarif tarif = tarifRepository.findById(id).orElseThrow();
         tarifRepository.delete(tarif);
-        return "redirect:/";
+        return "redirect:/tarifs";
     }
 }

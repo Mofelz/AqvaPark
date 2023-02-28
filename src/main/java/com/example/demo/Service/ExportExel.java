@@ -1,8 +1,6 @@
 package com.example.demo.Service;
 
 import com.example.demo.models.Post;
-import com.example.demo.models.Profile;
-import org.apache.poi.ss.formula.functions.Function;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
@@ -74,12 +72,7 @@ public class ExportExel {
 
             createCell(row, columnCount++, user.getId().toString(), style);
             createCell(row, columnCount++, user.getUser().getUsername().toString(), style);
-            createCell(row, columnCount++, user.getDatapos().toString(), style);
-            createCell(row, columnCount++, user.getVisitors().toString(), style);
-            createCell(row, columnCount++, user.getAdults().toString(), style);
-            createCell(row, columnCount++, user.getChildren().toString(), style);
-            createCell(row, columnCount++, user.getUslaga().toString(), style);
-            createCell(row, columnCount++, user.getPrice().toString(), style);
+
         }
     }
 

@@ -16,41 +16,20 @@ public class Stocks {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull(message = "Не может быть пустым")
-    @Range(min = 1, max = 5, message = "Диапазон от 1 до 5")
-    private Integer value;
-
-    @NotNull(message = "Не может быть пустым")
-    @Range(min = 2400, max = 3300, message = "Диапазон от 2400 до 3300")
-    private Integer price;
-
-    @NotNull(message = "Не может быть пустым")
-    @Range(min = 2000, max = 3300, message = "Диапазон от 2400 до 3300")
-    private Integer itogprice;
-
     @NotEmpty(message = "Поле не может быть пустым")
-    @Size(min = 1, max = 8, message = "От 1 до 8 символов")
-    private String namestock;
+    @Size(min = 1, max = 20, message = "От 1 до 20 символов")
+    private String nameSnackbar;
 
-    public Stocks(Long id, Integer value,Integer itogprice, Integer price, String namestock) {
-        this.value = value;
+    public Stocks(Long id, String nameSnackbar) {
         this.id = id;
-        this.itogprice = itogprice;
-        this.price = price;
-        this.namestock = namestock;
+        this.nameSnackbar = nameSnackbar;
     }
 
-    public Stocks() {
+    public Stocks() {}
 
-    }
+    public String getNameSnackbar() {return nameSnackbar;}
 
-    public String getNamestock() {
-        return namestock;
-    }
-
-    public void setNamestock(String namestock) {
-        this.namestock = namestock;
-    }
+    public void setNameSnackbar(String nameSnackbar) {this.nameSnackbar = nameSnackbar;}
 
     public Long getId() {
         return id;
@@ -58,21 +37,5 @@ public class Stocks {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Integer getValue() {return value;}
-
-    public void setValue(Integer value) {this.value = value;}
-
-    public Integer getItogprice() {return itogprice;}
-
-    public void setItogprice(Integer itogprice) {this.itogprice = itogprice;}
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
     }
 }
