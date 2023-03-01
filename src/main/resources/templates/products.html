@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Продукты</title>
+</head>
+<body th:align="center">
+<h2>Продукты</h2>
+<a href="/products/add">Добавить</a>
+<a href="/">Главное Меню</a>
+<br>
+<br>
+<br>
+<br>
+
+<table th:align="center">
+    <tr>
+        <th><h3 th:text="${'Наименование'}"></h3></th>
+        <th><h3 th:text="${'Изображение'}"></h3></th>
+        <th><h3 th:text="${'Цена'}"></h3></th>
+        <th><h3 th:text="${'Вес'}"></h3></th>
+    </tr>
+
+    <div th:each="el : ${products}">
+        <tr>
+            <th><h3 th:text="${el.nameProduct}"></h3></th>
+            <th><img style="width: 150px;height: 150px;" class="rounded img-fluid pt-4 align-center"
+                     th:if="${el.image!=null}" th:src="'/image/' + ${el.image.idImage}" alt=""></th>
+            <th><h3 th:text="${el.price+ ' руб.'}"></h3></th>
+            <th><h3 th:text="${el.weight+ ' г.'}"></h3></th>
+            <td><p><a th:href=" '/product/' + ${el.id} + '/edit'">Редактировать</a></p></td>
+            <td>
+                <form th:action=" '/product/' + ${el.id} + '/remove'" method="post">
+                    <button type="submit" class="btn btn-del">Удалить</button>
+                </form>
+            </td>
+        </tr>
+    </div>
+</table>
+
+</body>
+</html>
+<style>
+    html * {
+        font-family: Arial !important;
+    }
+
+    h1 {
+        font-size: 100px;
+    }
+
+    table {
+        text-align: center;
+        align: center;
+    }
+
+    th {
+        border-style: solid;
+        border-color: greenyellow;
+        width: 150px;
+    }
+
+    body {
+        color: black;
+        background-color: white;
+    }
+
+    a, button {
+        text-decoration: none;
+        color: white;
+
+        font-size: 15px;
+        border-width: 0px;
+        border-style: solid;
+        border-radius: 15px;
+
+        background-color: limegreen;
+
+        margin-left: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    a:hover, button:hover {
+        color: white;
+        background-color: green;
+    }
+</style>

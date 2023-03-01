@@ -1,7 +1,7 @@
 package com.example.demo.models;
 
 import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
@@ -27,26 +27,35 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "stocksId", referencedColumnName = "id")
-    private Stocks stocks;
+    private Snackbar snackbar;
 
-    public List<Tarif> getTarifList() {
-        return tarifList;
+
+    public Snackbar getSnackbar() {
+        return snackbar;
     }
 
-    public void setTarifList(List<Tarif> tarifList) {
-        this.tarifList = tarifList;
+    public void setSnackbar(Snackbar snackbar) {
+        this.snackbar = snackbar;
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 
     @ManyToMany
-    @JoinTable(name = "collecting", joinColumns = @JoinColumn(name = "postId"), inverseJoinColumns = @JoinColumn(name = "tarifId"))
-    private List<Tarif> tarifList;
+    @JoinTable(name = "collect", joinColumns = @JoinColumn(name = "postId"), inverseJoinColumns = @JoinColumn(name = "productId"))
+    private List<Product> productList;
 
-    public Post(Integer tableNumber, Date timeArrival, Date timeDeparture, User user, Stocks stocks) {
+    public Post(Integer tableNumber, Date timeArrival, Date timeDeparture, User user, Snackbar snackbar) {
         this.tableNumber = tableNumber;
         this.timeArrival = timeArrival;
         this.timeDeparture = timeDeparture;
         this.user = user;
-        this.stocks = stocks;
+        this.snackbar = snackbar;
     }
 
     public Post(){}
@@ -91,11 +100,11 @@ public class Post {
         this.user = user;
     }
 
-    public Stocks getStocks() {
-        return stocks;
+    public Snackbar getStocks() {
+        return snackbar;
     }
 
-    public void setStocks(Stocks stocks) {
-        this.stocks = stocks;
+    public void setStocks(Snackbar snackbar) {
+        this.snackbar = snackbar;
     }
 }

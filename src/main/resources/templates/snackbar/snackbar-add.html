@@ -7,7 +7,7 @@
 <body th:align="center">
 <h2>Ресторан</h2>
 
-<form th:action="${'/stocks/add'}" method="post" th:object="${stocks}">
+<form th:action="${'/snackbar/add'}" method="post" th:object="${snackbar}">
     <div class="back">
         <label>Наименование ресторана</label>
         <br>
@@ -18,7 +18,7 @@
     </div>
     <br>
     <button type="submit">Добавить</button>
-    <a class="" href="/">Главное Меню</a>
+    <a class="" href="/static">Главное Меню</a>
 </form>
 </body>
 </html>

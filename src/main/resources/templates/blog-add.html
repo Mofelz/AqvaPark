@@ -9,27 +9,29 @@
     <form th:action="@{/cart/add}" method="post" th:object="${post}" class="flex" id="outer">
         <input type="hidden" th:field="*{id}">
         <input type="hidden" th:field="*{tableNumber}">
-        <div th:each="tarif : ${tarifs}">
+        <div th:each="product : ${products}">
             <div class="element">
                 <img style="width: 150px;height: 150px;" class="rounded img-fluid pt-4 align-center"
-                     th:if="${tarif.image!=null}" th:src="'/image/' + ${tarif.image.idImage}" alt="">
-                <h3 th:text="${tarif.nametarif}"></h3>
-                <span><h3 th:text="${tarif.price+ ' руб.'}"></h3></span>
-                <span><h3 th:text="${tarif.weight+ ' г.'}"></h3></span>
-                <input class="checkbox" type="checkbox" th:field="*{tarifList}" th:value="${tarif.id}" onchange="this.form.submit()"/>
+                     th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt="">
+                <h3 th:text="${product.nameProduct}"></h3>
+                <span><h3 th:text="${product.price+ ' руб.'}"></h3></span>
+                <span><h3 th:text="${product.weight+ ' г.'}"></h3></span>
+                <input class="checkbox" type="checkbox" th:field="*{productList}" th:value="${product.id}" onchange="this.form.submit()"/>
             </div>
         </div>
     </form>
+    <a href="/">Главное Меню</a>
 </section>
 </body>
 </html>
-<style>
+<style>xor
     img
     {
         max-width: 100%;
     }
     html * {
         font-family: Arial !important;
+
     }
     #inner {
         display: table;
@@ -41,66 +43,23 @@
     .checkbox{
         width: 50px;
     }
-    .buts {
-        display: inline-flex;
-        margin-left: 10px;
-        padding: 0;
-    }
-
     .element {
-
-        margin: 20px;
+        margin: 10px;
         width: 180px;
         height: 380px;
         background-color: gray;
         border-radius: 20px;
     }
 
-    /*.flex {*/
-    /*    display: inline-flex;*/
-    /*    !*height: 1500px;*!*/
-    /*    !*width: 800px;*!*/
-    /*    !*background-color: #ffca15;*!*/
-    /*}*/
     .flex {
-
         display: flex;
         flex-wrap: wrap;
-        width: 900px;
-        /*background-color: #ffca15;*/
+        width: 1000px;
     }
     form {
         align: center;
+        background-color: green;
     }
-
-    .button {
-        display: block;
-        width: 240px;
-        height: 25px;
-
-        background-color: limegreen;
-        padding: 10px;
-        text-align: center;
-        border-radius: 15px;
-
-        color: white;
-        font-size: 15px;
-        line-height: 20px;
-
-        text-transform: uppercase;
-
-        -webkit-transition: all 0.5s ease;
-        transition: all 0.5s ease;
-    }
-
-    .con {
-        margin-left: 110px;
-        background-color: ghostwhite;
-        width: 330px;
-        height: 450px;
-        border-radius: 20px;
-    }
-
     .bg {
         background-image: url("intro.jpg");
         background-repeat: no-repeat;

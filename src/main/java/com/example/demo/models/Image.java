@@ -29,5 +29,5 @@ public class Image {
     private byte[] bytes;
 
     @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = true, mappedBy = "image")
-    private Tarif tarif;
+    private Product product;
 }

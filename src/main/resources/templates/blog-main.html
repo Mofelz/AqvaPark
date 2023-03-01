@@ -5,24 +5,24 @@
     <title>Главная</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
-<body th:align="center">
+<body th:align="center" class="bg">
     <section>
         <div class="shapka">
             <div class="shapka2">
                 <div>
-                    <a th:if="${isSaler}" href="/stocks">Рестораны</a>
+                    <a th:if="${isSaler}" href="/snackbar">Рестораны</a>
                 </div>
                 <div>
                     <a th:if="${isAdmin}" href="/admin">Пользователи</a>
                 </div>
                 <div>
-                    <a th:if="${isSaler}" href="/tarifs">Продукция</a>
+                    <a th:if="${isSaler}" href="/products">Продукция</a>
                 </div>
             </div>
 
             <div class="role">
                 <div th:if="${isUser}">
-                    <div th:each="el : ${stocks}">
+                    <div th:each="el : ${snackbars}">
                         <h3 th:text="${'Ресторан: '+el.nameSnackbar}"></h3>
                     </div>
                 </div>
@@ -62,6 +62,18 @@
 <style>
     html * {
         font-family: Arial !important;
+    }
+    .bg {
+        color: white;
+
+        background-image: url("backНАСАЙТ.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
     }
     .stolik{
         margin-top: 235px;

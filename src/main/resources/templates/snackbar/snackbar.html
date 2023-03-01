@@ -2,40 +2,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Продукты</title>
+    <title>Рестораны</title>
 </head>
 <body th:align="center">
-<h2>Продукты</h2>
-<a href="/tarifs/add">Добавить</a>
+<h2>Ресторан</h2>
+<a href="/snackbar/add">Добавить</a>
 <a href="/">Главное Меню</a>
+
 <br>
 <br>
 <br>
 <br>
 
-<table th:align="center">
+<table class="cen" th:align="center">
+    <thead>
     <tr>
-        <th><h3 th:text="${'Наименование'}"></h3></th>
-        <th><h3 th:text="${'Изображение'}"></h3></th>
-        <th><h3 th:text="${'Цена'}"></h3></th>
-        <th><h3 th:text="${'Вес'}"></h3></th>
+        <th><h3 th:text="${'Наименование ресторана'}"></h3></th>
     </tr>
-
-    <div th:each="el : ${tarifs}">
+    </thead>
+    <tbody>
+    <div th:each="el : ${snackbar}">
         <tr>
-            <th><h3 th:text="${el.nametarif}"></h3></th>
-            <th><img style="width: 150px;height: 150px;" class="rounded img-fluid pt-4 align-center"
-                     th:if="${el.image!=null}" th:src="'/image/' + ${el.image.idImage}" alt=""></th>
-            <th><h3 th:text="${el.price+ ' руб.'}"></h3></th>
-            <th><h3 th:text="${el.weight+ ' г.'}"></h3></th>
-            <td><p><a th:href=" '/tarif/' + ${el.id} + '/edit'">Редактировать</a></p></td>
+            <th><h3 th:text="${el.nameSnackbar}"></h3></th>
+            <td><a th:href=" '/snackbar/' + ${el.id} + '/edit'">Редактировать</a></td>
             <td>
-                <form th:action=" '/tarif/' + ${el.id} + '/remove'" method="post">
+                <form th:action=" '/snackbar/' + ${el.id} + '/remove'" method="post">
                     <button type="submit" class="btn btn-del">Удалить</button>
                 </form>
             </td>
         </tr>
     </div>
+
+    </tbody>
 </table>
 
 </body>
@@ -45,11 +43,7 @@
         font-family: Arial !important;
     }
 
-    h1 {
-        font-size: 100px;
-    }
-
-    table {
+    table.cen {
         text-align: center;
         align: center;
     }
@@ -58,6 +52,10 @@
         border-style: solid;
         border-color: greenyellow;
         width: 150px;
+    }
+
+    h1 {
+        font-size: 100px;
     }
 
     body {

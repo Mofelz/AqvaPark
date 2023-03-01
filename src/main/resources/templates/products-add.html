@@ -5,15 +5,15 @@
     <title>Добавление</title>
 </head>
 <body th:align="center">
-<form th:action="${'/tarifs/add'}" method="post" th:object="${tarif}" enctype="multipart/form-data">
+<form th:action="${'/tarifs/add'}" method="post" th:object="${products}" enctype="multipart/form-data">
     <h2>Добавление продукции</h2>
     <div class="back">
         <div>
             <label>Наиманование продукции</label>
 
-            <input required th:field="*{nametarif}" type="text">
-            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nametarif')}"
-                 th:errors="*{nametarif}">
+            <input required th:field="*{nameProduct}" type="text">
+            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nameProduct')}"
+                 th:errors="*{nameProduct}">
             </div>
 
             <label>Изображение</label>

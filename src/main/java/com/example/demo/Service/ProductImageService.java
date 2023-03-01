@@ -1,9 +1,9 @@
 package com.example.demo.Service;
 
 import com.example.demo.models.Image;
-import com.example.demo.models.Tarif;
+import com.example.demo.models.Product;
 import com.example.demo.repo.ImageRepository;
-import com.example.demo.repo.TarifRepository;
+import com.example.demo.repo.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,19 +14,19 @@ import java.io.IOException;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class TariffImageService {
+public class ProductImageService {
 
-    private final TarifRepository tarifRepository;
+    private final ProductRepository productRepository;
 
     private final ImageRepository imageRepository;
 
-    public void saveImageAndTariff(Tarif tarif, MultipartFile file) throws IOException {
+    public void saveImageAndTariff(Product product, MultipartFile file) throws IOException {
         if (file != null && !file.isEmpty()) {
             Image image = saveImageEntity(file);
             imageRepository.save(image);
-            tarif.setImage(image);
+            product.setImage(image);
         }
-        tarifRepository.save(tarif);
+        productRepository.save(product);
     }
 
     private Image saveImageEntity(MultipartFile file) throws IOException {

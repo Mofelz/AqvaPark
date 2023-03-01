@@ -1,7 +1,6 @@
 package com.example.demo.models;
 
 import org.hibernate.validator.constraints.Range;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -9,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-public class Tarif {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,7 +16,7 @@ public class Tarif {
 
     @NotEmpty(message = "Поле не может быть пустым")
     @Size(min = 1, max = 100, message = "От 1 до 100 символов")
-    private String nametarif;
+    private String nameProduct;
 
     @NotNull(message = "Поле не может быть пустым")
     @Range(min = 1, max = 1000, message = "Диапазон от 1 до 5")
@@ -32,17 +31,17 @@ public class Tarif {
     private Image image;
 
     @ManyToMany
-    @JoinTable(name = "collecting", joinColumns = @JoinColumn(name = "tarifId"), inverseJoinColumns = @JoinColumn(name = "postId"))
+    @JoinTable(name = "collect", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "postId"))
     private List<Post> postList;
 
-    public Tarif(String nametarif, Image image, Integer price, Integer weight) {
-        this.nametarif = nametarif;
+    public Product(String nameProduct, Image image, Integer price, Integer weight) {
+        this.nameProduct = nameProduct;
         this.image = image;
         this.price = price;
         this.weight = weight;
     }
 
-    public Tarif() {}
+    public Product() {}
 
     public Long getId() {
         return id;
@@ -54,14 +53,6 @@ public class Tarif {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getNametarif() {
-        return nametarif;
-    }
-
-    public void setNametarif(String nametarif) {
-        this.nametarif = nametarif;
     }
 
     public Image getImage() {
@@ -79,4 +70,8 @@ public class Tarif {
     public Integer getWeight() {return weight;}
 
     public void setWeight(Integer weight) {this.weight = weight;}
+
+    public String getNameProduct() {return nameProduct;}
+
+    public void setNameProduct(String nameProduct) {this.nameProduct = nameProduct;}
 }

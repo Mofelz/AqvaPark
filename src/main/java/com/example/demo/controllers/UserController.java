@@ -1,7 +1,6 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.Role;
-import com.example.demo.models.Tarif;
 import com.example.demo.models.User;
 import com.example.demo.repo.UserRepos;
 import org.springframework.beans.factory.annotation.Autowired;

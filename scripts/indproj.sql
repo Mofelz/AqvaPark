@@ -179,13 +179,13 @@ INSERT INTO `safers` VALUES (81,'Романов','Федор','Горка-1','2'
 UNLOCK TABLES;
 
 --
--- Table structure for table `stocks`
+-- Table structure for table `snackbar`
 --
 
-DROP TABLE IF EXISTS `stocks`;
+DROP TABLE IF EXISTS `snackbar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `stocks` (
+CREATE TABLE `snackbar` (
   `id` bigint(20) NOT NULL,
   `price` int(11) NOT NULL,
   `value` int(11) NOT NULL,
@@ -196,23 +196,23 @@ CREATE TABLE `stocks` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `stocks`
+-- Dumping data for table `snackbar`
 --
 
-LOCK TABLES `stocks` WRITE;
-/*!40000 ALTER TABLE `stocks` DISABLE KEYS */;
-INSERT INTO `stocks` VALUES (363,2400,2,2352,'Детский'),(404,3300,4,3168,'Взрослый');
-/*!40000 ALTER TABLE `stocks` ENABLE KEYS */;
+LOCK TABLES `snackbar` WRITE;
+/*!40000 ALTER TABLE `snackbar` DISABLE KEYS */;
+INSERT INTO `snackbar` VALUES (363,2400,2,2352,'Детский'),(404,3300,4,3168,'Взрослый');
+/*!40000 ALTER TABLE `snackbar` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `tarif`
+-- Table structure for table `product`
 --
 
-DROP TABLE IF EXISTS `tarif`;
+DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tarif` (
+CREATE TABLE `product` (
   `id` bigint(20) NOT NULL,
   `nametarif` varchar(8) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price` int(11) NOT NULL,
@@ -221,13 +221,13 @@ CREATE TABLE `tarif` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tarif`
+-- Dumping data for table `product`
 --
 
-LOCK TABLES `tarif` WRITE;
-/*!40000 ALTER TABLE `tarif` DISABLE KEYS */;
-INSERT INTO `tarif` VALUES (13,'Взрослий',3300),(14,'Детский ',2400);
-/*!40000 ALTER TABLE `tarif` ENABLE KEYS */;
+LOCK TABLES `product` WRITE;
+/*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES (13,'Взрослий',3300),(14,'Детский ',2400);
+/*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

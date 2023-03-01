@@ -33,7 +33,7 @@
         <br>
         <br>
         <div>
-          <select th:field="*{tarif}" class="border">
+          <select th:field="*{product}" class="border">
             <div th:each="el : ${tarifs}">
               <option th:value="${el.id}" th:text="${el.nametarif}"/>
             </div>

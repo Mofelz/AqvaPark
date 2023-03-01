@@ -6,9 +6,9 @@
 </head>
 <body th:align="center">
 <h2>Ресторан</h2>
-<form th:action="${'/stocks/'+stocks.id+'/edit'}" method="post" th:object="${stocks}">
+<form th:action="${'/snackbar/'+snackbar.id+'/edit'}" method="post" th:object="${snackbar}">
     <div class="back">
-        <label>Наименование акции</label>
+        <label>Наименование ресторана</label>
         <input th:field="*{nameSnackbar}" type="text" name="nameSnackbar">
         <br>
         <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nameSnackbar')}"
@@ -16,7 +16,7 @@
     </div>
     <br>
     <button type="submit">Применить</button>
-    <a href="/">Главное Меню</a>
+    <a href="/static">Главное Меню</a>
 </form>
 </body>
 </html>

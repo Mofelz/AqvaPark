@@ -1,17 +1,14 @@
 package com.example.demo.models;
 
-import org.hibernate.validator.constraints.Range;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-public class Stocks {
+public class Snackbar {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -20,12 +17,12 @@ public class Stocks {
     @Size(min = 1, max = 20, message = "От 1 до 20 символов")
     private String nameSnackbar;
 
-    public Stocks(Long id, String nameSnackbar) {
+    public Snackbar(Long id, String nameSnackbar) {
         this.id = id;
         this.nameSnackbar = nameSnackbar;
     }
 
-    public Stocks() {}
+    public Snackbar() {}
 
     public String getNameSnackbar() {return nameSnackbar;}
 
