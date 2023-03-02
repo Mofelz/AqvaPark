@@ -31,7 +31,7 @@ public class BlogController {
         this.userRepos = userRepos;
     }
 
-    @GetMapping("/orders")
+    @RequestMapping("/")
     public String blogMain(@ModelAttribute("post") Post post, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -120,13 +120,26 @@ public class BlogController {
         model.addAttribute("products", products);
         post.setUser(user);
         postRepository.save(post);
-        return "redirect:/orders";
+        return "redirect:/login";
     }
+    @GetMapping("/myorders")
+    public String profileMain(Model model) {
+        Iterable<Post> posts = postRepository.findAll();
+        List<User> users = userRepos.findAll();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        model.addAttribute("isAuth", userDetails.getUsername());
+        model.addAttribute("post", posts);
+        model.addAttribute("users", users);
+        model.addAttribute("isSaler", auth.getAuthorities().toString().contains("SALER"));
+        model.addAttribute("isUser", auth.getAuthorities().toString().contains("USER"));
 
+        return "orders/myorders";
+    }
     @PostMapping("/orders/{id}/remove")
     public String blogPostRemove(@PathVariable("id") long id, Model model) {
         Post post = postRepository.findById(id).orElseThrow();
         postRepository.delete(post);
-        return "redirect:/orders";
+        return "redirect:/orders/myorders";
     }
 }

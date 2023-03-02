@@ -52,10 +52,10 @@
                      th:if="${el.image!=null}" th:src="'/image/' + ${el.image.idImage}" alt=""></th>
             <th><h3 th:text="${el.price+ ' руб.'}"></h3></th>
             <th><h3 th:text="${el.weight+ ' г.'}"></h3></th>
-            <td><p><a th:href=" '/products/' + ${el.id} + '/edit'">Редактировать</a></p></td>
+            <td><p><a class="btn-edit" th:href=" '/products/' + ${el.id} + '/edit'">Редактировать</a></p></td>
             <td>
                 <form th:action=" '/products/' + ${el.id} + '/remove'" method="post">
-                    <button type="submit" class="btn btn-del">Удалить</button>
+                    <button type="submit" class="btn-del">Удалить</button>
                 </form>
             </td>
         </tr>
@@ -67,6 +67,18 @@
 <style>
     html * {
         font-family: Arial !important;
+    }
+    .btn-edit{
+        background: rgb(255,215,0);
+    }
+    .btn-edit:hover{
+        background-color: greenyellow;
+    }
+    .btn-del{
+        background-color: red;
+    }
+    .btn-del:hover{
+        background-color: darkred;
     }
     .imageMain{
         border: none;
@@ -117,7 +129,7 @@
         margin-top: 15px;
     }
     th {
-
+        width: 150px;
         border-style: solid;
         border-color: limegreen;
 

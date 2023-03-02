@@ -18,6 +18,12 @@
                 <div>
                     <a th:if="${isSaler}" href="/products">Продукция</a>
                 </div>
+                <div>
+                    <a th:if="${isUser}" href="/myorders">Мои заказы</a>
+                </div>
+                <div>
+                    <a th:if="${isSaler}" href="/myorders">Все заказы</a>
+                </div>
             </div>
 
             <div class="role">
@@ -47,7 +53,7 @@
             <h3>Введите номер своего стола</h3>
 
             <form th:action="${'/orders/add'}" method="post" th:object="${post}">
-                <input required th:field="*{tableNumber}" type="text">
+                <input required th:field="*{tableNumber}" type="number">
                 <input type="hidden" th:value="${post.id}" name="post">
                 <div th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
                 <div th:if="${#fields.hasErrors('tableNumber')}" th:errors="*{tableNumber}"></div>
@@ -80,7 +86,7 @@
     }
     .role{
         display: flex;
-        margin-left: 800px;
+        margin-left: 600px;
     }
     .shapka {
         display: flex;

@@ -57,12 +57,14 @@ public class ProductController {
     public String productsUpdate(@PathVariable("id") long id,
                               @ModelAttribute("products")
                               @Validated Product product,
-                                 BindingResult bindingResult) {
+                                 @RequestParam("file") MultipartFile file,
+                                 BindingResult bindingResult) throws IOException {
         product.setId(id);
         if (bindingResult.hasErrors()) {
             return "products/products-edit";
         }
         productRepository.save(product);
+        productImageService.saveImageAndProduct(product, file);
         return "redirect:/products";
     }
 

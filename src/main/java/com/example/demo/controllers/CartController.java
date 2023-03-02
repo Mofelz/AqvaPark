@@ -25,6 +25,6 @@ public class CartController {
         postRepository.save(post);
         Iterable<Product> products = productRepository.findAll();
         model.addAttribute("products", products);
-        return "blog-add";
+        return "orders/orders-add";
     }
 }

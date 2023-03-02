@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Заказы</title>
+</head>
+<body th:align="center" class="bg">
+
+<section>
+    <div class="shapka">
+        <div class="shapka2">
+            <div>
+                <a class="imageMain" href="/"><img src="/doubleCup2.png" width="70" height="60"></a>
+            </div>
+        </div>
+    </div>
+</section>
+<h2 th:if="${isUser}">Мои заказы</h2>
+<h2 th:if="${isSaler}">Все заказы</h2>
+<table th:align="center" class="table_sort">
+    <thead>
+    <th><h3 th:text="${'Логин пользователя'}"></h3></th>
+    <th><h3 th:text="${'Код заказа'}"></h3></th>
+    <th><h3 th:text="${'Номер столика'}"></h3></th>
+    </thead>
+    <tbody>
+    <div th:each="el : ${post}" th:if="${(el.user.username == isAuth) || isSaler}">
+        <tr>
+            <th><h3 th:text="${el.user.username}"></h3></th>
+            <th><h3 th:text="${el.id}"></h3></th>
+            <th><h3 th:text="${el.tableNumber}"></h3></th>
+            <td>
+                <form th:action=" '/orders/' + ${el.id} + '/remove'" method="post">
+                    <button type="submit" class="btn btn-del">Удалить</button>
+                </form>
+            </td>
+        </tr>
+    </div>
+    </tbody>
+</table>
+</body>
+</html>
+<style>
+    html * {
+        font-family: Arial !important;
+    }
+    .imageMain{
+        border: none;
+        background: none;
+        margin: 0;
+        padding: 0;
+    }
+    .imageMain:hover{
+        background: none;
+    }
+    .bg {
+        color: white;
+
+        background-image: url("backНАСАЙТ.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+    th {
+
+        border-style: solid;
+        border-color: limegreen;
+
+        background: rgba(0, 255, 0, 0.3);
+    }
+    a, button {
+        text-decoration: none;
+        color: white;
+
+        font-size: 15px;
+        border-width: 0px;
+        border-style: solid;
+        border-radius: 15px;
+
+        background-color: limegreen;
+
+        margin-left: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    a:hover, button:hover {
+        color: white;
+        background-color: green;
+    }
+</style>
