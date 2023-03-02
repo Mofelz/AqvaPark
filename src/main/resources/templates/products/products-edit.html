@@ -1,11 +1,42 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Изменение продукции</title>
 </head>
-<body th:align="center">
-<form th:action="${'/product/'+product.id+'/edit'}" method="post" th:object="${product}">
+<body th:align="center" class="bg">
+<section>
+    <div class="shapka">
+        <div class="shapka2">
+            <div>
+                <a class="imageMain" href="/"><img src="/doubleCup2.png" width="70" height="60"></a>
+            </div>
+            <div>
+                <a href="/snackbar">Рестораны</a>
+            </div>
+            <div>
+                <a class="rest" href="">Продукция</a>
+            </div>
+            <div>
+                <a href="/products/add">Добавить</a>
+            </div>
+        </div>
+
+        <div class="role">
+            <div>
+                <h3 >Сотрудник Отдела продаж</h3>
+            </div>
+
+            <div>
+                <link sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Выйти</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<form th:action="${'/products/'+products.id+'/edit'}" method="post" th:object="${products}">
     <h2>Редактирование продукции</h2>
     <div class="back">
         <label>Наиманование продукции</label>
@@ -38,13 +69,55 @@
     </div>
     <br>
     <button type="submit">Применить</button>
-    <a href="/">Главное Меню</a>
 </form>
 </body>
 </html>
 <style>
     html * {
         font-family: Arial !important;
+    }
+    .imageMain{
+        border: none;
+        background: none;
+        margin: 0;
+        padding: 0;
+    }
+    .imageMain:hover{
+        background: none;
+    }
+    .rest{
+        pointer-events: none; /* делаем ссылку некликабельной */
+        cursor: default;  /* устанавливаем курсор в виде стрелки */
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        background-color: green;
+    }
+    .role{
+        display: flex;
+        margin-left: 700px;
+    }
+    .shapka {
+        display: flex;
+    }
+    .shapka2 {
+        display: flex;
+        margin-top: 15px;
+    }
+    .bg {
+        color: white;
+
+        background-image: url("../../backНАСАЙТ.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
     }
     .back {
         margin-left: 600px;

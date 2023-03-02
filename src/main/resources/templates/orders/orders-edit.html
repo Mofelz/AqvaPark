@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Оформление</title>
+</head>
+<body th:align="center">
+  <form th:action="${'/orders/'+post.id+'/edit'}" method="post" th:object="${post}">
+
+    <input type="hidden" th:field="*{id}">
+    <input  th:field="*{tableNumber}">
+    <div th:each="product : ${products}">
+      <div class="element">
+        <img style="width: 150px;height: 150px;" class="rounded img-fluid pt-4 align-center"
+             th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt="">
+        <h3 th:text="${product.nameProduct}"></h3>
+        <h3 th:text="${product.price+ ' руб.'}"></h3>
+        <h3 th:text="${product.weight+ ' г.'}"></h3>
+        <input class="checkbox" type="checkbox" th:field="*{productList}" th:value="${product.id}" onchange="this.form.submit()"/>
+      </div>
+    </div>
+
+    <button type="submit">Подтвердить</button>
+  </form>
+</body>
+</html>
+<style>
+  img
+  {
+    max-width: 100%;
+  }
+  html * {
+    font-family: Arial !important;
+
+  }
+  #inner {
+    display: table;
+    margin: 0 auto;
+  }
+  #outer {
+    width:100%
+  }
+  .checkbox{
+    width: 50px;
+  }
+  .element {
+    margin: 10px;
+    width: 180px;
+    height: 380px;
+    background-color: gray;
+    border-radius: 20px;
+  }
+
+  .flex {
+    display: flex;
+    flex-wrap: wrap;
+    width: 1000px;
+  }
+  form {
+    align: center;
+    /*background-color: green;*/
+  }
+  .bg {
+    background-image: url("intro.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
+  a, button {
+    text-decoration: none;
+    color: white;
+
+    font-size: 15px;
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 15px;
+
+    background-color: limegreen;
+
+    margin-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    text-transform: uppercase;
+    line-height: 1;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+
+  a:hover, button:hover {
+    color: white;
+    background-color: green;
+  }
+
+  input {
+    margin-top: 15px;
+    color: black;
+    width: 250px;
+    height: 50px;
+    border-radius: 15px;
+    border-width: 1px;
+  }
+</style>

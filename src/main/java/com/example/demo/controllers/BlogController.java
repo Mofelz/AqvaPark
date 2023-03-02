@@ -24,8 +24,6 @@ public class BlogController {
 
     private final UserRepos userRepos;
 
-
-
     public BlogController(PostRepository postRepository, ProductRepository productRepository, SnackbarRepository snackbarRepository, UserRepos userRepos) {
         this.postRepository = postRepository;
         this.productRepository = productRepository;
@@ -33,7 +31,7 @@ public class BlogController {
         this.userRepos = userRepos;
     }
 
-    @GetMapping("/")
+    @GetMapping("/orders")
     public String blogMain(@ModelAttribute("post") Post post, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -51,17 +49,17 @@ public class BlogController {
         model.addAttribute("isSaler", authentication.getAuthorities().toString().contains("SALER"));
         model.addAttribute("isUser", authentication.getAuthorities().toString().contains("USER"));
 
-        return "blog-main";
+        return "orders/orders";
     }
 
-    @GetMapping("/blog/add")
+    @GetMapping("/orders/add")
     public String blogAdd(@ModelAttribute("post") Post post, Model model) {
         Iterable<Product> products = productRepository.findAll();
         model.addAttribute("products", products);
-        return "blog-add";
+        return "orders/orders-add";
     }
 
-    @PostMapping("/blog/add")
+    @PostMapping("/orders/add")
     public String blogAdd(@ModelAttribute("post") Post post, BindingResult result, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Post post1 = postRepository.findTopByTableNumberOrderByIdDesc(post.getTableNumber());
@@ -73,12 +71,12 @@ public class BlogController {
         if (result.hasErrors()) {
 
             Iterable<Post> posts = postRepository.findAll();
-            Iterable<Snackbar> stocks = snackbarRepository.findAll();
+            Iterable<Snackbar> snackbars = snackbarRepository.findAll();
             Iterable<Product> products = productRepository.findAll();
             Iterable<User> users = userRepos.findAll();
 
             model.addAttribute("products", products);
-            model.addAttribute("stocks", stocks);
+            model.addAttribute("snackbars", snackbars);
             model.addAttribute("User", users);
             model.addAttribute("posts", posts);
 
@@ -86,31 +84,31 @@ public class BlogController {
             model.addAttribute("isSaler", auth.getAuthorities().toString().contains("SALER"));
             model.addAttribute("isUser", auth.getAuthorities().toString().contains("USER"));
 
-            return "blog-main";
+            return "orders/orders";
         }
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         model.addAttribute("isAuth", userDetails.getUsername());
-        Iterable<Snackbar> stocks = snackbarRepository.findAll();
+        Iterable<Snackbar> snackbars = snackbarRepository.findAll();
         Iterable<Product> products = productRepository.findAll();
         List<User> users = userRepos.findAll();
         model.addAttribute("users", users);
-        model.addAttribute("stocks", stocks);
+        model.addAttribute("snackbars", snackbars);
         model.addAttribute("products", products);
         post.setTimeArrival(new Date());
         postRepository.save(post);
-        return "blog-add";
+        return "orders/orders-add";
     }
-    @GetMapping("/blog/{id}/edit")
+    @GetMapping("/orders/{id}/edit")
     public String blogEdit(@PathVariable("id") long id, Model model) {
         Iterable<Product> products = productRepository.findAll();
         Post res = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id: " + id));
         model.addAttribute("post", res);
         model.addAttribute("products", products);
 
-        return "blog-edit";
+        return "orders/orders-edit";
     }
 
-    @PostMapping("/blog/{id}/edit")
+    @PostMapping("/orders/{id}/edit")
     public String blogPostUpdate(@PathVariable("id") long id,
                                  @ModelAttribute("post")
                                  @Validated Post post, Model model) {
@@ -122,13 +120,13 @@ public class BlogController {
         model.addAttribute("products", products);
         post.setUser(user);
         postRepository.save(post);
-        return "redirect:/";
+        return "redirect:/orders";
     }
 
-    @PostMapping("/blog/{id}/remove")
+    @PostMapping("/orders/{id}/remove")
     public String blogPostRemove(@PathVariable("id") long id, Model model) {
         Post post = postRepository.findById(id).orElseThrow();
         postRepository.delete(post);
-        return "redirect:/";
+        return "redirect:/orders";
     }
 }

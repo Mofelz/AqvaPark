@@ -1,12 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Ресторан</title>
 </head>
-<body th:align="center">
-<h2>Ресторан</h2>
+<body th:align="center" class="bg">
+<section>
+    <div class="shapka">
+        <div class="shapka2">
+            <div>
+                <a class="imageMain" href="/"><img src="/doubleCup2.png" width="70" height="60"></a>
+            </div>
+            <div>
+                <a class="rest" href="">Рестораны</a>
+            </div>
+            <div>
+                <a href="/products">Продукция</a>
+            </div>
+        </div>
 
+        <div class="role">
+            <div>
+                <h3 >Сотрудник Отдела продаж</h3>
+            </div>
+            <div>
+                <link sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Выйти</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 <form th:action="${'/snackbar/add'}" method="post" th:object="${snackbar}">
     <div class="back">
         <label>Наименование ресторана</label>
@@ -18,7 +43,6 @@
     </div>
     <br>
     <button type="submit">Добавить</button>
-    <a class="" href="/static">Главное Меню</a>
 </form>
 </body>
 </html>
@@ -26,7 +50,51 @@
     html * {
         font-family: Arial !important;
     }
+    .imageMain{
+        border: none;
+        background: none;
+        margin: 0;
+        padding: 0;
+    }
+    .imageMain:hover{
+        background: none;
+    }
+    .rest{
+        pointer-events: none; /* делаем ссылку некликабельной */
+        cursor: default;  /* устанавливаем курсор в виде стрелки */
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        background-color: green;
+    }
+    .role{
+        display: flex;
+        margin-left: 700px;
+    }
+    .shapka {
+        display: flex;
+    }
+    .shapka2 {
+        display: flex;
+        margin-top: 15px;
+    }
+    .bg {
+        color: white;
+
+        background-image: url("../backНАСАЙТ.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
     .back {
+        margin-top: 200px;
         margin-left: 600px;
 
         display: block;
@@ -48,12 +116,6 @@
         border-radius: 30px;
         background-color: white;
     }
-
-    body {
-        color: black;
-        background-color: white;
-    }
-
     a, button {
         text-decoration: none;
         color: white;

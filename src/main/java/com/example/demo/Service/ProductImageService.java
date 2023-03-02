@@ -20,7 +20,7 @@ public class ProductImageService {
 
     private final ImageRepository imageRepository;
 
-    public void saveImageAndTariff(Product product, MultipartFile file) throws IOException {
+    public void saveImageAndProduct(Product product, MultipartFile file) throws IOException {
         if (file != null && !file.isEmpty()) {
             Image image = saveImageEntity(file);
             imageRepository.save(image);

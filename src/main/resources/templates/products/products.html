@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Ресторан</title>
+    <title>Продукты</title>
 </head>
 <body th:align="center" class="bg">
 <section>
@@ -12,10 +12,13 @@
                 <a class="imageMain" href="/"><img src="/doubleCup2.png" width="70" height="60"></a>
             </div>
             <div>
-                <a class="rest" href="">Рестораны</a>
+                <a href="/snackbar">Рестораны</a>
             </div>
             <div>
-                <a href="/products">Продукция</a>
+                <a class="rest" href="">Продукция</a>
+            </div>
+            <div>
+                <a href="/products/add">Добавить</a>
             </div>
         </div>
 
@@ -33,17 +36,32 @@
         </div>
     </div>
 </section>
-<form th:action="${'/snackbar/'+snackbar.id+'/edit'}" method="post" th:object="${snackbar}">
-    <div class="back">
-        <label>Наименование ресторана</label>
-        <input th:field="*{nameSnackbar}" type="text" name="nameSnackbar">
-        <br>
-        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nameSnackbar')}"
-             th:errors="*{nameSnackbar}"></div>
+
+<table th:align="center" class="cen" >
+    <tr>
+        <th><h3 th:text="${'Наименование'}"></h3></th>
+        <th><h3 th:text="${'Изображение'}"></h3></th>
+        <th><h3 th:text="${'Цена'}"></h3></th>
+        <th><h3 th:text="${'Вес'}"></h3></th>
+    </tr>
+
+    <div th:each="el : ${products}">
+        <tr>
+            <th><h3 th:text="${el.nameProduct}"></h3></th>
+            <th><img style="width: 150px;height: 150px;" class="rounded img-fluid pt-4 align-center"
+                     th:if="${el.image!=null}" th:src="'/image/' + ${el.image.idImage}" alt=""></th>
+            <th><h3 th:text="${el.price+ ' руб.'}"></h3></th>
+            <th><h3 th:text="${el.weight+ ' г.'}"></h3></th>
+            <td><p><a th:href=" '/products/' + ${el.id} + '/edit'">Редактировать</a></p></td>
+            <td>
+                <form th:action=" '/products/' + ${el.id} + '/remove'" method="post">
+                    <button type="submit" class="btn btn-del">Удалить</button>
+                </form>
+            </td>
+        </tr>
     </div>
-    <br>
-    <button type="submit">Применить</button>
-</form>
+</table>
+
 </body>
 </html>
 <style>
@@ -70,21 +88,10 @@
         user-select: none;
         background-color: green;
     }
-    .role{
-        display: flex;
-        margin-left: 700px;
-    }
-    .shapka {
-        display: flex;
-    }
-    .shapka2 {
-        display: flex;
-        margin-top: 15px;
-    }
     .bg {
         color: white;
 
-        background-image: url("../../backНАСАЙТ.jpg");
+        background-image: url("backНАСАЙТ.jpg");
         background-repeat: no-repeat;
         background-position: center center;
         background-attachment: fixed;
@@ -93,50 +100,29 @@
         -o-background-size: cover;
         background-size: cover;
     }
-    .back {
-        margin-top: 200px;
-        margin-left: 600px;
+    table.cen {
 
-        display: block;
-        font-weight: 900;
-        text-align: left;
-        border-radius: 30px;
-        padding: 20px;
-        background-color: limegreen;
-        width: 250px;
-        height: 80px;
-    }
-    input {
-        margin-bottom: 20px;
-        height: 30px;
-        width: 250px;
-        color: black;
-        border-style: none;
-        border-radius: 30px;
-        background-color: white;
-    }
-    body {
-        color: black;
-        background-color: white;
-    }
-    .button {
-        display: block;
-        width: 240px;
-        height: 25px;
-
-        background-color: limegreen;
-        padding: 10px;
         text-align: center;
-        border-radius: 15px;
+        align: center;
+    }
+    .role{
+        display: flex;
+        margin-left: 550px;
+    }
+    .shapka {
+        display: flex;
+    }
+    .shapka2 {
+        display: flex;
+        margin-top: 15px;
+    }
+    th {
 
-        color: white;
-        font-size: 15px;
-        line-height: 20px;
+        border-style: solid;
+        border-color: limegreen;
 
-        text-transform: uppercase;
-
-        -webkit-transition: all 0.5s ease;
-        transition: all 0.5s ease;
+        /*background-color: green;*/
+        background: rgba(0, 255, 0, 0.3);
     }
     a, button {
         text-decoration: none;

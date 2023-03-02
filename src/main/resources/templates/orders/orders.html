@@ -46,7 +46,7 @@
         <div class="stolik" th:if="${isUser}">
             <h3>Введите номер своего стола</h3>
 
-            <form th:action="${'/blog/add'}" method="post" th:object="${post}">
+            <form th:action="${'/orders/add'}" method="post" th:object="${post}">
                 <input required th:field="*{tableNumber}" type="text">
                 <input type="hidden" th:value="${post.id}" name="post">
                 <div th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>

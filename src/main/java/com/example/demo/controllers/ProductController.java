@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class ProductController {
@@ -31,21 +28,21 @@ public class ProductController {
     public String productsMain(Model model) {
         Iterable<Product> products = productRepository.findAll();
         model.addAttribute("products", products);
-        return "products";
+        return "products/products";
     }
 
     @GetMapping("/products/add")
     public String productsAdd(@ModelAttribute("products") Product product, Model model) {
-        return "products-add";
+        return "products/products-add";
     }
 
-    @PostMapping("/tarifs/add")
+    @PostMapping("/products/add")
     public Object productsAdd(@ModelAttribute("products") @Validated Product product, BindingResult bindingResult,
                                 @RequestParam("file") MultipartFile file, Model model) throws IOException {
         Iterable<Product> products = productRepository.findAll();
         model.addAttribute("products", products);
         if (bindingResult.hasErrors()) return "products-add";
-       productImageService.saveImageAndTariff(product, file);
+       productImageService.saveImageAndProduct(product, file);
         return "redirect:/products";
     }
 
@@ -53,16 +50,17 @@ public class ProductController {
     public String tarifEdit(@PathVariable("id") long id, Model model) {
         Product product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id: " + id));
         model.addAttribute("products", product);
-        return "products-edit";
+        return "products/products-edit";
     }
 
     @PostMapping("/products/{id}/edit")
     public String productsUpdate(@PathVariable("id") long id,
                               @ModelAttribute("products")
-                                     @Validated Product product, BindingResult bindingResult) {
+                              @Validated Product product,
+                                 BindingResult bindingResult) {
         product.setId(id);
         if (bindingResult.hasErrors()) {
-            return "products-edit";
+            return "products/products-edit";
         }
         productRepository.save(product);
         return "redirect:/products";

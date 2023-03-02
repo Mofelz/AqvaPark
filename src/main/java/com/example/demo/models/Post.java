@@ -26,25 +26,8 @@ public class Post {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "stocksId", referencedColumnName = "id")
+    @JoinColumn(name = "snackbarId", referencedColumnName = "id")
     private Snackbar snackbar;
-
-
-    public Snackbar getSnackbar() {
-        return snackbar;
-    }
-
-    public void setSnackbar(Snackbar snackbar) {
-        this.snackbar = snackbar;
-    }
-
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
-    }
 
     @ManyToMany
     @JoinTable(name = "collect", joinColumns = @JoinColumn(name = "postId"), inverseJoinColumns = @JoinColumn(name = "productId"))
@@ -106,5 +89,20 @@ public class Post {
 
     public void setStocks(Snackbar snackbar) {
         this.snackbar = snackbar;
+    }
+    public Snackbar getSnackbar() {
+        return snackbar;
+    }
+
+    public void setSnackbar(Snackbar snackbar) {
+        this.snackbar = snackbar;
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 }
