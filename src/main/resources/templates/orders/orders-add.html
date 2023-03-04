@@ -7,34 +7,33 @@
 <body th:align="center" class="bg">
 <section class="flex" id="inner">
     <input type="text" placeholder="Найти блюдо">
-    <form th:action="@{/cart/add}" method="post" th:object="${post}" class="flex" id="outer">
-
-        <input type="hidden" th:field="*{id}">
-        <input type="hidden" th:field="*{tableNumber}">
-        <div th:each="product : ${products}">
-            <div class="element">
-                <img style="width: 150px;height: 150px;" class="rounded img-fluid pt-4 align-center"
-                     th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt="">
-                <h3 th:text="${product.nameProduct}"></h3>
-
-                <span><h3 th:text="${product.price+ ' руб.'}"></h3></span>
-                <span><h3 th:text="${product.weight+ ' г.'}"></h3></span>
-                <input class="checkbox" type="checkbox" th:field="*{productList}" th:value="${product.id}" onchange="this.form.submit()"/>
+    <form th:action="@{/cart/add}" method="post" th:object="${booking}"  id="outer">
+        <div class="flex">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{tableNumber}">
+            <div th:each="product : ${products}">
+                <div class="element">
+                    <img style="width: 150px;height: 150px;" class="rounded img-fluid pt-4 align-center"
+                         th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt="">
+                    <h3 th:text="${product.nameProduct}"></h3>
+                    <span><h3 th:text="${product.price+ ' руб.'}"></h3></span>
+                    <span><h3 th:text="${product.weight+ ' г.'}"></h3></span>
+                    <input class="checkbox" type="checkbox" th:field="*{productList}" th:value="${product.id}" onchange="this.form.submit()"/>
+                </div>
             </div>
         </div>
-        <div th:each="el : ${post}">
+        <div class="take" th:each="el : ${booking}">
             <a th:href=" '/orders/' + ${el.id} + '/edit'">Оформление</a>
         </div>
     </form>
-    <a href="/static">Главное Меню</a>
+    <br>
+    <br>
+
+    <a href="/">Главное Меню</a>
 </section>
 </body>
 </html>
 <style>
-    img
-    {
-        max-width: 100%;
-    }
     html * {
         font-family: Arial !important;
 
@@ -45,6 +44,9 @@
     }
     #outer {
         width:100%
+    }
+    .take{
+        /*margin-top: 200px;*/
     }
     .checkbox{
         width: 50px;
@@ -89,6 +91,7 @@
 
         background-color: limegreen;
 
+        /*margin-top: 10px;*/
         margin-left: 10px;
         padding-top: 15px;
         padding-bottom: 15px;

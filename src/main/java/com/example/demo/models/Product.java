@@ -31,8 +31,8 @@ public class Product {
     private Image image;
 
     @ManyToMany
-    @JoinTable(name = "collect", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "postId"))
-    private List<Post> postList;
+    @JoinTable(name = "collect", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "orderId"))
+    private List<Booking> bookingList;
 
     public Product(String nameProduct, Image image, Integer price, Integer weight) {
         this.nameProduct = nameProduct;
@@ -47,9 +47,13 @@ public class Product {
         return id;
     }
 
-    public List<Post> getPostList() {return postList;}
+    public List<Booking> getOrderList() {
+        return bookingList;
+    }
 
-    public void setPostList(List<Post> postList) {this.postList = postList;}
+    public void setOrderList(List<Booking> bookingList) {
+        this.bookingList = bookingList;
+    }
 
     public void setId(Long id) {
         this.id = id;

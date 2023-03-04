@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Заказы</title>
@@ -16,8 +16,6 @@
         </div>
     </div>
 </section>
-<h2 th:if="${isUser}">Мои заказы</h2>
-<h2 th:if="${isSaler}">Все заказы</h2>
 <table th:align="center" class="table_sort">
     <thead>
     <th><h3 th:text="${'Логин пользователя'}"></h3></th>
@@ -25,17 +23,25 @@
     <th><h3 th:text="${'Номер столика'}"></h3></th>
     </thead>
     <tbody>
-    <div th:each="el : ${post}" th:if="${(el.user.username == isAuth) || isSaler}">
+    <div th:each="el : ${bookings}" th:if="${(el.user.username == isAuth) || isSaler}">
         <tr>
             <th><h3 th:text="${el.user.username}"></h3></th>
             <th><h3 th:text="${el.id}"></h3></th>
             <th><h3 th:text="${el.tableNumber}"></h3></th>
+
+<!--            <div th:each="product : ${el.productList}">-->
+<!--                <th><h3 th:text="${product.nameProduct}"></h3></th>-->
+<!--                <th><h3 th:text="${product.price+ ' руб.'}"></h3></th>-->
+<!--                <th><h3 th:text="${product.weight+ ' г.'}"></h3></th>-->
+<!--            </div>-->
+
             <td>
                 <form th:action=" '/orders/' + ${el.id} + '/remove'" method="post">
                     <button type="submit" class="btn btn-del">Удалить</button>
                 </form>
             </td>
         </tr>
+    </div>
     </div>
     </tbody>
 </table>
@@ -45,15 +51,18 @@
     html * {
         font-family: Arial !important;
     }
-    .imageMain{
+
+    .imageMain {
         border: none;
         background: none;
         margin: 0;
         padding: 0;
     }
-    .imageMain:hover{
+
+    .imageMain:hover {
         background: none;
     }
+
     .bg {
         color: white;
 
@@ -66,6 +75,7 @@
         -o-background-size: cover;
         background-size: cover;
     }
+
     th {
 
         border-style: solid;
@@ -73,6 +83,7 @@
 
         background: rgba(0, 255, 0, 0.3);
     }
+
     a, button {
         text-decoration: none;
         color: white;

@@ -88,13 +88,13 @@ INSERT INTO `inventory` VALUES (1,29,'Надувные подушки'),(15,21,'
 UNLOCK TABLES;
 
 --
--- Table structure for table `post`
+-- Table structure for table `booking`
 --
 
-DROP TABLE IF EXISTS `post`;
+DROP TABLE IF EXISTS `booking`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `post` (
+CREATE TABLE `booking` (
   `id` bigint(20) NOT NULL,
   `datapos` date NOT NULL,
   `price` int(11) NOT NULL,
@@ -115,13 +115,13 @@ CREATE TABLE `post` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `post`
+-- Dumping data for table `booking`
 --
 
-LOCK TABLES `post` WRITE;
-/*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (381,'2022-12-14',6600,'3',0,2,NULL,'Полный',2,0,12),(382,'2022-12-14',10500,'3',0,4,NULL,'Полный',1,3,12),(385,'2022-12-14',9000,'4',0,3,NULL,'Полный',2,1,384),(386,'2022-12-14',5700,'4',0,1,NULL,'Полный',1,1,12),(387,'2022-12-31',3300,'3',0,1,NULL,'Полный',1,0,12),(394,'2022-12-17',8100,'3',0,3,NULL,'Дневной',1,2,12),(400,'2022-12-25',5700,'4',0,2,NULL,'Дневной',1,1,12);
-/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+LOCK TABLES `booking` WRITE;
+/*!40000 ALTER TABLE `booking` DISABLE KEYS */;
+INSERT INTO `booking` VALUES (381,'2022-12-14',6600,'3',0,2,NULL,'Полный',2,0,12),(382,'2022-12-14',10500,'3',0,4,NULL,'Полный',1,3,12),(385,'2022-12-14',9000,'4',0,3,NULL,'Полный',2,1,384),(386,'2022-12-14',5700,'4',0,1,NULL,'Полный',1,1,12),(387,'2022-12-31',3300,'3',0,1,NULL,'Полный',1,0,12),(394,'2022-12-17',8100,'3',0,3,NULL,'Дневной',1,2,12),(400,'2022-12-25',5700,'4',0,2,NULL,'Дневной',1,1,12);
+/*!40000 ALTER TABLE `booking` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

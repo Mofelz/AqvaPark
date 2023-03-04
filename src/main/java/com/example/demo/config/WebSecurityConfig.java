@@ -1,6 +1,5 @@
 package com.example.demo.config;
 
-import com.example.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,9 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 @Configuration
@@ -23,9 +20,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Bean
@@ -34,10 +28,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
                 .and()
-                .formLogin().successForwardUrl("/").usernameParameter("login").loginPage("/login").permitAll()
+                .formLogin().successForwardUrl("/").loginPage("/login").permitAll()
                 .and()
                 .logout();
     }
@@ -46,8 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder)
-                .usersByUsernameQuery("select login, password, active from user where login=?")
-                .authoritiesByUsernameQuery("select u.login, ur.roles from user u inner join user_role ur on u.id = ur.user_id" +
-                        " where u.login=?");
+                .usersByUsernameQuery("select username, password, active from user where username=?")
+                .authoritiesByUsernameQuery("select u.username, ur.roles from user u inner join user_role ur on u.id = ur.user_id" +
+                        " where u.username=?");
     }
 }

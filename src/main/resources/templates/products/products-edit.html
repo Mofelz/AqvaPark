@@ -29,14 +29,14 @@
 
             <div>
                 <link sec:authorize="isAuthenticated()">
-                <form th:action="@{/logout}" method="post">
+                <form th:action="@{/logout}" method="booking">
                     <button type="submit">Выйти</button>
                 </form>
             </div>
         </div>
     </div>
 </section>
-<form th:action="${'/products/'+products.id+'/edit'}" method="post" th:object="${products}">
+<form th:action="${'/products/'+products.id+'/edit'}" method="booking" th:object="${products}">
     <h2>Редактирование продукции</h2>
     <div class="back">
         <label>Наиманование продукции</label>

@@ -14,9 +14,9 @@
         <form th:object="${user}" th:action="@{/registration}" method="post">
             <label>Login</label><br>
             <div>
-                <input required type="text" th:field="*{login}"/><br>
+                <input required type="text" th:field="*{username}"/><br>
             </div>
-            <div  class="error text-danger" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+            <div  class="error text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
             <div style="color: red; font-size: 20px" class="error text-danger" th:if="errorMessageUsername!=null"
                  th:text="${errorMessageUsername}"></div>
             <br><br>

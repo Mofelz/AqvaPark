@@ -1,67 +1,66 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Главная</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body th:align="center" class="bg">
-    <section>
-        <div class="shapka">
-            <div class="shapka2">
-                <div>
-                    <a th:if="${isSaler}" href="/snackbar">Рестораны</a>
-                </div>
-                <div>
-                    <a th:if="${isAdmin}" href="/admin">Пользователи</a>
-                </div>
-                <div>
-                    <a th:if="${isSaler}" href="/products">Продукция</a>
-                </div>
-                <div>
-                    <a th:if="${isUser}" href="/myorders">Мои заказы</a>
-                </div>
-                <div>
-                    <a th:if="${isSaler}" href="/myorders">Все заказы</a>
+<section>
+    <div class="shapka">
+        <div class="shapka2">
+            <div>
+                <a th:if="${isSaler}" href="/snackbar">Рестораны</a>
+            </div>
+            <div>
+                <a th:if="${isAdmin}" href="/admin">Пользователи</a>
+            </div>
+            <div>
+                <a th:if="${isSaler}" href="/products">Продукция</a>
+            </div>
+            <div>
+                <a th:if="${isUser}" href="/withdrawals">Мои заказы</a>
+            </div>
+            <div>
+                <a th:if="${isSaler}" href="/withdrawals">Все заказы</a>
+            </div>
+        </div>
+
+        <div class="role">
+            <div th:if="${isUser}">
+                <div th:each="el : ${snackbars}">
+                    <h3 th:text="${'Ресторан: '+el.nameSnackbar}"></h3>
                 </div>
             </div>
 
-            <div class="role">
-                <div th:if="${isUser}">
-                    <div th:each="el : ${snackbars}">
-                        <h3 th:text="${'Ресторан: '+el.nameSnackbar}"></h3>
-                    </div>
-                </div>
+<!--            <div>-->
+<!--                <h3 sec:authorize="hasAnyAuthority('SALER')">Сотрудник Отдела продаж</h3>-->
+<!--                <h3 sec:authorize="hasAnyAuthority('ADMIN')">роль: Администратор</h3>-->
+<!--            </div>-->
 
-                <div>
-                    <h3 th:if="${isSaler}">Сотрудник Отдела продаж</h3>
-                    <h3 th:if="${isAdmin}">роль: Администратор</h3>
-                </div>
-
-                <div>
-                    <link sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" method="post">
-                        <button type="submit">Выйти</button>
-                    </form>
-                    </link>
-                </div>
+            <div>
+                <link sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Войти</button>
+                </form>
+                </link>
             </div>
         </div>
-    </section>
-    <section>
-        <div class="stolik" th:if="${isUser}">
-            <h3>Введите номер своего стола</h3>
+    </div>
+</section>
+<section>
+    <div class="stolik" th:if="${isUser}">
+        <h3>Введите номер своего стола</h3>
 
-            <form th:action="${'/orders/add'}" method="post" th:object="${post}">
-                <input required th:field="*{tableNumber}" type="number">
-                <input type="hidden" th:value="${post.id}" name="post">
-                <div th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
-                <div th:if="${#fields.hasErrors('tableNumber')}" th:errors="*{tableNumber}"></div>
+        <form th:action="${'/orders/add'}" method="post" th:object="${booking}">
+            <input required th:field="*{tableNumber}" type="number">
+            <input type="hidden" th:value="${booking.id}" name="booking">
+            <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
+            <div th:if="${#fields.hasErrors('tableNumber')}" th:errors="*{tableNumber}"></div>
 
-                <button type="submit">Продолжить</button>
-            </form>
-        </div>
-    </section>
+            <button type="submit">Продолжить</button>
+        </form>
+    </div>
+</section>
 
 </body>
 </html>
@@ -69,6 +68,11 @@
     html * {
         font-family: Arial !important;
     }
+
+    .ErrorMassage {
+        color: red;
+    }
+
     .bg {
         color: white;
 
@@ -81,20 +85,25 @@
         -o-background-size: cover;
         background-size: cover;
     }
-    .stolik{
+
+    .stolik {
         margin-top: 235px;
     }
-    .role{
+
+    .role {
         display: flex;
         margin-left: 600px;
     }
+
     .shapka {
         display: flex;
     }
+
     .shapka2 {
         display: flex;
         margin-top: 15px;
     }
+
     a, button {
         text-decoration: none;
         color: white;
@@ -122,6 +131,7 @@
         color: white;
         background-color: green;
     }
+
     input {
         color: black;
         width: 250px;

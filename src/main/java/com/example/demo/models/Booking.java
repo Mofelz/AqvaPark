@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Post {
+public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,10 +30,10 @@ public class Post {
     private Snackbar snackbar;
 
     @ManyToMany
-    @JoinTable(name = "collect", joinColumns = @JoinColumn(name = "postId"), inverseJoinColumns = @JoinColumn(name = "productId"))
+    @JoinTable(name = "collect", joinColumns = @JoinColumn(name = "orderId"), inverseJoinColumns = @JoinColumn(name = "productId"))
     private List<Product> productList;
 
-    public Post(Integer tableNumber, Date timeArrival, Date timeDeparture, User user, Snackbar snackbar) {
+    public Booking(Integer tableNumber, Date timeArrival, Date timeDeparture, User user, Snackbar snackbar) {
         this.tableNumber = tableNumber;
         this.timeArrival = timeArrival;
         this.timeDeparture = timeDeparture;
@@ -41,7 +41,8 @@ public class Post {
         this.snackbar = snackbar;
     }
 
-    public Post(){}
+    public Booking(){}
+
 
     public Long getId() {
         return id;
@@ -83,13 +84,6 @@ public class Post {
         this.user = user;
     }
 
-    public Snackbar getStocks() {
-        return snackbar;
-    }
-
-    public void setStocks(Snackbar snackbar) {
-        this.snackbar = snackbar;
-    }
     public Snackbar getSnackbar() {
         return snackbar;
     }

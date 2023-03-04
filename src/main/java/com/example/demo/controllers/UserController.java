@@ -39,7 +39,7 @@ public class UserController {
     @PostMapping
     public String userSave(@RequestParam String username, @RequestParam(name = "roles[]", required = false) String[] roles,
                            @RequestParam("userId") User user) {
-        user.setLogin(username);
+        user.setUsername(username);
         user.getRoles().clear();
         if (roles != null) {
             Arrays.stream(roles).forEach(r -> user.getRoles().add(Role.valueOf(r)));

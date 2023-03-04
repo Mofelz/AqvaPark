@@ -29,7 +29,7 @@
 
             <div>
                 <link sec:authorize="isAuthenticated()">
-                    <form th:action="@{/logout}" method="post">
+                    <form th:action="@{/logout}" method="booking">
                         <button type="submit">Выйти</button>
                     </form>
             </div>
@@ -55,7 +55,7 @@
                     <a th:href=" '/snackbar/' + ${el.id} + '/edit'">Редактировать</a>
                 </td>
                 <td>
-                    <form th:action=" '/snackbar/' + ${el.id} + '/remove'" method="post">
+                    <form th:action=" '/snackbar/' + ${el.id} + '/remove'" method="booking">
                         <button type="submit" class="btn btn-del">Удалить</button>
                     </form>
                 </td>

@@ -33,7 +33,7 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String registration(@ModelAttribute("user") @Valid User user, BindingResult bindingResultUser,
                                Model model) {
-        if (userRepository.findByLogin(user.getUsername()) != null) {
+        if (userRepository.findByUsername(user.getUsername()) != null) {
             bindingResultUser.addError(new ObjectError("username", "Данный логин уже занят"));
             model.addAttribute("errorMessageUsername", "Данный логин уже занят");
         }

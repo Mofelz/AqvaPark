@@ -6,7 +6,7 @@
 <body bgcolor="6600CC" th:align="center">
 <div align="center">
   <h1>Редактирование пользователя</h1>
-  <form th:action="${'/admin'}" method="post">
+  <form th:action="${'/admin'}" method="booking">
     <div class="text-field">
       <div th:each="el : ${user}">
         <input type="hidden" th:value="${el.id}" name="userId">
