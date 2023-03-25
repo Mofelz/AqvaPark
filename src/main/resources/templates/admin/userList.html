@@ -4,10 +4,10 @@
   <title>Список пользователей</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<body bgcolor="6600CC" th:align="center">
+<body bgcolor="6600CC" th:align="center" class="bg">
 <h1>Пользователи</h1>
 <br>
-<a href="/" style="font-size: 20px" class="bott">Главное Меню</a>
+<a href="/static" style="font-size: 20px" class="bott">Главное Меню</a>
 <br>
 <br>
 <br>
@@ -24,7 +24,7 @@
             <a th:href="'/admin/' + ${el.id} + '/edit'" class="bott">Редактировать</a>
           </td>
           <td>
-            <form th:action="@{/admin/delete}"  method="booking">
+            <form th:action="@{/admin/delete}"  method="post">
               <button type="submit" >Удалить</button>
               <input type="hidden" th:value="${el.id}" name="user">
             </form>
@@ -40,14 +40,30 @@
   html *{
     font-family: Arial !important;
   }
+  .bg {
+    color: white;
+
+    background-image: url("black2.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
   table{
     text-align: center;
     align: center;
   }
-  th{
+  th {
+    width: 100px;
     border-style: solid;
-    border-color: greenyellow;
-    width: 150px;
+    border-color: limegreen;
+    text-align: center;
+    vertical-align: middle;
+    height: 30px;
+    background: rgba(0, 255, 0, 0.3);
   }
   body{
     color: black;

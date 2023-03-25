@@ -29,12 +29,6 @@
             <th><h3 th:text="${el.id}"></h3></th>
             <th><h3 th:text="${el.tableNumber}"></h3></th>
 
-<!--            <div th:each="product : ${el.productList}">-->
-<!--                <th><h3 th:text="${product.nameProduct}"></h3></th>-->
-<!--                <th><h3 th:text="${product.price+ ' руб.'}"></h3></th>-->
-<!--                <th><h3 th:text="${product.weight+ ' г.'}"></h3></th>-->
-<!--            </div>-->
-
             <td>
                 <form th:action=" '/orders/' + ${el.id} + '/remove'" method="post">
                     <button type="submit" class="btn btn-del">Удалить</button>

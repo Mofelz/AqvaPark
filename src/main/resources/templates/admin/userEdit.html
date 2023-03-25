@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактирование пользователя</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body th:align="center" class="bg">
+<div align="center">
+
+    <form th:action="${'/admin'}" method="post">
+        <div class="text-field">
+            <div th:each="el : ${user}">
+                <input type="hidden" th:value="${el.id}" name="userId">
+                <label class="text-field__label">Логин
+                    <input class="text-field__input" type="text" name="username" th:value="${el.username}">
+                </label>
+            </div>
+            <div th:each="role : ${roles}">
+                <div th:each="el : ${user}">
+                    <input th:id="${role}" style="width: 20px; height: 20px;" type="checkbox" th:name="${'roles[]'}"
+                           th:value="${role}"
+                           th:checked="${#lists.contains(el.roles, role)}"/>
+
+                    <label th:text="${role}"/></label>
+                </div>
+            </div>
+
+            <br>
+            <br>
+
+            <button class="button" type="submit">Применить</button>
+        </div>
+    </form>
+</div>
+<br>
+<br>
+<br>
+<a href="/" style="font-size: 20px" class="bott">Главное Меню</a>
+</body>
+</html>
+<style>
+    html * {
+        font-family: Arial !important;
+    }
+
+    .bg {
+        color: white;
+
+        background-image: url("../../black2.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+
+    table {
+        text-align: center;
+        align: center;
+    }
+
+    th {
+        width: 150px;
+        border-style: solid;
+        border-color: limegreen;
+
+        /*background-color: green;*/
+        background: rgba(0, 255, 0, 0.3);
+    }
+
+    body {
+        color: black;
+        background-color: white;
+    }
+
+    a, button {
+        text-decoration: none;
+        color: white;
+
+        font-size: 15px;
+        border-width: 0px;
+        border-style: solid;
+        border-radius: 15px;
+
+        background-color: limegreen;
+
+        margin-left: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        text-transform: uppercase;
+        line-height: 1;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    a:hover, button:hover {
+        color: white;
+        background-color: green;
+    }
+
+    p {
+        margin-top: 40px;
+    }
+
+    input {
+        margin-top: 15px;
+        color: black;
+        width: 250px;
+        height: 50px;
+        border-radius: 15px;
+        border-width: 1px;
+    }
+</style>

@@ -23,7 +23,7 @@ public class UserController {
     @GetMapping
     public String userList(Model model) {
         model.addAttribute("users", userRepository.findAll());
-        return "userList";
+        return "admin/userList";
     }
 
     @GetMapping("/{id}/edit")
@@ -33,7 +33,7 @@ public class UserController {
         user.ifPresent(res::add);
         model.addAttribute("user", res);
         model.addAttribute("roles", Role.values());
-        return "userEdit";
+        return "admin/userEdit";
     }
 
     @PostMapping
@@ -49,7 +49,7 @@ public class UserController {
         return "redirect:/admin";
     }
     @PostMapping("/delete")
-    public String tarifRemove(@RequestParam User user) {
+    public String userRemove(@RequestParam User user) {
         userRepository.delete(user);
         return "redirect:/admin";
     }

@@ -7,10 +7,12 @@ import com.example.demo.repo.ProductRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 @Controller
@@ -37,12 +39,16 @@ public class ProductController {
     }
 
     @PostMapping("/products/add")
-    public Object productsAdd(@ModelAttribute("products") @Validated Product product, BindingResult bindingResult,
-                                @RequestParam("file") MultipartFile file, Model model) throws IOException {
-        Iterable<Product> products = productRepository.findAll();
-        model.addAttribute("products", products);
-        if (bindingResult.hasErrors()) return "products-add";
-       productImageService.saveImageAndProduct(product, file);
+    public Object productsAdd(@ModelAttribute("products") @Valid Product product, BindingResult bindingResult,
+                              @RequestParam("file") MultipartFile file, Model model) throws IOException {
+        if (file.isEmpty()) {
+            bindingResult.addError(new ObjectError("image", "Изображение товара не должно быть пустым"));
+            model.addAttribute("errorMessageImage", "Изображение товара не должно быть пустым");
+        }
+
+        if (bindingResult.hasErrors()) return "products/products-add";
+
+        productImageService.saveImageAndProduct(product, file);
         return "redirect:/products";
     }
 
@@ -55,8 +61,8 @@ public class ProductController {
 
     @PostMapping("/products/{id}/edit")
     public String productsUpdate(@PathVariable("id") long id,
-                              @ModelAttribute("products")
-                              @Validated Product product,
+                                 @ModelAttribute("products")
+                                 @Validated Product product,
                                  @RequestParam("file") MultipartFile file,
                                  BindingResult bindingResult) throws IOException {
         product.setId(id);

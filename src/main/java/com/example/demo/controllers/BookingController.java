@@ -8,6 +8,7 @@ import com.example.demo.repo.BookingRepository;
 import com.example.demo.repo.ProductRepository;
 import com.example.demo.repo.SnackbarRepository;
 import com.example.demo.repo.UserRepos;
+import org.apache.poi.ss.formula.functions.Irr;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,13 +38,6 @@ public class BookingController {
         this.snackbarRepository = snackbarRepository;
         this.userRepos = userRepos;
     }
-
-//    @Override
-//    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-//        User user = userRepos.findByUsername(authentication.getName());
-//        Booking booking = orderRepository.findTopByUserOrderByIdDesc(user);
-//
-//    }
 
     @RequestMapping("/")
     public String blogMain(@ModelAttribute("booking") Booking booking, Model model) {
@@ -104,7 +98,7 @@ public class BookingController {
         model.addAttribute("isAuth", userDetails.getUsername());
         Iterable<Snackbar> snackbars = snackbarRepository.findAll();
         Iterable<Product> products = productRepository.findAll();
-        List<User> users = userRepos.findAll();
+        Iterable<User> users = userRepos.findAll();
         model.addAttribute("users", users);
         model.addAttribute("snackbars", snackbars);
         model.addAttribute("products", products);
@@ -140,9 +134,14 @@ public class BookingController {
     public String profileMain(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Iterable<Booking> bookings = bookingRepository.findAllByUser(userRepos.findByUsername(auth.getName()));
+
+        if(auth.getAuthorities().toString().contains("SALER"))
+            bookings = bookingRepository.findAll();
+
+
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         model.addAttribute("isAuth", userDetails.getUsername());
-        List<User> users = userRepos.findAll();
+        List<User> users = (List<User>) userRepos.findAll();
         model.addAttribute("users", users);
         model.addAttribute("isSaler", auth.getAuthorities().toString().contains("SALER"));
         model.addAttribute("isUser", auth.getAuthorities().toString().contains("USER"));
@@ -150,6 +149,7 @@ public class BookingController {
 
         return "orders/withdrawals";
     }
+
     @PostMapping("/orders/{id}/remove")
     public String blogPostRemove(@PathVariable("id") long id, Model model) {
         Booking booking = bookingRepository.findById(id).orElseThrow();
