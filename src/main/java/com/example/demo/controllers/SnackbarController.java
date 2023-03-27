@@ -3,6 +3,8 @@ package com.example.demo.controllers;
 import com.example.demo.models.Snackbar;
 import com.example.demo.repo.SnackbarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,8 +50,8 @@ public class SnackbarController {
     }
 
     @PostMapping("/snackbar/{id}/edit")
-    public String stocksPostUpdate(@PathVariable("id") long id,@ModelAttribute("snackbar")
-                                  Snackbar snackbar, BindingResult bindingResult) {
+    public String stocksPostUpdate(@PathVariable("id") long id, @ModelAttribute("snackbar")
+    Snackbar snackbar, BindingResult bindingResult) {
         snackbar.setId(id);
         if (bindingResult.hasErrors()) {
             return "snackbar/snackbar-edit";

@@ -17,19 +17,21 @@
             <div>
                 <a href="/products">Продукция</a>
             </div>
+            <div>
+                <a href="/withdrawals">Все заказы</a>
+            </div>
         </div>
-
-        <div class="role">
-            <div>
-                <h3 >Сотрудник Отдела продаж</h3>
+        <div>
+            <link sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">Выйти</button>
+            </form>
+        </div>
+            <div class="role">
+                <p >Сотрудник Отдела продаж</p>
             </div>
 
-            <div>
-                <link sec:authorize="isAuthenticated()">
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit">Выйти</button>
-                </form>
-            </div>
+
         </div>
     </div>
 </section>
@@ -47,9 +49,16 @@
 </body>
 </html>
 <style>
-    html * {
-        font-family: Arial !important;
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+        color: #A7A1AE;
+        background-color: #1F2739;
     }
+
     .imageMain{
         border: none;
         background: none;
@@ -70,9 +79,13 @@
         user-select: none;
         background-color: green;
     }
-    .role{
+    p{
+        margin-top: 15px;
+        font-size: 25px;
+    }
+    .role {
         display: flex;
-        margin-left: 700px;
+        margin-left: 15px;
     }
     .shapka {
         display: flex;
@@ -82,9 +95,7 @@
         margin-top: 15px;
     }
     .bg {
-        color: white;
-
-        background-image: url("../../backНАСАЙТ.jpg");
+        background-image: url("../../black2.png");
         background-repeat: no-repeat;
         background-position: center center;
         background-attachment: fixed;
@@ -102,10 +113,11 @@
         text-align: left;
         border-radius: 30px;
         padding: 20px;
-        background-color: limegreen;
+        background-color: #323C50;
         width: 250px;
-        height: 80px;
+        height: 70px;
     }
+
     input {
         margin-bottom: 20px;
         height: 30px;
@@ -115,30 +127,11 @@
         border-radius: 30px;
         background-color: white;
     }
-    body {
-        color: black;
-        background-color: white;
-    }
-    .button {
-        display: block;
-        width: 240px;
-        height: 25px;
-
-        background-color: limegreen;
-        padding: 10px;
-        text-align: center;
-        border-radius: 15px;
-
-        color: white;
-        font-size: 15px;
-        line-height: 20px;
-
-        text-transform: uppercase;
-
-        -webkit-transition: all 0.5s ease;
-        transition: all 0.5s ease;
-    }
     a, button {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+
         text-decoration: none;
         color: white;
 
@@ -147,7 +140,7 @@
         border-style: solid;
         border-radius: 15px;
 
-        background-color: limegreen;
+        background-color: #323C50;
 
         margin-left: 10px;
         padding-top: 15px;
@@ -156,13 +149,13 @@
         padding-right: 30px;
 
         text-transform: uppercase;
-        line-height: 1;
+
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
     }
 
     a:hover, button:hover {
-        color: white;
-        background-color: green;
+        color: black;
+        background-color: #FFF842;
     }
 </style>

@@ -11,9 +11,9 @@
         <div class="text-field">
             <div th:each="el : ${user}">
                 <input type="hidden" th:value="${el.id}" name="userId">
-                <label class="text-field__label">Логин
+                <p class="text-field__label">Логин
                     <input class="text-field__input" type="text" name="username" th:value="${el.username}">
-                </label>
+                </p>
             </div>
             <div th:each="role : ${roles}">
                 <div th:each="el : ${user}">
@@ -27,24 +27,49 @@
 
             <br>
             <br>
-
-            <button class="button" type="submit">Применить</button>
+            <button type="submit">Применить</button>
         </div>
     </form>
 </div>
-<br>
-<br>
-<br>
-<a href="/" style="font-size: 20px" class="bott">Главное Меню</a>
+
 </body>
 </html>
 <style>
-    html * {
-        font-family: Arial !important;
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 300;
+        line-height: 1.42em;
+        color:#A7A1AE;
+        background-color:#1F2739;
+    }
+    h1 {
+        font-size:3em;
+        font-weight: 300;
+        line-height:1em;
+        text-align: center;
+        color: #4DC3FA;
     }
 
+    h2 {
+        font-size:1em;
+        font-weight: 300;
+        text-align: center;
+        display: block;
+        line-height:1em;
+        padding-bottom: 2em;
+        color: #FB667A;
+    }
+
+    h2 a {
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #FB667A;
+        text-decoration: none;
+    }
     .bg {
-        color: white;
+
 
         background-image: url("../../black2.png");
         background-repeat: no-repeat;
@@ -70,12 +95,11 @@
         background: rgba(0, 255, 0, 0.3);
     }
 
-    body {
-        color: black;
-        background-color: white;
-    }
-
     a, button {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+
         text-decoration: none;
         color: white;
 
@@ -84,7 +108,7 @@
         border-style: solid;
         border-radius: 15px;
 
-        background-color: limegreen;
+        background-color: #323C50;
 
         margin-left: 10px;
         padding-top: 15px;
@@ -93,18 +117,14 @@
         padding-right: 30px;
 
         text-transform: uppercase;
-        line-height: 1;
+
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
     }
 
     a:hover, button:hover {
-        color: white;
-        background-color: green;
-    }
-
-    p {
-        margin-top: 40px;
+        color: black;
+        background-color: #FFF842;
     }
 
     input {

@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body th:align="center" class="bg">
+
 <section>
     <div class="shapka">
         <div class="shapka2">
@@ -23,29 +24,29 @@
             <div>
                 <a th:if="${isSaler}" href="/withdrawals">Все заказы</a>
             </div>
+
         </div>
 
-        <div class="role">
-            <div th:if="${isUser}">
-                <div th:each="el : ${snackbars}">
-                    <h3 th:text="${'Ресторан: '+el.nameSnackbar}"></h3>
-                </div>
-            </div>
-
-<!--            <div>-->
-<!--                <h3 sec:authorize="hasAnyAuthority('SALER')">Сотрудник Отдела продаж</h3>-->
-<!--                <h3 sec:authorize="hasAnyAuthority('ADMIN')">роль: Администратор</h3>-->
-<!--            </div>-->
-
-            <div>
-                <link sec:authorize="isAuthenticated()">
+        <div>
+            <link sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" method="post">
-                    <button type="submit">Войти</button>
+                    <button type="submit">Выйти</button>
                 </form>
-                </link>
+            </link>
+        </div>
+        <div th:if="${isUser}" class="role">
+            <div th:each="el : ${snackbars}">
+                <p th:text="${'Ресторан: '+el.nameSnackbar}"></p>
             </div>
+        </div>
+        <div class="role">
+            <p th:if="${isSaler}">Сотрудник отдела Продаж</p>
+        </div>
+        <div class="role">
+            <p th:if="${isAdmin}">Администратор</p>
         </div>
     </div>
+
 </section>
 <section>
     <div class="stolik" th:if="${isUser}">
@@ -53,9 +54,10 @@
 
         <form th:action="${'/orders/add'}" method="post" th:object="${booking}">
             <input required th:field="*{tableNumber}" type="number">
+            <div th:if="${#fields.hasErrors('tableNumber')}" th:errors="*{tableNumber}"></div>
+
             <input type="hidden" th:value="${booking.id}" name="booking">
             <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
-            <div th:if="${#fields.hasErrors('tableNumber')}" th:errors="*{tableNumber}"></div>
 
             <button type="submit">Продолжить</button>
         </form>
@@ -65,8 +67,14 @@
 </body>
 </html>
 <style>
-    html * {
-        font-family: Arial !important;
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+        color: #A7A1AE;
+        background-color: #1F2739;
     }
 
     .ErrorMassage {
@@ -74,9 +82,8 @@
     }
 
     .bg {
-        color: white;
 
-        background-image: url("backНАСАЙТ.jpg");
+        background-image: url("black2.png");
         background-repeat: no-repeat;
         background-position: center center;
         background-attachment: fixed;
@@ -85,14 +92,17 @@
         -o-background-size: cover;
         background-size: cover;
     }
-
+    p{
+        margin-top: 15px;
+        font-size: 25px;
+    }
     .stolik {
         margin-top: 235px;
     }
 
     .role {
         display: flex;
-        margin-left: 600px;
+        margin-left: 15px;
     }
 
     .shapka {
@@ -105,6 +115,10 @@
     }
 
     a, button {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+
         text-decoration: none;
         color: white;
 
@@ -113,7 +127,7 @@
         border-style: solid;
         border-radius: 15px;
 
-        background-color: limegreen;
+        background-color: #1F2739;
 
         margin-left: 10px;
         padding-top: 15px;
@@ -122,14 +136,14 @@
         padding-right: 30px;
 
         text-transform: uppercase;
-        line-height: 1;
+
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
     }
 
     a:hover, button:hover {
         color: white;
-        background-color: green;
+        background-color: #2C3446;
     }
 
     input {

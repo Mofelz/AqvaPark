@@ -42,8 +42,8 @@ public class ProductController {
     public Object productsAdd(@ModelAttribute("products") @Valid Product product, BindingResult bindingResult,
                               @RequestParam("file") MultipartFile file, Model model) throws IOException {
         if (file.isEmpty()) {
-            bindingResult.addError(new ObjectError("image", "Изображение товара не должно быть пустым"));
-            model.addAttribute("errorMessageImage", "Изображение товара не должно быть пустым");
+            bindingResult.addError(new ObjectError("image", "Изображение товара не должно быть пустым!"));
+            model.addAttribute("errorMessageImage", "Изображение товара не должно быть пустым!");
         }
 
         if (bindingResult.hasErrors()) return "products/products-add";
@@ -64,11 +64,16 @@ public class ProductController {
                                  @ModelAttribute("products")
                                  @Validated Product product,
                                  @RequestParam("file") MultipartFile file,
-                                 BindingResult bindingResult) throws IOException {
+                                 BindingResult bindingResult, Model model) throws IOException {
+        if (file.isEmpty()) {
+            bindingResult.addError(new ObjectError("image", "Изображение товара не должно быть пустым!"));
+            model.addAttribute("errorMessageImage", "Изображение товара не должно быть пустым!");
+        }
         product.setId(id);
         if (bindingResult.hasErrors()) {
             return "products/products-edit";
         }
+
         productRepository.save(product);
         productImageService.saveImageAndProduct(product, file);
         return "redirect:/products";

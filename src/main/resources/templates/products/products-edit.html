@@ -18,21 +18,24 @@
                 <a class="rest" href="">Продукция</a>
             </div>
             <div>
+                <a href="/withdrawals">Все заказы</a>
+            </div>
+            <div>
                 <a href="/products/add">Добавить</a>
             </div>
+
+        </div>
+        <div>
+            <link sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">Выйти</button>
+            </form>
         </div>
 
-        <div class="role">
-            <div>
-                <h3 >Сотрудник Отдела продаж</h3>
+            <div class="role">
+                <p>Сотрудник Отдела продаж</p>
             </div>
 
-            <div>
-                <link sec:authorize="isAuthenticated()">
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit">Выйти</button>
-                </form>
-            </div>
         </div>
     </div>
 </section>
@@ -50,7 +53,7 @@
         <div class="form-group mt-2">
             <input placeholder="Изображение" type="file" class="form-control" name="file"
                    accept="image/png, image/jpg, image/jpeg">
-            <div class="error text-danger" th:if="errorMessageImage!=null" th:text="${errorMessageImage}"></div>
+            <div class="error-text-danger" th:if="errorMessageImage!=null" th:text="${errorMessageImage}"></div>
         </div>
 
         <label>Вес</label>
@@ -73,21 +76,32 @@
 </body>
 </html>
 <style>
-    html * {
-        font-family: Arial !important;
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+        color: #A7A1AE;
+        background-color: #1F2739;
     }
-    .imageMain{
+    .error-text-danger{
+        color: red;
+    }
+    .imageMain {
         border: none;
         background: none;
         margin: 0;
         padding: 0;
     }
-    .imageMain:hover{
+
+    .imageMain:hover {
         background: none;
     }
-    .rest{
+
+    .rest {
         pointer-events: none; /* делаем ссылку некликабельной */
-        cursor: default;  /* устанавливаем курсор в виде стрелки */
+        cursor: default; /* устанавливаем курсор в виде стрелки */
         -webkit-user-select: none;
         -khtml-user-select: none;
         -moz-user-select: none;
@@ -96,21 +110,9 @@
         user-select: none;
         background-color: green;
     }
-    .role{
-        display: flex;
-        margin-left: 700px;
-    }
-    .shapka {
-        display: flex;
-    }
-    .shapka2 {
-        display: flex;
-        margin-top: 15px;
-    }
-    .bg {
-        color: white;
 
-        background-image: url("../../backНАСАЙТ.jpg");
+    .bg {
+        background-image: url("../../black2.png");
         background-repeat: no-repeat;
         background-position: center center;
         background-attachment: fixed;
@@ -119,16 +121,36 @@
         -o-background-size: cover;
         background-size: cover;
     }
+
+    p{
+        margin-top: 15px;
+        font-size: 25px;
+    }
+    .role {
+        display: flex;
+        margin-left: 15px;
+    }
+
+    .shapka {
+        display: flex;
+    }
+
+    .shapka2 {
+        display: flex;
+        margin-top: 15px;
+    }
     .back {
+        margin-top: 50px;
         margin-left: 600px;
-        /*display: inline-flex;*/
+
+        display: block;
         font-weight: 900;
         text-align: left;
         border-radius: 30px;
         padding: 20px;
-        background-color: limegreen;
-        width: 260px;
-        height: 280px;
+        background-color: #323C50;
+        width: 250px;
+        height: 290px;
     }
     input {
         margin-bottom: 20px;
@@ -139,30 +161,12 @@
         border-radius: 30px;
         background-color: white;
     }
-    body {
-        color: black;
-        background-color: white;
-    }
-    .button {
-        display: block;
-        width: 240px;
-        height: 25px;
 
-        background-color: limegreen;
-        padding: 10px;
-        text-align: center;
-        border-radius: 15px;
-
-        color: white;
-        font-size: 15px;
-        line-height: 20px;
-
-        text-transform: uppercase;
-
-        -webkit-transition: all 0.5s ease;
-        transition: all 0.5s ease;
-    }
     a, button {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+
         text-decoration: none;
         color: white;
 
@@ -171,7 +175,7 @@
         border-style: solid;
         border-radius: 15px;
 
-        background-color: limegreen;
+        background-color: #323C50;
 
         margin-left: 10px;
         padding-top: 15px;
@@ -180,13 +184,13 @@
         padding-right: 30px;
 
         text-transform: uppercase;
-        line-height: 1;
+
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
     }
 
     a:hover, button:hover {
-        color: white;
-        background-color: green;
+        color: black;
+        background-color: #FFF842;
     }
 </style>

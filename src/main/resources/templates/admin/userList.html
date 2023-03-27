@@ -1,110 +1,268 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
-  <title>Список пользователей</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Список пользователей</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body bgcolor="6600CC" th:align="center" class="bg">
-<h1>Пользователи</h1>
+<div>
+    <a class="imageMain" href="/"><img src="/doubleCup2.png" width="70" height="60"></a>
+</div>
+<!--<h1>Пользователи</h1>-->
 <br>
-<a href="/static" style="font-size: 20px" class="bott">Главное Меню</a>
-<br>
-<br>
-<br>
-  <table th:align="center">
+
+<!--<table th:align="center">-->
+
+<!--    <tr>-->
+<!--        <th><p th:text="${'Логин'}"></p></th>-->
+<!--        <th><p th:text="${'Роль'}"></p></th>-->
+<!--    </tr>-->
+
+<!--    <div th:each="el : ${users}">-->
+
+<!--        <tr>-->
+<!--            <th><p th:text="${el.username}"></p></th>-->
+<!--            <th><p th:text="${el.roles}"></p></th>-->
+
+<!--            <td>-->
+<!--                <a th:href="'/admin/' + ${el.id} + '/edit'" class="bott">Редактировать</a>-->
+<!--            </td>-->
+
+<!--            <td>-->
+<!--                <form th:action="@{/admin/delete}" method="post">-->
+<!--                    <button type="submit">Удалить</button>-->
+<!--                    <input type="hidden" th:value="${el.id}" name="user">-->
+<!--                </form>-->
+<!--            </td>-->
+
+<!--        </tr>-->
+
+<!--    </div>-->
+<!--</table>-->
+
+<table th:align="center" class="container">
+
     <tr>
-      <th><p th:text="${'Логин'}"></p></th>
-      <th><p th:text="${'Роль'}"></p></th>
+        <th><h1 th:text="${'Логин'}"></h1></th>
+        <th><h1 th:text="${'Роль'}"></h1></th>
+        <th><h1 th:text="${'Редактирование'}"></h1></th>
+        <th><h1 th:text="${'Удаление'}"></h1></th>
     </tr>
-      <div  th:each="el : ${users}">
+
+    <div th:each="el : ${users}">
+
         <tr>
-          <th><p th:text="${el.username}"></p></th>
-          <th><p th:text="${el.roles}"></p></th>
-          <td>
-            <a th:href="'/admin/' + ${el.id} + '/edit'" class="bott">Редактировать</a>
-          </td>
-          <td>
-            <form th:action="@{/admin/delete}"  method="post">
-              <button type="submit" >Удалить</button>
-              <input type="hidden" th:value="${el.id}" name="user">
-            </form>
-          </td>
+            <td><p th:text="${el.username}"></p></td>
+            <td><p th:text="${el.roles}"></p></td>
+
+            <th>
+                <a th:href="'/admin/' + ${el.id} + '/edit'" >Редактировать</a>
+            </th>
+
+            <th>
+                <form th:action="@{/admin/delete}" method="post">
+                    <button type="submit">Удалить</button>
+                    <input type="hidden" th:value="${el.id}" name="user">
+                </form>
+            </th>
+
         </tr>
-      </div>
-  </table>
-  <br>
-  <br>
+
+    </div>
+</table>
+
+<br>
+<br>
 </body>
 </html>
 <style>
-  html *{
-    font-family: Arial !important;
-  }
-  .bg {
-    color: white;
 
-    background-image: url("black2.png");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-  }
-  table{
-    text-align: center;
-    align: center;
-  }
-  th {
-    width: 100px;
-    border-style: solid;
-    border-color: limegreen;
-    text-align: center;
-    vertical-align: middle;
-    height: 30px;
-    background: rgba(0, 255, 0, 0.3);
-  }
-  body{
-    color: black;
-    background-color: white;
-  }
-  a, button {
-    text-decoration: none;
-    color: white;
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
-    font-size: 15px;
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 15px;
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 300;
+        line-height: 1.42em;
+        color:#A7A1AE;
+        background-color:#1F2739;
+    }
 
-    background-color: limegreen;
+    h1 {
+        font-size:3em;
+        font-weight: 300;
+        line-height:1em;
+        text-align: center;
+        color: #4DC3FA;
+    }
 
-    margin-left: 10px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-left: 30px;
-    padding-right: 30px;
+    h2 {
+        font-size:1em;
+        font-weight: 300;
+        text-align: center;
+        display: block;
+        line-height:1em;
+        padding-bottom: 2em;
+        color: #FB667A;
+    }
 
-    text-transform: uppercase;
-    line-height: 1;
-    -webkit-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-  }
+    h2 a {
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #FB667A;
+        text-decoration: none;
+    }
 
-  a:hover, button:hover {
-    color: white;
-    background-color: green;
-  }
-  p{
-    margin-top: 40px;
-  }
-  input{
-    margin-top: 15px;
-    color: black;
-    width: 200px;
-    height: 50px;
-    background-color: dodgerblue;
-    border-radius: 20px;
-  }
+    .blue { color: #185875; }
+    .yellow { color: #FFF842; }
+
+    .container th h1 {
+        font-weight: bold;
+        font-size: 1em;
+        text-align: left;
+        color: #185875;
+    }
+
+    .container td {
+        font-weight: normal;
+        font-size: 1em;
+        -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+        -moz-box-shadow: 0 2px 2px -2px #0E1119;
+        box-shadow: 0 2px 2px -2px #0E1119;
+    }
+
+    .container {
+        text-align: left;
+        overflow: hidden;
+        width: 50%;
+        margin: 0 auto;
+        display: table;
+        padding: 0 0 8em 0;
+    }
+
+    .container td, .container th {
+        padding-bottom: 1%;
+        padding-top: 1%;
+        padding-left:1%;
+    }
+
+    /* Background-color of the odd rows */
+    .container tr:nth-child(odd) {
+        background-color: #323C50;
+    }
+
+    /* Background-color of the even rows */
+    .container tr:nth-child(even) {
+        background-color: #2C3446;
+    }
+
+    .container th {
+        background-color: #1F2739;
+    }
+
+    .container td:first-child { color: #FB667A; }
+
+    .container tr:hover {
+        background-color: #464A52;
+        -webkit-box-shadow: 0 6px 6px -6px #0E1119;
+        -moz-box-shadow: 0 6px 6px -6px #0E1119;
+        box-shadow: 0 6px 6px -6px #0E1119;
+    }
+
+    .container td:hover {
+        background-color: #FFF842;
+        color: #403E10;
+        font-weight: bold;
+
+        box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
+        transform: translate3d(6px, -6px, 0);
+
+        transition-delay: 0s;
+        transition-duration: 0.4s;
+        transition-property: all;
+        transition-timing-function: line;
+    }
+
+    @media (max-width: 800px) {
+        .container td:nth-child(4),
+        .container th:nth-child(4) { display: none; }
+    }
+
+
+    /*th {*/
+    /*  padding: 10px;*/
+    /*  border-style: solid;*/
+    /*  border-color: limegreen;*/
+    /*  background: rgba(0, 255, 0, 0.3);*/
+    /*}*/
+
+
+    .imageMain {
+        border: none;
+        background: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .imageMain:hover {
+        background: none;
+    }
+
+    .rest {
+        pointer-events: none; /* делаем ссылку некликабельной */
+        cursor: default; /* устанавливаем курсор в виде стрелки */
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        background-color: green;
+    }
+
+    .bg {
+        color: white;
+
+        background-image: url("black2.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+
+
+
+    a, button {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+
+        text-decoration: none;
+        color: white;
+
+        font-size: 15px;
+        border-width: 0px;
+        border-style: solid;
+        border-radius: 15px;
+
+        background-color: #323C50;
+
+        margin-left: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        text-transform: uppercase;
+
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    a:hover, button:hover {
+        color: black;
+        background-color: #FFF842;
+    }
 </style>
