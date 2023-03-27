@@ -6,27 +6,20 @@
 </head>
 <body th:align="center" class="bg">
 <h2>Подтверждение заказа</h2>
-<table th:align="center">
-    <!--    <colgroup>-->
-    <!--        <col span="2" style="background:Khaki">&lt;!&ndash; С помощью этой конструкции задаем цвет фона для первых двух столбцов таблицы&ndash;&gt;-->
-    <!--        <col style="background-color:LightCyan">&lt;!&ndash; Задаем цвет фона для следующего (одного) столбца таблицы&ndash;&gt;-->
-    <!--    </colgroup>-->
+<table class="container">
     <tr>
-        <th><h3 th:text="${'Код заказа'}"></h3></th>
-        <th><h3 th:text="${'Номер столика'}"></h3></th>
-        <th><h3 th:text="${'Изображение'}"></h3></th>
-        <th><h3 th:text="${'Наименование'}"></h3></th>
-        <th><h3 th:text="${'Цена'}"></h3></th>
-        <th><h3 th:text="${'Вес'}"></h3></th>
+        <th><h1 th:text="${'Код заказа'}"></h1></th>
+        <th><h1 th:text="${'Номер столика'}"></h1></th>
+        <th><h1 th:text="${'Изображение'}"></h1></th>
+        <th><h1 th:text="${'Наименование'}"></h1></th>
+        <th><h1 th:text="${'Цена'}"></h1></th>
+        <th><h1 th:text="${'Вес'}"></h1></th>
     </tr>
     <form th:action="${'/orders/'+booking.id+'/edit'}" method="post" th:object="${booking}" class="flex">
         <button type="submit">Оптатить</button>
         <br>
         <br>
-        <a href="#main" >Подтвердить</a>
-        <br>
-        <br>
-        <div th:each="product : ${booking.productList}" >
+        <div th:each="product : ${booking.productList}">
             <tr>
                 <th><input type="text" readonly th:field="*{id}"></th>
                 <th><input type="text" readonly th:field="*{tableNumber}"></th>
@@ -37,12 +30,6 @@
                 <th><h3 th:text="${product.weight+ ' г.'}"></h3></th>
             </tr>
         </div>
-        <a href="#" id="main" class="imageMain">
-            <div id="okno">
-                Ваш заказ принят! Ожидайте его в течении 15 минут.
-            </div>
-        </a>
-
     </form>
 </table>
 <!--<form th:action="${'/orders/'+booking.id+'/edit'}" method="booking" th:object="${booking}">-->
@@ -59,52 +46,140 @@
 </body>
 </html>
 <style>
-    .imageMain{
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+        color: #A7A1AE;
+        background-color: #1F2739;
+    }
+    header{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background: rgba(0,0,0,50%);
+        height: 53px;
+        position: fixed;
+    }
+    /*.back{*/
+    /*    position: fixed;*/
+    /*    width: 1460px;*/
+    /*    height: 100px;*/
+    /*    background: black;*/
+    /*}*/
+    .empty{
+        height: 60px;
+    }
+    h1 {
+        font-size:3em;
+        font-weight: 300;
+        line-height:1em;
+        text-align: center;
+        color: #4DC3FA;
+    }
+
+    h2 {
+        font-size:1em;
+        font-weight: 300;
+        text-align: center;
+        display: block;
+        line-height:1em;
+        padding-bottom: 2em;
+        color: #FB667A;
+    }
+
+    h2 a {
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #FB667A;
+        text-decoration: none;
+    }
+
+    .blue { color: #185875; }
+    .yellow { color: #FFF842; }
+
+    .container th h1 {
+        font-weight: bold;
+        font-size: 1em;
+        text-align: left;
+        color: #185875;
+    }
+
+    .container td {
+        font-weight: normal;
+        font-size: 1em;
+        -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+        -moz-box-shadow: 0 2px 2px -2px #0E1119;
+        box-shadow: 0 2px 2px -2px #0E1119;
+    }
+
+    .container {
+        text-align: center;
+        overflow: hidden;
+        width: 70%;
+        margin: 0 auto;
+        display: table;
+        padding: 0 0 8em 0;
+    }
+
+    .container td, .container th {
+        padding-bottom: 1%;
+        padding-top: 1%;
+        padding-left:1%;
+    }
+
+    /* Background-color of the odd rows */
+    .container tr:nth-child(odd) {
+        background-color: #323C50;
+    }
+
+    /* Background-color of the even rows */
+    .container tr:nth-child(even) {
+        background-color: #2C3446;
+    }
+
+    .container th {
+        background-color: #1F2739;
+    }
+
+    .container td:first-child { color: #FB667A; }
+
+    .container tr:hover {
+        background-color: #464A52;
+        -webkit-box-shadow: 0 6px 6px -6px #0E1119;
+        -moz-box-shadow: 0 6px 6px -6px #0E1119;
+        box-shadow: 0 6px 6px -6px #0E1119;
+    }
+
+    .container td:hover {
+        background-color: #FFF842;
+        color: #403E10;
+        font-weight: bold;
+
+        box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
+        transform: translate3d(6px, -6px, 0);
+
+        transition-delay: 0s;
+        transition-duration: 0.4s;
+        transition-property: all;
+        transition-timing-function: line;
+    }
+
+    @media (max-width: 800px) {
+        .container td:nth-child(4),
+        .container th:nth-child(4) { display: none; }
+    }
+    .imageMain {
         border: none;
         background: none;
         margin: 0;
         padding: 0;
     }
-    .imageMain:hover{
-        background: none;
-    }
-    #main {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-    #okno {
-        width: 300px;
-        height: 50px;
-        text-align: center;
-        padding: 15px;
-        border: 3px solid limegreen;
-        border-radius: 10px;
-        color: white;
-        background: rgba(0, 255, 0, 0.3);
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        margin: auto;
-    }
-    #main:target {display: block;}
-    html * {
-        font-family: Arial !important;
-    }
-    .flex{
-        display: inline-flex;
-    }
-    th {
-        width: 150px;
-        border-style: solid;
-        border-color: limegreen;
 
-        background: rgba(0, 255, 0, 0.3);
+    .flex {
+        display: inline-flex;
     }
 
     .bg {
@@ -121,6 +196,10 @@
     }
 
     a, button {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+
         text-decoration: none;
         color: white;
 
@@ -129,7 +208,7 @@
         border-style: solid;
         border-radius: 15px;
 
-        background-color: limegreen;
+        background-color: #323C50;
 
         margin-left: 10px;
         padding-top: 15px;
@@ -138,14 +217,14 @@
         padding-right: 30px;
 
         text-transform: uppercase;
-        line-height: 1;
+
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
     }
 
     a:hover, button:hover {
-        color: white;
-        background-color: green;
+        color: black;
+        background-color: #FFF842;
     }
 
     input {

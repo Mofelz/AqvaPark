@@ -5,66 +5,71 @@
     <title>Продукция</title>
 </head>
 <body th:align="center" class="bg">
-<section>
-    <div class="shapka">
-        <div class="shapka2">
+<header>
+    <section>
+        <div class="shapka">
             <div>
-                <a class="imageMain" href="/"><img src="/doubleCup2.png" width="70" height="60"></a>
+                <a class="imageMain" href="/"><img src="/doubleCup2.png" width="65" height="50"></a>
             </div>
-            <div>
-                <a href="/snackbar">Рестораны</a>
-            </div>
-            <div>
-                <a class="rest" href="">Продукция</a>
-            </div>
-            <div>
-                <a href="/withdrawals">Все заказы</a>
-            </div>
-            <div>
-                <a href="/products/add">Добавить</a>
-            </div>
-        </div>
-        <div>
-            <link sec:authorize="isAuthenticated()">
-            <form th:action="@{/logout}" method="post">
-                <button type="submit">Выйти</button>
-            </form>
-        </div>
+            <div class="shapka2">
 
-        <div class="role">
-            <p>Сотрудник Отдела продаж</p>
-        </div>
-    </div>
-    </div>
-</section>
+                <div>
+                    <a href="/snackbar">Рестораны</a>
+                </div>
+                <div>
+                    <a class="rest" href="">Продукция</a>
+                </div>
+                <div>
+                    <a href="/withdrawals">Все заказы</a>
+                </div>
+                <div>
+                    <a href="/products/add">Добавить</a>
+                </div>
+            </div>
 
-<table class="container">
-    <tr>
-        <th><h1 th:text="${'Наименование'}"></h1></th>
-        <th><h1 th:text="${'Изображение'}"></h1></th>
-        <th><h1 th:text="${'Цена'}"></h1></th>
-        <th><h1 th:text="${'Вес'}"></h1></th>
-        <th><h1 th:text="${'Редактирование'}"></h1></th>
-        <th><h1 th:text="${'Удаление'}"></h1></th>
-    </tr>
-
-    <div th:each="el : ${products}">
-        <tr>
-            <td><p th:text="${el.nameProduct}"></p></td>
-            <td><img style="width: 75px;height: 75px;" class="rounded img-fluid pt-4 align-center"
-                     th:if="${el.image!=null}" th:src="'/image/' + ${el.image.idImage}" alt=""></td>
-            <td><p th:text="${el.price+ ' руб.'}"></p></td>
-            <td><p th:text="${el.weight+ ' г.'}"></p></td>
-            <th><a class="btn-edit" th:href=" '/products/' + ${el.id} + '/edit'">Редактировать</a></th>
-            <th>
-                <form th:action=" '/products/' + ${el.id} + '/remove'" method="post">
-                    <button type="submit" class="btn-del">Удалить</button>
+            <div>
+                <link sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Выйти</button>
                 </form>
-            </th>
-        </tr>
-    </div>
-</table>
+            </div>
 
+            <div class="role">
+                <p>Сотрудник Отдела продаж</p>
+            </div>
+        </div>
+    </section>
+</header>
+
+    <div class="empty"></div>
+   <section>
+       <table class="container">
+           <tr>
+               <th><h1 th:text="${'Наименование'}"></h1></th>
+               <th><h1 th:text="${'Изображение'}"></h1></th>
+               <th><h1 th:text="${'Цена'}"></h1></th>
+               <th><h1 th:text="${'Вес'}"></h1></th>
+               <th><h1 th:text="${'Редактирование'}"></h1></th>
+               <th><h1 th:text="${'Удаление'}"></h1></th>
+           </tr>
+
+           <div th:each="el : ${products}">
+               <tr>
+                   <td><p th:text="${el.nameProduct}"></p></td>
+                   <td><img style="width: 75px;height: 75px;" class="rounded img-fluid pt-4 align-center"
+                            th:if="${el.image!=null}" th:src="'/image/' + ${el.image.idImage}" alt=""></td>
+                   <td><p th:text="${el.price+ ' руб.'}"></p></td>
+                   <td><p th:text="${el.weight+ ' г.'}"></p></td>
+                   <th><a class="btn-edit" th:href=" '/products/' + ${el.id} + '/edit'">Редактировать</a></th>
+                   <th>
+                       <form th:action=" '/products/' + ${el.id} + '/remove'" method="post">
+                           <button type="submit" class="btn-del">Удалить</button>
+                       </form>
+                   </th>
+               </tr>
+           </div>
+       </table>
+   </section>
 </body>
 </html>
 <style>
@@ -77,7 +82,23 @@
         color: #A7A1AE;
         background-color: #1F2739;
     }
-
+    header{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background: rgba(0,0,0,50%);
+        height: 53px;
+        position: fixed;
+    }
+    /*.back{*/
+    /*    position: fixed;*/
+    /*    width: 1460px;*/
+    /*    height: 100px;*/
+    /*    background: black;*/
+    /*}*/
+    .empty{
+        height: 60px;
+    }
     h1 {
         font-size:3em;
         font-weight: 300;
@@ -223,7 +244,12 @@
     }
 
     .shapka {
+
+        position: fixed;
         display: flex;
+        padding-bottom: 100px;
+        margin-bottom: 100px;
+
     }
 
     .shapka2 {

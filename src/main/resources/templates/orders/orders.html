@@ -46,11 +46,10 @@
             <p th:if="${isAdmin}">Администратор</p>
         </div>
     </div>
-
 </section>
 <section>
     <div class="stolik" th:if="${isUser}">
-        <h3>Введите номер своего стола</h3>
+        <h1>Введите номер своего стола</h1>
 
         <form th:action="${'/orders/add'}" method="post" th:object="${booking}">
             <input required th:field="*{tableNumber}" type="number">

@@ -2,38 +2,69 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="https://www.thymeleaf.org">
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://unpkg.com/imask" ></script>
     <title>Вход</title>
 </head>
 <body topmargin="150px" th:align="center" class="bg">
 <div align="center" class="con">
     <h1>Авторизация</h1>
-<!--    <div th:if="${param.error}" class="error">-->
-<!--        Неверный пароль или логин-->
-<!--    </div>-->
+    <div th:if="${param.error}" class="error">
+        Неверный пароль или логин
+    </div>
     <br>
     <div th:if="${param.logout}" class="logout">
         Вы вышли из аккаунта
     </div>
     <br>
     <form th:action="@{/login}" method="post">
-
-        <label>Login</label><br>
-        <input required type="text" name="username"/><br>
+        <label>Login</label>
+        <br>
+        <input required type="text" name="username" data-mask="phoneNumber"/><br>
         <br>
         <label>Password</label><br>
         <input required type="password" name="password"/>
         <br><br>
         <button type="submit" value="Войти">Войти</button>
-        <br><br>
+        <br>
+        <br>
         <a class="button" href="/registration">Регистрация</a>
-        <br><br>
-
+        <br>
+        <br>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const mask = (dataValue, options) => {
+            const elements = document.querySelectorAll(`[data-mask="${dataValue}"]`)
+            if (!elements) return
+
+            elements.forEach(el => {
+                IMask(el, options)
+            })
+        }
+        mask('phoneNumber', {
+            mask: '+{7}(000)000-00-00'
+        })
+    })
+</script>
 
 </body>
 </html>
 <style>
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+        color: #A7A1AE;
+        background-color: #1F2739;
+    }
+    h1{
+        padding-top: 20px;
+    }
     .logout{
         font-size: 20px;
         color: green;
@@ -42,12 +73,30 @@
         font-size: 20px;
         color: red;
     }
+
+    .con {
+        margin-left: 910px;
+        background-color: ghostwhite;
+        width: 330px;
+        height: 450px;
+        border-radius: 20px;
+    }
+    .bg {
+        background-image: url("backНАСАЙТ.jpg");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
     .button {
         display: block;
         width: 240px;
         height: 25px;
 
-        background-color: limegreen;
+        background-color: #323C50;
         padding: 10px;
         text-align: center;
         border-radius: 15px;
@@ -61,25 +110,12 @@
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
     }
-    .con {
-        margin-left: 110px;
-        background-color: ghostwhite;
-        width: 330px;
-        height: 450px;
-        border-radius: 20px;
-    }
-    .bg {
-        background-image: url("intro.jpg");
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-attachment: fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-    }
 
     a, button {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+
         text-decoration: none;
         color: white;
 
@@ -88,23 +124,22 @@
         border-style: solid;
         border-radius: 15px;
 
-        background-color: limegreen;
+        background-color: #323C50;
 
         padding-top: 15px;
         padding-bottom: 15px;
         padding-left: 100px;
         padding-right: 100px;
 
-        /*font-size: 0.8em;*/
         text-transform: uppercase;
-        line-height: 1;
+
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
     }
 
     a:hover, button:hover {
-        color: white;
-        background-color: green;
+        color: black;
+        background-color: #FFF842;
     }
 
     input {

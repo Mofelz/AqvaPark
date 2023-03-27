@@ -1,12 +1,62 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Фкусняшка</title>
+    <title>Покупка</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body th:align="center" class="bg">
+<header>
+    <section>
+        <div class="shapka">
+            <div>
+                <a class="imageMain" href="/"><img src="/doubleCup2.png" width="65" height="50"></a>
+            </div>
+            <div class="shapka2">
+                <div>
+                    <a href="/withdrawals">Мои заказы</a>
+                </div>
+            </div>
+
+            <div>
+                <link sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Выйти</button>
+                </form>
+                </link>
+            </div>
+        </div>
+    </section>
+</header>
+<!--<div id="price">555</div>-->
+<!--<input id="numericUpDown" type="number" value="0" />-->
+<!--<input  type="button" class="up" value="+">-->
+<!--<input id="down" type="button" class="up" value="-">-->
+<!--<div id="sum">0</div>-->
+<!--<script>-->
+<!--    let price = document.getElementById("price");-->
+<!--    let sum = document.getElementById("sum");-->
+<!--    let numericUpDown = document.getElementById("numericUpDown");-->
+<!--    let up = document.getElementById("up");-->
+<!--    let down = document.getElementById("down");-->
+<!--    up.onclick = () => {-->
+<!--        numericUpDown.value = (isNaN(numericUpDown.value)) ? 1 : +numericUpDown.value + 1;-->
+<!--        setSum();-->
+<!--    };-->
+<!--    down.onclick = () =>{-->
+<!--        numericUpDown.value = (numericUpDown.value) > 0 ? +numericUpDown.value - 1 : 0;-->
+<!--        setSum();-->
+<!--    }-->
+
+<!--    numericUpDown.oninput = setSum;-->
+
+<!--    function setSum() {-->
+<!--        sum.innerText = (price.innerText * numericUpDown.value)-->
+<!--    }-->
+<!--</script>-->
+<div class="empty"></div>
 <section class="flex" id="inner">
-    <input type="text" placeholder="Найти блюдо">
+<!--    <input type="text" placeholder="Найти блюдо">-->
+    <h1>Скромный завтрак</h1>
     <form th:action="@{/cart/add}" method="post" th:object="${booking}" id="outer">
         <div class="flex">
             <input type="hidden" th:field="*{id}">
@@ -19,27 +69,61 @@
                     <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
                     <span><h3 th:text="${product.price+ ' руб.'}"></h3></span>
                     <span><h3 th:text="${product.weight+ ' г.'}"></h3></span>
-                    <input class="checkbox" type="checkbox" th:field="*{productList}" th:value="${product.id}" onchange="this.form.submit()"/>
+                    <input id="up" class="checkbox" type="checkbox" th:field="*{productList}"
+                           th:value="${product.id}" onchange="this.form.submit()"/>
                 </div>
             </div>
         </div>
         <div class="take" th:each="el : ${booking}">
             <a th:href=" '/orders/' + ${el.id} + '/edit'">Оформление</a>
+<!--            <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>-->
         </div>
     </form>
-    <br>
-    <br>
-
-    <a href="/">Главное Меню</a>
 </section>
+
 </body>
 </html>
 <style>
-    html * {
-        font-family: Arial !important;
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+        color: #A7A1AE;
+        background-color: #1F2739;
+    }
+    header{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        background: rgba(0,0,0,50%);
+        height: 53px;
+        position: fixed;
+    }
+    .empty{
+        height: 60px;
+    }
+    .shapka {
+        display: flex;
+    }
+
+    .shapka2 {
+        display: flex;
+        margin-top: 15px;
     }
     .ErrorMassage {
         color: red;
+    }
+    .imageMain {
+        border: none;
+        background: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .imageMain:hover {
+        background: none;
     }
     #inner {
         display: table;
@@ -49,7 +133,7 @@
         width:100%
     }
     .take{
-        /*margin-top: 200px;*/
+        margin-top: 50px;
     }
     .checkbox{
         width: 50px;
@@ -58,7 +142,7 @@
         margin: 10px;
         width: 180px;
         height: 380px;
-        background-color: gray;
+        background-color: rgb(31, 39, 57,70%);
         border-radius: 20px;
     }
 
@@ -72,8 +156,6 @@
         /*background-color: green;*/
     }
     .bg {
-        color: white;
-
         background-image: url("../../backНАСАЙТ.jpg");
         background-repeat: no-repeat;
         background-position: center center;
@@ -84,6 +166,10 @@
         background-size: cover;
     }
     a, button {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+
         text-decoration: none;
         color: white;
 
@@ -92,9 +178,8 @@
         border-style: solid;
         border-radius: 15px;
 
-        background-color: limegreen;
+        background-color: #1F2739;
 
-        /*margin-top: 10px;*/
         margin-left: 10px;
         padding-top: 15px;
         padding-bottom: 15px;
@@ -102,14 +187,14 @@
         padding-right: 30px;
 
         text-transform: uppercase;
-        line-height: 1;
+
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
     }
 
     a:hover, button:hover {
         color: white;
-        background-color: green;
+        background-color: #2C3446;
     }
 
     input {

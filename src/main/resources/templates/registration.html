@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://unpkg.com/imask" ></script>
     <title>Регистрация</title>
 </head>
 <body topmargin="150px" th:align="center" class="bg">
@@ -14,12 +15,12 @@
         <form th:object="${user}" th:action="@{/registration}" method="post">
             <label>Login</label><br>
             <div>
-                <input required type="text" th:field="*{username}"/><br>
+                <input required type="text" th:field="*{username}" data-mask="phoneNumber"/><br>
             </div>
             <div  class="error text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
             <div style="color: red; font-size: 20px" class="error text-danger" th:if="errorMessageUsername!=null"
                  th:text="${errorMessageUsername}"></div>
-            <br><br>
+            <br>
             <label>Password</label><br>
             <div style="width: 250px; height: 40px; margin: 1px">
                 <input required type="password" th:field="*{password}"/>
@@ -27,7 +28,7 @@
             <div class="error text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
             <br>
             <br>
-            <br>
+
             <div class="bt">
                 <button type="submit">Далее</button>
                 <br>
@@ -39,23 +40,52 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const mask = (dataValue, options) => {
+            const elements = document.querySelectorAll(`[data-mask="${dataValue}"]`)
+            if (!elements) return
+
+            elements.forEach(el => {
+                IMask(el, options)
+            })
+        }
+        mask('phoneNumber', {
+            mask: '+{7}(000)000-00-00'
+        })
+    })
+</script>
+
 </body>
 </html>
 <style>
-    .includediv {
-        margin-top: 100px;
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+        color: #A7A1AE;
+        background-color: #1F2739;
+    }
+    h1{
+        padding-top: 20px;
+    }
+    .error{
+        font-size: 20px;
+        color: red;
     }
 
     .con {
-        margin-left: 110px;
+        margin-left: 910px;
         background-color: ghostwhite;
         width: 330px;
-        height: 440px;
+        height: 450px;
         border-radius: 20px;
     }
-
     .bg {
-        background-image: url("intro.jpg");
+        background-image: url("backНАСАЙТ.jpg");
         background-repeat: no-repeat;
         background-position: center center;
         background-attachment: fixed;
@@ -64,33 +94,55 @@
         -o-background-size: cover;
         background-size: cover;
     }
+    .button {
+        display: block;
+        width: 240px;
+        height: 25px;
+
+        background-color: #323C50;
+        padding: 10px;
+        text-align: center;
+        border-radius: 15px;
+
+        color: white;
+        font-size: 15px;
+        line-height: 20px;
+
+        text-transform: uppercase;
+
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
 
     a, button {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+
         text-decoration: none;
-        color: black;
+        color: white;
 
         font-size: 15px;
         border-width: 0px;
         border-style: solid;
         border-radius: 15px;
-        border-color: #000000;
-        background-color: limegreen;
+
+        background-color: #323C50;
 
         padding-top: 15px;
         padding-bottom: 15px;
         padding-left: 100px;
         padding-right: 100px;
 
-        /*font-size: 0.8em;*/
         text-transform: uppercase;
-        line-height: 1;
+
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
     }
 
     a:hover, button:hover {
         color: black;
-        background-color: green;
+        background-color: #FFF842;
     }
 
     input {
