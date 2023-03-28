@@ -5,7 +5,14 @@
     <script src="https://unpkg.com/imask" ></script>
     <title>Регистрация</title>
 </head>
-<body topmargin="150px" th:align="center" class="bg">
+<body th:align="center" class="bg">
+
+<form th:object="${user}" th:action="@{/registration}" method="post" class="con2">
+    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" ></div>
+    <div th:if="errorMessageUsername!=null"
+         th:text="${errorMessageUsername}" class="error"></div>
+    <br>
+</form>
 <div class="con" align="center">
     <div class="includediv">
 <!--        <div th:if="${errorMessageUsername}">-->
@@ -17,26 +24,21 @@
             <div>
                 <input required type="text" th:field="*{username}" data-mask="phoneNumber"/><br>
             </div>
-            <div  class="error text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
-            <div style="color: red; font-size: 20px" class="error text-danger" th:if="errorMessageUsername!=null"
-                 th:text="${errorMessageUsername}"></div>
+<!--            <div  class="error text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>-->
+<!--            <div style="color: red; font-size: 20px" class="error text-danger" th:if="errorMessageUsername!=null"-->
+<!--                 th:text="${errorMessageUsername}"></div>-->
             <br>
             <label>Password</label><br>
             <div style="width: 250px; height: 40px; margin: 1px">
                 <input required type="password" th:field="*{password}"/>
             </div>
-            <div class="error text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-            <br>
-            <br>
-
-            <div class="bt">
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            <br><br>
+            <div>
                 <button type="submit">Далее</button>
-                <br>
-                <br>
-                <br>
+                <br><br>
                 <a href="/login">Назад</a>
             </div>
-
         </form>
     </div>
 </div>
@@ -69,22 +71,46 @@
         color: #A7A1AE;
         background-color: #1F2739;
     }
-    h1{
+
+    h1 {
         padding-top: 20px;
     }
-    .error{
+
+    .logout {
+        font-size: 20px;
+        color: yellow;
+    }
+
+    .error {
+        /*text-align: center;*/
+        /*vertical-align: center;*/
+        /*line-height: 70px;*/
+
         font-size: 20px;
         color: red;
+
+        /*width: 330px;*/
+        /*height: 70px;*/
+        /*background-color: black;*/
+
+        /*border-radius: 25px;*/
+        /*border: solid red 1px;*/
     }
 
     .con {
-        margin-left: 910px;
-        background-color: ghostwhite;
+        margin-top: 100px;
+        margin-left: 970px;
+        background-color: #1F2739;
         width: 330px;
-        height: 450px;
+        height: 430px;
         border-radius: 20px;
     }
+    .con2 {
+        margin-left: 1150px;
+    }
+
     .bg {
+
         background-image: url("backНАСАЙТ.jpg");
         background-repeat: no-repeat;
         background-position: center center;
@@ -94,10 +120,12 @@
         -o-background-size: cover;
         background-size: cover;
     }
+
     .button {
+        margin-top: 10px;
         display: block;
         width: 240px;
-        height: 25px;
+        height: 30px;
 
         background-color: #323C50;
         padding: 10px;
@@ -142,11 +170,10 @@
 
     a:hover, button:hover {
         color: black;
-        background-color: #FFF842;
+        background-color: whitesmoke;
     }
 
     input {
-        /*font-weight: bold;*/
         margin-top: 15px;
         color: black;
         width: 250px;

@@ -44,6 +44,8 @@
     <thead>
         <tr>
             <th><h1 th:text="${'Наименование'}"></h1></th>
+            <th><h1 th:text="${'Время работы'}"></h1></th>
+            <th><h1 th:text="${'Адрес'}"></h1></th>
             <th><h1 th:text="${'Изменение'}"></h1></th>
             <th><h1 th:text="${'Удаление'}"></h1></th>
         </tr>
@@ -54,14 +56,23 @@
                 <td>
                     <p th:text="${el.nameSnackbar}"></p>
                 </td>
-                <th>
-                    <a th:href=" '/snackbar/' + ${el.id} + '/edit'">Редактировать</a>
-                </th>
-                <th>
-                    <form th:action=" '/snackbar/' + ${el.id} + '/remove'" method="post" id="delForm" onchange="checkButton()">
-                        <button id="dell" name="dell" value="Delete" type="button" >Удалить</button>
-                    </form>
-                </th>
+                <td>
+                    <p th:text="${el.workingTime}"></p>
+                </td>
+                <td>
+                    <p th:text="${el.address}"></p>
+                </td>
+                <div class="left">
+                    <th>
+                        <a th:href=" '/snackbar/' + ${el.id} + '/edit'">Редактировать</a>
+                    </th>
+                    <th>
+                        <form th:action=" '/snackbar/' + ${el.id} + '/remove'" method="post" id="delForm" onchange="checkButton()">
+                            <button id="dell" name="dell" value="Delete" type="button" >Удалить</button>
+                        </form>
+                    </th>
+                </div>
+
             </tr>
         </div>
     </tbody>
@@ -128,6 +139,11 @@
         color: #A7A1AE;
         background-color: #1F2739;
     }
+
+    .left{
+        margin-left: 0;
+    }
+
     .substrate{
         z-index:1;
         position: absolute;
@@ -209,7 +225,7 @@
     .container {
         text-align: left;
         overflow: hidden;
-        width: 50%;
+        width: 90%;
         margin: 0 auto;
         display: table;
         padding: 0 0 8em 0;

@@ -42,6 +42,14 @@
         <br>
         <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nameSnackbar')}"
              th:errors="*{nameSnackbar}"></div>
+        <br>
+        <input required th:field="*{workingTime}" type="text" name="workingTime">
+        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('workingTime')}"
+             th:errors="*{workingTime}"></div>
+        <br>
+        <input required th:field="*{address}" type="text" name="address">
+        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('address')}"
+             th:errors="*{address}"></div>
     </div>
     <br>
     <button type="submit">Применить</button>

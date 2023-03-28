@@ -3,20 +3,23 @@
       xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script src="https://unpkg.com/imask" ></script>
+    <script src="https://unpkg.com/imask"></script>
     <title>Вход</title>
 </head>
-<body topmargin="150px" th:align="center" class="bg">
-<div align="center" class="con">
-    <h1>Авторизация</h1>
+<body th:align="center" class="bg">
+
+<div class="con2">
     <div th:if="${param.error}" class="error">
-        Неверный пароль или логин
+        Неверный пароль или логин!
     </div>
     <br>
     <div th:if="${param.logout}" class="logout">
-        Вы вышли из аккаунта
+        Выход выполнен!
     </div>
-    <br>
+</div>
+
+<div align="center" class="con">
+    <h1>Авторизация</h1>
     <form th:action="@{/login}" method="post">
         <label>Login</label>
         <br>
@@ -27,10 +30,7 @@
         <br><br>
         <button type="submit" value="Войти">Войти</button>
         <br>
-        <br>
         <a class="button" href="/registration">Регистрация</a>
-        <br>
-        <br>
     </form>
 </div>
 
@@ -62,26 +62,46 @@
         color: #A7A1AE;
         background-color: #1F2739;
     }
-    h1{
+
+    h1 {
         padding-top: 20px;
     }
-    .logout{
+
+    .logout {
+        text-align: center;
+        vertical-align: center;
+        line-height: 70px;
+
         font-size: 20px;
-        color: green;
+        color: yellow;
+
+        width: 230px;
+        height: 70px;
+        background-color: black;
+
+        border-radius: 25px;
+        border: solid yellow 1px;
     }
-    .error{
+
+    .error {
         font-size: 20px;
         color: red;
     }
 
     .con {
-        margin-left: 910px;
-        background-color: ghostwhite;
+        margin-top: 100px;
+        margin-left: 970px;
+        background-color: #1F2739;
         width: 330px;
-        height: 450px;
+        height: 430px;
         border-radius: 20px;
     }
+    .con2 {
+        margin-left: 1250px;
+    }
+
     .bg {
+
         background-image: url("backНАСАЙТ.jpg");
         background-repeat: no-repeat;
         background-position: center center;
@@ -91,10 +111,12 @@
         -o-background-size: cover;
         background-size: cover;
     }
+
     .button {
+        margin-top: 10px;
         display: block;
         width: 240px;
-        height: 25px;
+        height: 30px;
 
         background-color: #323C50;
         padding: 10px;
@@ -139,7 +161,7 @@
 
     a:hover, button:hover {
         color: black;
-        background-color: #FFF842;
+        background-color: whitesmoke;
     }
 
     input {
