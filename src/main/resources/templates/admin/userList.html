@@ -1,78 +1,62 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="ru">
 <head>
     <title>Список пользователей</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body bgcolor="6600CC" th:align="center" class="bg">
-<div>
-    <a class="imageMain" href="/"><img src="/doubleCup2.png" width="70" height="60"></a>
-</div>
-<!--<h1>Пользователи</h1>-->
-<br>
+<header>
+    <section class="header">
+        <div class="shapka">
+            <div>
+                <a class="imageMain" href="/"><img src="/ava.png" width="80" height="70"></a>
+            </div>
+            <div>
+                <link sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Выйти</button>
+                </form>
+                </link>
+            </div>
+        </div>
+    </section>
+</header>
 
-<!--<table th:align="center">-->
+<div class="empty"></div>
 
-<!--    <tr>-->
-<!--        <th><p th:text="${'Логин'}"></p></th>-->
-<!--        <th><p th:text="${'Роль'}"></p></th>-->
-<!--    </tr>-->
-
-<!--    <div th:each="el : ${users}">-->
-
-<!--        <tr>-->
-<!--            <th><p th:text="${el.username}"></p></th>-->
-<!--            <th><p th:text="${el.roles}"></p></th>-->
-
-<!--            <td>-->
-<!--                <a th:href="'/admin/' + ${el.id} + '/edit'" class="bott">Редактировать</a>-->
-<!--            </td>-->
-
-<!--            <td>-->
-<!--                <form th:action="@{/admin/delete}" method="post">-->
-<!--                    <button type="submit">Удалить</button>-->
-<!--                    <input type="hidden" th:value="${el.id}" name="user">-->
-<!--                </form>-->
-<!--            </td>-->
-
-<!--        </tr>-->
-
-<!--    </div>-->
-<!--</table>-->
-
-<table th:align="center" class="container">
-
-    <tr>
-        <th><h1 th:text="${'Логин'}"></h1></th>
-        <th><h1 th:text="${'Роль'}"></h1></th>
-        <th><h1 th:text="${'Редактирование'}"></h1></th>
-        <th><h1 th:text="${'Удаление'}"></h1></th>
-    </tr>
-
-    <div th:each="el : ${users}">
+<section>
+    <table th:align="center" class="container">
 
         <tr>
-            <td><p th:text="${el.username}"></p></td>
-            <td><p th:text="${el.roles}"></p></td>
-
-            <th>
-                <a th:href="'/admin/' + ${el.id} + '/edit'" >Редактировать</a>
-            </th>
-
-            <th>
-                <form th:action="@{/admin/delete}" method="post">
-                    <button type="submit">Удалить</button>
-                    <input type="hidden" th:value="${el.id}" name="user">
-                </form>
-            </th>
-
+            <th><h1 th:text="${'Логин'}"></h1></th>
+            <th><h1 th:text="${'Роль'}"></h1></th>
+            <th><h1 th:text="${'Редактирование'}"></h1></th>
+            <th><h1 th:text="${'Удаление'}"></h1></th>
         </tr>
 
-    </div>
-</table>
+        <div th:each="el : ${users}">
 
-<br>
-<br>
+            <tr>
+                <td><p th:text="${el.username}"></p></td>
+                <td><p th:text="${el.roles}"></p></td>
+
+                <th>
+                    <a th:href="'/admin/' + ${el.id} + '/edit'" >Редактировать</a>
+                </th>
+
+                <th>
+                    <form th:action="@{/admin/delete}" method="post">
+                        <button type="submit">Удалить</button>
+                        <input type="hidden" th:value="${el.id}" name="user">
+                    </form>
+                </th>
+
+            </tr>
+
+        </div>
+    </table>
+</section>
+
 </body>
 </html>
 <style>
@@ -85,6 +69,30 @@
         line-height: 1.42em;
         color:#A7A1AE;
         background-color:#1F2739;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .empty{
+        height: 60px;
+    }
+
+    .header {
+        padding: 10px;
+        height: 60px;
+        background-color: rgba(128, 128, 128, 50%);
+    }
+
+    .shapka {
+        display: flex;
+    }
+
+    .shapka2 {
+        display: flex;
+        margin-top: 15px;
     }
 
     h1 {

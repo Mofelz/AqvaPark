@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
     <script src="https://unpkg.com/imask" ></script>
     <title>Регистрация</title>
 </head>
@@ -13,7 +14,7 @@
          th:text="${errorMessageUsername}" class="error"></div>
     <br>
 </form>
-<div class="con" align="center">
+<div class="con" align="center" id="auth">
     <div class="includediv">
 <!--        <div th:if="${errorMessageUsername}">-->
 <!--            <p th:text="${errorMessageUsername}"></p>-->
@@ -70,6 +71,15 @@
         line-height: 1.42em;
         color: #A7A1AE;
         background-color: #1F2739;
+    }
+
+    @media screen and (max-width: 480px) {
+        html {
+            -webkit-text-size-adjust: none;
+        }
+        #auth{
+            margin-left: 40px;
+        }
     }
 
     h1 {

@@ -2,7 +2,9 @@ package com.example.demo.controllers;
 
 
 import com.example.demo.Service.ProductImageService;
+import com.example.demo.models.Category;
 import com.example.demo.models.Product;
+import com.example.demo.repo.CategoryRepository;
 import com.example.demo.repo.ProductRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +23,12 @@ public class ProductController {
 
     private final ProductImageService productImageService;
 
-    public ProductController(ProductRepository productRepository, ProductImageService productImageService) {
+    private final CategoryRepository categoryRepository;
+
+    public ProductController(ProductRepository productRepository, ProductImageService productImageService,CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.productImageService = productImageService;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/products")
@@ -35,6 +40,8 @@ public class ProductController {
 
     @GetMapping("/products/add")
     public String productsAdd(@ModelAttribute("products") Product product, Model model) {
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
         return "products/products-add";
     }
 
@@ -45,9 +52,9 @@ public class ProductController {
             bindingResult.addError(new ObjectError("image", "Изображение товара не должно быть пустым!"));
             model.addAttribute("errorMessageImage", "Изображение товара не должно быть пустым!");
         }
-
         if (bindingResult.hasErrors()) return "products/products-add";
-
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
         productImageService.saveImageAndProduct(product, file);
         return "redirect:/products";
     }
@@ -56,6 +63,8 @@ public class ProductController {
     public String tarifEdit(@PathVariable("id") long id, Model model) {
         Product product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id: " + id));
         model.addAttribute("products", product);
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
         return "products/products-edit";
     }
 
@@ -73,7 +82,8 @@ public class ProductController {
         if (bindingResult.hasErrors()) {
             return "products/products-edit";
         }
-
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
         productRepository.save(product);
         productImageService.saveImageAndProduct(product, file);
         return "redirect:/products";

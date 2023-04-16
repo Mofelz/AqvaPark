@@ -5,41 +5,50 @@
     <title>Добавление</title>
 </head>
 <body th:align="center" class="bg">
-<section>
-    <div class="shapka">
-        <div class="shapka2">
+<header>
+    <section>
+        <div class="shapka">
             <div>
-                <a class="imageMain" href="/"><img src="/doubleCup2.png" width="70" height="60"></a>
+                <a class="imageMain" href="/"><img src="/ava.png" width="80" height="70"></a>
+            </div>
+            <div class="shapka2">
+                <div>
+                    <a href="/snackbar">Рестораны</a>
+                </div>
+                <div>
+                    <a class="rest" href="">Блюда</a>
+                </div>
+                <div>
+                    <a href="/category">Категория</a>
+                </div>
+                <div>
+                    <a href="/withdrawals">Все заказы</a>
+                </div>
             </div>
             <div>
-                <a href="/snackbar">Рестораны</a>
+                <link sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Выйти</button>
+                </form>
             </div>
-            <div>
-                <a class="rest" href="">Продукция</a>
-            </div>
-            <div>
-                <a href="/withdrawals">Все заказы</a>
-            </div>
-        </div>
-        <div>
-            <link sec:authorize="isAuthenticated()">
-            <form th:action="@{/logout}" method="post">
-                <button type="submit">Выйти</button>
-            </form>
-        </div>
 
-        <div class="role">
-            <p>Сотрудник Отдела продаж</p>
+            <div class="role">
+                <p>Сотрудник Отдела продаж</p>
+            </div>
         </div>
-    </div>
-    </div>
+        </div>
+    </section>
+</header>
+
+<section>
+    <div class="empty"></div>
 </section>
 
 <form th:action="${'/products/add'}" method="post" th:object="${products}" enctype="multipart/form-data">
-    <h2>Добавление продукции</h2>
+    <h2>Добавление блюда</h2>
     <div class="back">
         <div>
-            <label>Наиманование продукции</label>
+            <label>Наиманование блюда</label>
 
             <input required th:field="*{nameProduct}" type="text">
             <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nameProduct')}"
@@ -63,9 +72,15 @@
             <label>Цена</label>
             <br>
             <input required th:field="*{price}" type="text">
-            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('price')}"
-                 th:errors="*{price}">
-            </div>
+            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('price')}" th:errors="*{price}"></div>
+            <label>Категория</label>
+            <br>
+            <select th:field="*{category}" class="border">
+                <div th:each="el : ${categories}">
+                    <option th:value="${el.id}" th:text="${el.nameCategory}"/>
+                </div>
+            </select>
+            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('category')}" th:errors="*{category}"></div>
         </div>
     </div>
     <br>
@@ -76,12 +91,30 @@
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
+    * {
+        margin:0;
+        padding:0;
+    }
+
+    header{
+        margin: 0;
+        padding: 10px;
+        width: 100%;
+        background: rgba(78,87,84,100%);
+        height: 60px;
+        position: fixed;
+    }
+
     body {
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
         line-height: 1.42em;
         color: #A7A1AE;
         background-color: #1F2739;
+    }
+
+    .empty{
+        height: 100px;
     }
 
     .imageMain {

@@ -9,7 +9,7 @@
     <section>
         <div class="shapka">
             <div>
-                <a class="imageMain" href="/"><img src="/doubleCup2.png" width="65" height="50"></a>
+                <a class="imageMain" href="/"><img src="/ava.png" width="80" height="70"></a>
             </div>
             <div class="shapka2">
 
@@ -17,7 +17,10 @@
                     <a href="/snackbar">Рестораны</a>
                 </div>
                 <div>
-                    <a class="rest" href="">Продукция</a>
+                    <a class="rest" href="">Блюда</a>
+                </div>
+                <div>
+                    <a href="/category">Категория</a>
                 </div>
                 <div>
                     <a href="/withdrawals">Все заказы</a>
@@ -41,7 +44,10 @@
     </section>
 </header>
 
+<section>
     <div class="empty"></div>
+</section>
+
    <section>
        <table class="container">
            <tr>
@@ -49,6 +55,7 @@
                <th><h1 th:text="${'Изображение'}"></h1></th>
                <th><h1 th:text="${'Цена'}"></h1></th>
                <th><h1 th:text="${'Вес'}"></h1></th>
+               <th><h1 th:text="${'Категория'}"></h1></th>
                <th><h1 th:text="${'Редактирование'}"></h1></th>
                <th><h1 th:text="${'Удаление'}"></h1></th>
            </tr>
@@ -60,6 +67,7 @@
                             th:if="${el.image!=null}" th:src="'/image/' + ${el.image.idImage}" alt=""></td>
                    <td><p th:text="${el.price+ ' руб.'}"></p></td>
                    <td><p th:text="${el.weight+ ' г.'}"></p></td>
+                   <td><p th:text="${el.category.nameCategory}"></p></td>
                    <th><a class="btn-edit" th:href=" '/products/' + ${el.id} + '/edit'">Редактировать</a></th>
                    <th>
                        <form th:action=" '/products/' + ${el.id} + '/remove'" method="post">
@@ -75,6 +83,11 @@
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
+    * {
+        margin:0;
+        padding:0;
+    }
+
     body {
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
@@ -84,20 +97,20 @@
     }
     header{
         margin: 0;
-        padding: 0;
+        padding: 10px;
         width: 100%;
-        background: rgba(0,0,0,50%);
-        height: 53px;
+        background: rgba(78,87,84,100%);
+        height: 60px;
         position: fixed;
     }
-    /*.back{*/
-    /*    position: fixed;*/
-    /*    width: 1460px;*/
-    /*    height: 100px;*/
-    /*    background: black;*/
-    /*}*/
+    .back{
+        position: fixed;
+        width: 1460px;
+        height: 100px;
+        background: black;
+    }
     .empty{
-        height: 60px;
+        height: 100px;
     }
     h1 {
         font-size:3em;
@@ -145,7 +158,7 @@
     .container {
         text-align: left;
         overflow: hidden;
-        width: 60%;
+        width: 70%;
         margin: 0 auto;
         display: table;
         padding: 0 0 8em 0;
@@ -245,10 +258,10 @@
 
     .shapka {
 
-        position: fixed;
+        /*position: fixed;*/
         display: flex;
-        padding-bottom: 100px;
-        margin-bottom: 100px;
+        /*padding-bottom: 100px;*/
+        /*margin-bottom: 100px;*/
 
     }
 

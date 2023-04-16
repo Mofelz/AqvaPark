@@ -1,0 +1,402 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>Категория</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body class="bg">
+<header>
+  <section>
+    <div class="shapka">
+      <div>
+        <a class="imageMain" href="/"><img src="/ava.png" width="80" height="70"></a>
+      </div>
+      <div class="shapka2">
+        <div>
+          <a href="/snackbar">Рестораны</a>
+        </div>
+        <div>
+          <a href="/products">Блюда</a>
+        </div>
+        <div>
+          <a class="rest" href="/category">Категория</a>
+        </div>
+        <div>
+          <a href="/withdrawals">Все заказы</a>
+        </div>
+        <div>
+          <a href="/category/add">Добавить</a>
+        </div>
+      </div>
+      <div>
+        <link sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+          <button type="submit">Выйти</button>
+        </form>
+      </div>
+
+      <div class="role">
+        <p>Сотрудник Отдела продаж</p>
+      </div>
+    </div>
+  </section>
+</header>
+<section>
+  <div class="empty"></div>
+</section>
+
+<section>
+  <table class="container">
+    <thead>
+    <tr>
+      <th><h1 th:text="${'Наименование'}"></h1></th>
+      <th><h1 th:text="${'Изменение'}"></h1></th>
+      <th><h1 th:text="${'Удаление'}"></h1></th>
+    </tr>
+    </thead>
+    <tbody>
+    <div th:each="el : ${categories}">
+      <tr>
+        <td>
+          <p th:text="${el.nameCategory}"></p>
+        </td>
+        <div class="left">
+          <th>
+            <a th:href=" '/category/' + ${el.id} + '/edit'">Редактировать</a>
+          </th>
+          <th>
+            <form th:action=" '/category/' + ${el.id} + '/remove'" method="post" id="delForm" onchange="checkButton()">
+              <button id="dell" name="dell" value="Delete" type="button" >Удалить</button>
+            </form>
+          </th>
+        </div>
+
+      </tr>
+    </div>
+    </tbody>
+  </table>
+</section>
+<div id="hidden" class="show-none">
+  <div class="warn-window">
+    <div class="warn-title">Предупреждение</div>
+    <span>Вы действительно хотите удалить?</span>
+    <div class="warn-act">
+      <input id="yes" type="button" name="yes" value="Да">
+      <input id="no" type="button" name="no" value="Нет">
+    </div>
+  </div>
+</div>
+<script>
+  function checkButton()
+  {
+    var hid = document.getElementById('hidden'); //Находим id всасывающегося окна
+    var yes = document.getElementById('yes'); // id кнопки ДА
+    var no = document.getElementById('no'); // id кнопки НЕТ
+
+    yes.onclick  = function(e) //если будет нажата кнопка ДА
+    {
+      var frm = document.getElementById('delForm'); //Находим id формы
+      this.onclick = null;
+      hid.className = ''; // скрывается окно подтверждения
+      frm.submit();  //// отправка на сервер происходит
+      e.stopPropagation();
+      e.preventDefault();
+    };
+    no.onclick = function(e) // Если будет нажата кнопка НЕТ
+    {
+      var hid = document.getElementById('hidden'); //Находим id всасывающегося окна
+      this.onclick = null;
+      hid.className = ''; //скрывается окно подтверждения
+      // отправка на сервер не происходит
+      e.stopPropagation();
+      e.preventDefault();
+    }
+
+    // Oтображается окно подтверждения.
+    hid.className = 'substrate';
+  }
+
+  window.onload = function(e)
+  {
+    var myf = document.getElementById('dell');
+    myf.onclick = checkButton; //Подписка на событие клика по кнопке УДАЛИТЬ
+    e.stopPropagation();
+    e.preventDefault();
+  }
+</script>
+</body>
+</html>
+<style>
+
+  @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+  * {
+    margin:0;
+    padding:0;
+  }
+
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    line-height: 1.42em;
+    color: #A7A1AE;
+    background-color: #1F2739;
+  }
+
+  header{
+    margin: 0;
+    padding: 10px;
+    width: 100%;
+    background: rgba(78,87,84,100%);
+    height: 60px;
+    position: fixed;
+  }
+
+  .empty{
+    height: 100px;
+  }
+
+  .left{
+    margin-left: 0;
+  }
+
+  .substrate{
+    z-index:1;
+    position: absolute;
+    background-color: #000;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: block;
+  }
+  .show-none{
+    display:none;
+  }
+  /*.warn-window{*/
+  /*    z-index:2;*/
+  /*    background: #fff;*/
+  /*    height: 180px;*/
+  /*    width: 300px;*/
+  /*    border: 1px #3CCB34 solid;*/
+  /*    border-radius:25px;*/
+  /*    margin:200px auto;*/
+  /*}*/
+
+  .warn-window{
+    margin-top: 450px;
+    margin-left: 620px;
+    padding: 10px;
+    border-radius: 25px;
+    width: 200px;
+    height: 120px;
+    background: #2C3446;
+  }
+
+  h1 {
+    font-size:3em;
+    font-weight: 300;
+    line-height:1em;
+    text-align: center;
+    color: #4DC3FA;
+  }
+
+  h2 {
+    font-size:1em;
+    font-weight: 300;
+    text-align: center;
+    display: block;
+    line-height:1em;
+    padding-bottom: 2em;
+    color: #FB667A;
+  }
+
+  h2 a {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #FB667A;
+    text-decoration: none;
+  }
+
+  .blue { color: #185875; }
+  .yellow { color: #FFF842; }
+
+  .container th h1 {
+    font-weight: bold;
+    font-size: 1em;
+    text-align: left;
+    color: #185875;
+  }
+
+  .container td {
+    font-weight: normal;
+    font-size: 1em;
+    -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+    -moz-box-shadow: 0 2px 2px -2px #0E1119;
+    box-shadow: 0 2px 2px -2px #0E1119;
+  }
+
+  .container {
+    text-align: left;
+    overflow: hidden;
+    width: 90%;
+    margin: 0 auto;
+    display: table;
+    padding: 0 0 8em 0;
+  }
+
+  .container td, .container th {
+    padding-bottom: 1%;
+    padding-top: 1%;
+    padding-left:1%;
+  }
+
+  /* Background-color of the odd rows */
+  .container tr:nth-child(odd) {
+    background-color: #323C50;
+  }
+
+  /* Background-color of the even rows */
+  .container tr:nth-child(even) {
+    background-color: #2C3446;
+  }
+
+  .container th {
+    background-color: #1F2739;
+  }
+
+  .container td:first-child { color: #FB667A; }
+
+  .container tr:hover {
+    background-color: #464A52;
+    -webkit-box-shadow: 0 6px 6px -6px #0E1119;
+    -moz-box-shadow: 0 6px 6px -6px #0E1119;
+    box-shadow: 0 6px 6px -6px #0E1119;
+  }
+
+  .container td:hover {
+    background-color: #FFF842;
+    color: #403E10;
+    font-weight: bold;
+
+    box-shadow: #7F7C21 -1px 1px, #7F7C21 -2px 2px, #7F7C21 -3px 3px, #7F7C21 -4px 4px, #7F7C21 -5px 5px, #7F7C21 -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+
+    transition-delay: 0s;
+    transition-duration: 0.4s;
+    transition-property: all;
+    transition-timing-function: line;
+  }
+
+  @media (max-width: 800px) {
+    .container td:nth-child(4),
+    .container th:nth-child(4) { display: none; }
+  }
+  .imageMain{
+    border: none;
+    background: none;
+    margin: 0;
+    padding: 0;
+  }
+  .imageMain:hover{
+    background: none;
+  }
+  .rest{
+    pointer-events: none; /* делаем ссылку некликабельной */
+    cursor: default;  /* устанавливаем курсор в виде стрелки */
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    background-color: green;
+  }
+  .bg {
+    background-image: url("black2.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
+  p{
+    margin-top: 15px;
+    font-size: 25px;
+  }
+  .role {
+    display: flex;
+    margin-left: 15px;
+  }
+  .shapka {
+    display: flex;
+  }
+  .shapka2 {
+    display: flex;
+    margin-top: 15px;
+  }
+
+  a, button {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    line-height: 1.42em;
+
+    text-decoration: none;
+    color: white;
+
+    font-size: 15px;
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 15px;
+
+    background-color: #323C50;
+
+    margin-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    text-transform: uppercase;
+
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+
+  a:hover, button:hover {
+    color: black;
+    background-color: #FFF842;
+  }
+  input{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    line-height: 1.42em;
+
+    text-decoration: none;
+    color: white;
+
+    font-size: 15px;
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 15px;
+
+    background-color: #323C50;
+
+    margin-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    text-transform: uppercase;
+
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+</style>

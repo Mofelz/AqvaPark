@@ -2,14 +2,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.Service.ExportExel;
 import com.example.demo.Service.ReportService;
-import com.example.demo.models.Booking;
-import com.example.demo.models.Product;
-import com.example.demo.models.Snackbar;
-import com.example.demo.models.User;
-import com.example.demo.repo.BookingRepository;
-import com.example.demo.repo.ProductRepository;
-import com.example.demo.repo.SnackbarRepository;
-import com.example.demo.repo.UserRepos;
+import com.example.demo.models.*;
+import com.example.demo.repo.*;
 import org.apache.poi.ss.formula.functions.Irr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -38,16 +32,18 @@ public class BookingController {
     private final ProductRepository productRepository;
 
     private final SnackbarRepository snackbarRepository;
+    private final CategoryRepository categoryRepository;
 
     private final UserRepos userRepos;
     @Autowired
     private ReportService reportService;
 
-    public BookingController(BookingRepository bookingRepository, ProductRepository productRepository, SnackbarRepository snackbarRepository, UserRepos userRepos) {
+    public BookingController(BookingRepository bookingRepository,CategoryRepository categoryRepository, ProductRepository productRepository, SnackbarRepository snackbarRepository, UserRepos userRepos) {
         this.bookingRepository = bookingRepository;
         this.productRepository = productRepository;
         this.snackbarRepository = snackbarRepository;
         this.userRepos = userRepos;
+        this.categoryRepository = categoryRepository;
     }
 
     @RequestMapping("/")
@@ -73,6 +69,8 @@ public class BookingController {
 
     @GetMapping("/orders/add")
     public String blogAdd(@ModelAttribute("booking") @Validated Booking booking, Model model) {
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
         Iterable<Product> products = productRepository.findAll();
         model.addAttribute("products", products);
         return "orders/orders-add";
@@ -94,6 +92,9 @@ public class BookingController {
             Iterable<Product> products = productRepository.findAll();
             Iterable<User> users = userRepos.findAll();
 
+            Iterable<Category> categories = categoryRepository.findAll();
+            model.addAttribute("categories", categories);
+
             model.addAttribute("products", products);
             model.addAttribute("snackbars", snackbars);
             model.addAttribute("User", users);
@@ -110,6 +111,8 @@ public class BookingController {
         Iterable<Snackbar> snackbars = snackbarRepository.findAll();
         Iterable<Product> products = productRepository.findAll();
         Iterable<User> users = userRepos.findAll();
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
         model.addAttribute("users", users);
         model.addAttribute("snackbars", snackbars);
         model.addAttribute("products", products);

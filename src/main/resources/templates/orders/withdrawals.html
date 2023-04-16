@@ -3,45 +3,54 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
     <title>Заказы</title>
 </head>
 <body th:align="center" class="bg">
+<header>
+    <section class="header">
+        <div class="shapka">
+            <div>
+                <a class="imageMain" href="/"><img src="/ava.png" width="80" height="70"></a>
+            </div>
+            <div class="shapka2">
 
+                <div th:if="${isSaler}">
+                    <a href="/snackbar">Рестораны</a>
+                </div>
+                <div th:if="${isSaler}">
+                    <a href="/products">Блюда</a>
+                </div>
+                <div>
+                    <a th:if="${isSaler}" href="/category">Категория</a>
+                </div>
+                <div th:if="${isSaler}">
+                    <a class="rest" href="/withdrawals">Все заказы</a>
+                </div>
+                <div>
+                    <a th:href="@{/report/excel}" th:if="${isSaler}">Отчет</a>
+                </div>
+
+            </div>
+            <div>
+                <link sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Выйти</button>
+                </form>
+            </div>
+
+            <div class="role" th:if="${isSaler}">
+                <p>Сотрудник Отдела продаж</p>
+            </div>
+
+        </div>
+        </div>
+    </section>
+</header>
 <section>
-    <div class="shapka">
-        <div class="shapka2">
-            <div>
-                <a class="imageMain" href="/"><img src="/doubleCup2.png" width="70" height="60"></a>
-            </div>
-            <div th:if="${isSaler}">
-                <a href="/snackbar">Рестораны</a>
-            </div>
-            <div th:if="${isSaler}">
-                <a href="/products">Продукция</a>
-            </div>
-            <div th:if="${isSaler}">
-                <a class="rest" href="/withdrawals">Все заказы</a>
-            </div>
-            <div>
-                <a th:href="@{/report/excel}" th:if="${isSaler}">Скачать отчет</a>
-            </div>
-
-        </div>
-        <div>
-            <link sec:authorize="isAuthenticated()">
-            <form th:action="@{/logout}" method="post">
-                <button type="submit">Выйти</button>
-            </form>
-        </div>
-
-        <div class="role" th:if="${isSaler}">
-            <p>Сотрудник Отдела продаж</p>
-        </div>
-
-    </div>
-    </div>
+    <div class="empty"></div>
 </section>
-<table class="container">
+<table class="container" id="container">
     <thead>
     <th><h1 th:text="${'Логин пользователя'}"></h1></th>
     <th><h1 th:text="${'Код заказа'}"></h1></th>
@@ -71,6 +80,39 @@
 </html>
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+    * {
+        margin:0;
+        padding:0;
+    }
+    .header {
+        padding: 10px;
+        height: 60px;
+        background-color: rgba(128, 128, 128, 50%);
+    }
+
+    @media screen and (max-width: 480px) {
+        html {
+            -webkit-text-size-adjust: none;
+        }
+        #header{
+            width: 100%;
+        }
+        #container {
+            font-size: 60%;
+            width: 90%;
+        }
+    }
+
+    @media (max-width: 800px) {
+        .container td:nth-child(4),
+        .container th:nth-child(4) { display: none; }
+    }
+
+
+    .empty{
+        height: 100px;
+    }
 
     body {
         font-family: 'Open Sans', sans-serif;
@@ -185,10 +227,6 @@
         transition-timing-function: line;
     }
 
-    @media (max-width: 800px) {
-        .container td:nth-child(4),
-        .container th:nth-child(4) { display: none; }
-    }
 
     .imageMain {
         border: none;

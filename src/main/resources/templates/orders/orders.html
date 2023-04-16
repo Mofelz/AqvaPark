@@ -3,60 +3,64 @@
 <head>
     <title>Главная</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
 </head>
 <body th:align="center" class="bg">
+<header>
+    <section class="header" id="header">
+        <div class="shapka">
+            <div>
+                <a class="imageMain" href="/"><img src="/ava.png" width="80" height="70"></a>
+            </div>
+            <div class="shapka2">
+                <div>
+                    <a th:if="${isSaler}" href="/snackbar">Рестораны</a>
+                </div>
+                <div>
+                    <a th:if="${isAdmin}" href="/admin">Пользователи</a>
+                </div>
+                <div>
+                    <a th:if="${isSaler}" href="/products">Блюда</a>
+                </div>
+                <div>
+                    <a th:if="${isSaler}" href="/category">Категория</a>
+                </div>
+                <div>
+                    <a th:if="${isUser}" href="/withdrawals">Мои заказы</a>
+                </div>
+                <div>
+                    <a th:if="${isSaler}" href="/withdrawals">Все заказы</a>
+                </div>
+            </div>
 
-<section>
-    <div class="shapka">
-        <div class="shapka2">
-            <div>
-                <a th:if="${isSaler}" href="/snackbar">Рестораны</a>
-            </div>
-            <div>
-                <a th:if="${isAdmin}" href="/admin">Пользователи</a>
-            </div>
-            <div>
-                <a th:if="${isSaler}" href="/products">Продукция</a>
-            </div>
-            <div>
-                <a th:if="${isUser}" href="/withdrawals">Мои заказы</a>
-            </div>
-            <div>
-                <a th:if="${isSaler}" href="/withdrawals">Все заказы</a>
-            </div>
-
-        </div>
-
-        <div>
-            <link sec:authorize="isAuthenticated()">
+            <div class="exit">
+                <link sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" method="post">
                     <button type="submit">Выйти</button>
                 </form>
-            </link>
-        </div>
-        <div th:if="${isUser}" class="role">
-            <div th:each="el : ${snackbars}">
-                <p th:text="${'Ресторан: ' +el.nameSnackbar}"></p>
+                </link>
             </div>
-            <div th:each="el : ${snackbars}">
-                <p th:text="${'Время работы: '+el.workingTime}"></p>
+<!--            <div th:if="${isUser}" class="rest">-->
+<!--                <div th:each="el : ${snackbars}">-->
+<!--                    <p th:text="${'Ресторан: ' +el.nameSnackbar}"></p>-->
+<!--                    &lt;!&ndash;                <p th:text="${'Время работы: '+el.workingTime}"></p>&ndash;&gt;-->
+<!--                    &lt;!&ndash;                <p th:text="${'Адрес: '+el.address}"></p>&ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="role">
+                <p th:if="${isSaler}">Сотрудник отдела Продаж</p>
             </div>
-            <div th:each="el : ${snackbars}">
-                <p th:text="${'Адрес: '+el.address}"></p>
+            <div class="role">
+                <p th:if="${isAdmin}">Администратор</p>
             </div>
         </div>
-        <div class="role">
-            <p th:if="${isSaler}">Сотрудник отдела Продаж</p>
-        </div>
-        <div class="role">
-            <p th:if="${isAdmin}">Администратор</p>
-        </div>
-    </div>
-</section>
+    </section>
+</header>
+
 <section>
     <div class="stolik" th:if="${isUser}">
         <h1>Введите номер своего стола</h1>
-
+        <br>
         <form th:action="${'/orders/add'}" method="post" th:object="${booking}">
             <input required th:field="*{tableNumber}" type="number">
             <div th:if="${#fields.hasErrors('tableNumber')}" th:errors="*{tableNumber}"></div>
@@ -68,14 +72,26 @@
         </form>
     </div>
 </section>
+<!--<section>-->
+<!--    <footer>-->
+<!--        <div th:each="el : ${snackbars}">-->
+<!--            <p th:text="${'Время работы: '+el.workingTime}"></p>-->
+<!--            <p th:text="${'Адрес: '+el.address}"></p>-->
+<!--        </div>-->
+<!--    </footer>-->
+<!--</section>-->
 
 </body>
 </html>
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
-    body {
+    * {
+        margin: 0;
+        padding: 0;
+    }
 
+    body {
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
         line-height: 1.42em;
@@ -84,8 +100,25 @@
         background-color: #1F2739;
     }
 
+    .header {
+        padding: 10px;
+        height: 60px;
+        background-color: rgba(128, 128, 128, 50%);
+    }
+
     .ErrorMassage {
         color: red;
+    }
+
+    .imageMain {
+        border: none;
+        background: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .imageMain:hover {
+        background: none;
     }
 
     .bg {
@@ -99,10 +132,12 @@
         -o-background-size: cover;
         background-size: cover;
     }
-    p{
+
+    p {
         margin-top: 15px;
         font-size: 25px;
     }
+
     .stolik {
         margin-top: 235px;
     }
@@ -110,6 +145,28 @@
     .role {
         display: flex;
         margin-left: 15px;
+    }
+
+    .rest {
+        text-align: right;
+        display: flex;
+        margin-left: 600px;
+    }
+    /*@media screen and (max-width: 420px) {*/
+    /*    .stolik{*/
+    /*        margin-top: 535px;*/
+    /*        font-size: 30px;*/
+    /*        width: 95%;*/
+    /*    }*/
+    /*}*/
+
+    @media screen and (max-width: 480px) {
+        html {
+            -webkit-text-size-adjust: none;
+        }
+        #header{
+            width: 100%;
+        }
     }
 
     .shapka {

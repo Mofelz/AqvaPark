@@ -30,15 +30,28 @@ public class Product {
     @JoinColumn(name = "imageId")
     private Image image;
 
+    @ManyToOne
+    @JoinColumn(name = "categoryId", referencedColumnName = "id")
+    private Category category;
+
     @ManyToMany
     @JoinTable(name = "collect", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "orderId"))
     private List<Booking> bookingList;
 
-    public Product(String nameProduct, Image image, Integer price, Integer weight) {
+    public Product(String nameProduct, Image image, Integer price, Integer weight, Category category) {
         this.nameProduct = nameProduct;
         this.image = image;
         this.price = price;
         this.weight = weight;
+        this.category = category;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Product() {}

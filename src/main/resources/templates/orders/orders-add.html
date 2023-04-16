@@ -3,17 +3,19 @@
 <head>
     <title>Покупка</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+
 </head>
 <body th:align="center" class="bg">
 <header>
-    <section>
+    <section class="header" id="header">
         <div class="shapka">
             <div>
-                <a class="imageMain" href="/"><img src="/doubleCup2.png" width="65" height="50"></a>
+                <a class="imageMain" href="/"><img src="/ava.png" width="80" height="70"></a>
             </div>
             <div class="shapka2">
                 <div>
-                    <a href="/withdrawals">Мои заказы</a>
+                    <a href="/withdrawals">Заказы</a>
                 </div>
             </div>
 
@@ -24,9 +26,16 @@
                 </form>
                 </link>
             </div>
+            <div th:each="el : ${booking}">
+                <a class="imageMain" th:href=" '/orders/' + ${el.id} + '/edit'"><img src="/wing.png" width="50" height="50"></a>
+                <!--            <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>-->
+            </div>
         </div>
     </section>
 </header>
+<section>
+    <div class="empty"></div>
+</section>
 <!--<div id="price">555</div>-->
 <!--<input id="numericUpDown" type="number" value="0" />-->
 <!--<input  type="button" class="up" value="+">-->
@@ -53,16 +62,17 @@
 <!--        sum.innerText = (price.innerText * numericUpDown.value)-->
 <!--    }-->
 <!--</script>-->
-<div class="empty"></div>
-<section class="flex" id="inner">
+<!--<div class="empty"></div>-->
+<section  id="inner">
 <!--    <input type="text" placeholder="Найти блюдо">-->
-    <h1>Скромный завтрак</h1>
+<!--    <h1>Скромный завтрак</h1>-->
     <form th:action="@{/cart/add}" method="post" th:object="${booking}" id="outer">
-        <div class="flex">
+        <div class="flex" id="navbar-sub-list">
             <input type="hidden" th:field="*{id}">
             <input type="hidden" th:field="*{tableNumber}">
             <div th:each="product : ${products}">
                 <div class="element">
+                    <h3 th:text="${product.category.nameCategory}"></h3>
                     <img style="width: 150px;height: 150px;" class="rounded img-fluid pt-4 align-center"
                          th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt="">
                     <h3 th:text="${product.nameProduct}"></h3>
@@ -73,10 +83,6 @@
                            th:value="${product.id}" onchange="this.form.submit()"/>
                 </div>
             </div>
-        </div>
-        <div class="take" th:each="el : ${booking}">
-            <a th:href=" '/orders/' + ${el.id} + '/edit'">Оформление</a>
-<!--            <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>-->
         </div>
     </form>
 </section>
@@ -93,13 +99,32 @@
         color: #A7A1AE;
         background-color: #1F2739;
     }
-    header{
+    h1{
+        margin: 15px;
+    }
+    * {
+        margin:0;
+        padding:0;
+    }
+    .empty{
+        height: 250px;
+    }
+    .header {
+        position: fixed;
+        padding: 10px;
+        width: 100%;
+        height: 60px;
+            background-color: rgba(128, 128, 128, 100%);
+    }
+    .imageMain {
+        border: none;
+        background: none;
         margin: 0;
         padding: 0;
-        width: 100%;
-        background: rgba(0,0,0,50%);
-        height: 53px;
-        position: fixed;
+    }
+
+    .imageMain:hover {
+        background: none;
     }
     .empty{
         height: 60px;
@@ -132,6 +157,17 @@
     #outer {
         width:100%
     }
+    @media screen and (max-width: 480px) {
+        html {
+            -webkit-text-size-adjust: none;
+        }
+        #header{
+            width: 100%;
+        }
+        #navbar-sub-list{
+            width: 400px;
+        }
+    }
     .take{
         margin-top: 50px;
     }
@@ -147,6 +183,7 @@
     }
 
     .flex {
+        padding-top: 50px;
         display: flex;
         flex-wrap: wrap;
         width: 1000px;

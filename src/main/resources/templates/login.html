@@ -3,24 +3,25 @@
       xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
     <script src="https://unpkg.com/imask"></script>
     <title>Вход</title>
 </head>
 <body th:align="center" class="bg">
 
-<div class="con2">
-    <div th:if="${param.error}" class="error">
-        Неверный пароль или логин!
-    </div>
-    <br>
-    <div th:if="${param.logout}" class="logout">
-        Выход выполнен!
-    </div>
-</div>
+<!--<div class="con2">-->
+<!--    <div th:if="${param.error}" class="error">-->
+<!--        Неверный пароль или логин!-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div th:if="${param.logout}" class="logout">-->
+<!--        Выход выполнен!-->
+<!--    </div>-->
+<!--</div>-->
 
-<div align="center" class="con">
+<div align="center" class="con" id="auth">
     <h1>Авторизация</h1>
-    <form th:action="@{/login}" method="post">
+    <form th:action="@{/login}" method="post" id="form">
         <label>Login</label>
         <br>
         <input required type="text" name="username" data-mask="phoneNumber"/><br>
@@ -61,6 +62,16 @@
         line-height: 1.42em;
         color: #A7A1AE;
         background-color: #1F2739;
+    }
+
+    @media screen and (max-width: 480px) {
+        html {
+            -webkit-text-size-adjust: none;
+        }
+        #auth{
+            /*margin-top: 200px;*/
+            margin-left: 40px;
+        }
     }
 
     h1 {

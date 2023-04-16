@@ -2,25 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Ресторан</title>
+    <title>Добавление</title>
 </head>
 <body th:align="center" class="bg">
-<section>
-    <div class="shapka">
-        <div class="shapka2">
+<header>
+    <section>
+        <div class="shapka">
             <div>
-                <a class="imageMain" href="/"><img src="/doubleCup2.png" width="70" height="60"></a>
+                <a class="imageMain" href="/"><img src="/ava.png" width="70" height="60"></a>
             </div>
-            <div>
-                <a class="rest" href="">Рестораны</a>
+            <div class="shapka2">
+                <div>
+                    <a class="rest" href="">Рестораны</a>
+                </div>
+                <div>
+                    <a href="/products">Блюда</a>
+                </div>
+                <div>
+                    <a href="/category">Категория</a>
+                </div>
+                <div>
+                    <a href="/withdrawals">Все заказы</a>
+                </div>
             </div>
-            <div>
-                <a href="/products">Продукция</a>
-            </div>
-            <div>
-                <a href="/withdrawals">Все заказы</a>
-            </div>
-        </div>
 
             <div>
                 <link sec:authorize="isAuthenticated()">
@@ -32,32 +36,44 @@
                 <p>Сотрудник Отдела продаж</p>
             </div>
         </div>
-    </div>
+        </div>
+    </section>
+</header>
+
+<section>
+    <div class="empty"></div>
 </section>
-<form th:action="${'/snackbar/add'}" method="post" th:object="${snackbar}">
-    <div class="back">
-        <label>Наименование ресторана</label>
+
+<section>
+    <form th:action="${'/snackbar/add'}" method="post" th:object="${snackbar}">
+        <div class="back">
+            <label>Наименование ресторана</label>
+            <input required th:field="*{nameSnackbar}" type="text" name="nameSnackbar">
+            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nameSnackbar')}"
+                 th:errors="*{nameSnackbar}"></div>
+            <label>Время работы</label>
+            <input required th:field="*{workingTime}" type="text" name="workingTime">
+            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('workingTime')}"
+                 th:errors="*{workingTime}"></div>
+            <label>Адрес</label>
+            <input required th:field="*{address}" type="text" name="address">
+            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('address')}"
+                 th:errors="*{address}"></div>
+        </div>
         <br>
-        <input required th:field="*{nameSnackbar}" type="text" name="nameSnackbar">
-        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nameSnackbar')}"
-             th:errors="*{nameSnackbar}"></div>
-        <br>
-        <input required th:field="*{workingTime}" type="text" name="workingTime">
-        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('workingTime')}"
-             th:errors="*{workingTime}"></div>
-        <br>
-        <input required th:field="*{address}" type="text" name="address">
-        <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('address')}"
-             th:errors="*{address}"></div>
-    </div>
-    <br>
-    <button type="submit">Добавить</button>
-</form>
+        <button type="submit">Добавить</button>
+    </form>
+</section>
 
 </body>
 </html>
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+    * {
+        margin:0;
+        padding:0;
+    }
 
     body {
         font-family: 'Open Sans', sans-serif;
@@ -65,6 +81,19 @@
         line-height: 1.42em;
         color: #A7A1AE;
         background-color: #1F2739;
+    }
+
+    header{
+        margin: 0;
+        padding: 10px;
+        width: 100%;
+        background: rgba(78,87,84,100%);
+        height: 60px;
+        position: fixed;
+    }
+
+    .empty{
+        height: 100px;
     }
 
     .imageMain{
@@ -113,7 +142,7 @@
         background-size: cover;
     }
     .back {
-        margin-top: 200px;
+        margin-top: 150px;
         margin-left: 600px;
 
         display: block;
@@ -123,7 +152,7 @@
         padding: 20px;
         background-color: #323C50;
         width: 250px;
-        height: 70px;
+        height: 200px;
     }
 
     input {

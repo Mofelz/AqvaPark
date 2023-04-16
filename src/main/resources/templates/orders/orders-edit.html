@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Оформление</title>
 </head>
 <body th:align="center" class="bg">
-<h2>Подтверждение заказа</h2>
-<table class="container">
+<h1>Корзина</h1>
+<table class="container" id="container">
     <tr>
         <th><h1 th:text="${'Код заказа'}"></h1></th>
         <th><h1 th:text="${'Номер столика'}"></h1></th>
@@ -15,13 +16,13 @@
         <th><h1 th:text="${'Цена'}"></h1></th>
         <th><h1 th:text="${'Вес'}"></h1></th>
     </tr>
-    <form th:action="${'/orders/'+booking.id+'/edit'}" method="post" th:object="${booking}" class="flex">
-        <button type="submit">Оптатить</button>
+    <form th:action="${'/orders/'+booking.id+'/edit'}" method="post" th:object="${booking}" id="container2">
+        <button type="submit">Подтвердить</button>
         <br>
         <br>
         <div th:each="product : ${booking.productList}">
             <tr>
-                <th><input type="text" readonly th:field="*{id}"></th>
+                <th><input type="text" readonly th:field="*{id}" id="th"></th>
                 <th><input type="text" readonly th:field="*{tableNumber}"></th>
                 <th><img style="width: 70px;height: 70px;" class="rounded img-fluid pt-4 align-center"
                          th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt=""></th>
@@ -32,16 +33,6 @@
         </div>
     </form>
 </table>
-<!--<form th:action="${'/orders/'+booking.id+'/edit'}" method="booking" th:object="${booking}">-->
-<!--    <div th:each="product : ${booking.productList}">-->
-<!--        <h3 th:text="*{'Код заказа'+id}"></h3>-->
-<!--        <h3 th:text="*{'Номер столика'+tableNumber}"></h3>-->
-<!--        <h3 th:text="${'Наименование' +product.nameProduct}"></h3>-->
-<!--        <h3 th:text="${'Цена'+product.price+' руб.'}"></h3>-->
-<!--        <h3 th:text="${'Вес'+product.weight+' г.'}"></h3>-->
-<!--    </div>-->
-<!--    <button type="submit">Оптатить</button>-->
-<!--</form>-->
 
 </body>
 </html>
@@ -62,6 +53,23 @@
         background: rgba(0,0,0,50%);
         height: 53px;
         position: fixed;
+    }
+    @media screen and (max-width: 480px) {
+        html {
+            -webkit-text-size-adjust: none;
+        }
+        #header{
+            width: 100%;
+        }
+        #container {
+            font-size: 60%;
+            width: 90%;
+        }
+    }
+
+    @media (max-width: 800px) {
+        .container td:nth-child(4),
+        .container th:nth-child(4) { display: none; }
     }
     /*.back{*/
     /*    position: fixed;*/
@@ -116,9 +124,9 @@
     }
 
     .container {
-        text-align: center;
+        text-align: left;
         overflow: hidden;
-        width: 70%;
+        width: 20%;
         margin: 0 auto;
         display: table;
         padding: 0 0 8em 0;
@@ -167,10 +175,6 @@
         transition-timing-function: line;
     }
 
-    @media (max-width: 800px) {
-        .container td:nth-child(4),
-        .container th:nth-child(4) { display: none; }
-    }
     .imageMain {
         border: none;
         background: none;
@@ -233,7 +237,7 @@
         text-align: center;
         border: none;
         margin-top: 15px;
-        width: 250px;
+        width: 70px;
         height: 50px;
         border-radius: 15px;
         background: none;
