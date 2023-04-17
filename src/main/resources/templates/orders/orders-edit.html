@@ -15,6 +15,7 @@
         <th><h1 th:text="${'Наименование'}"></h1></th>
         <th><h1 th:text="${'Цена'}"></h1></th>
         <th><h1 th:text="${'Вес'}"></h1></th>
+        <th><h1 th:text="${'Категория'}"></h1></th>
     </tr>
     <form th:action="${'/orders/'+booking.id+'/edit'}" method="post" th:object="${booking}" id="container2">
         <button type="submit">Подтвердить</button>
@@ -22,13 +23,19 @@
         <br>
         <div th:each="product : ${booking.productList}">
             <tr>
-                <th><input type="text" readonly th:field="*{id}" id="th"></th>
-                <th><input type="text" readonly th:field="*{tableNumber}"></th>
-                <th><img style="width: 70px;height: 70px;" class="rounded img-fluid pt-4 align-center"
-                         th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt=""></th>
-                <th><h3 th:text="${product.nameProduct}"></h3></th>
-                <th><h3 th:text="${product.price+ ' руб.'}"></h3></th>
-                <th><h3 th:text="${product.weight+ ' г.'}"></h3></th>
+                <td><input type="text" readonly th:field="*{id}" id="th"></td>
+                <td><input type="text" readonly th:field="*{tableNumber}"></td>
+                <td><img style="width: 70px;height: 70px;" class="rounded img-fluid pt-4 align-center"
+                         th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt=""></td>
+                <td><h3 th:text="${product.nameProduct}"></h3></td>
+                <td><h3 th:text="${product.price+ ' руб.'}"></h3></td>
+                <td><h3 th:text="${product.weight+ ' г.'}"></h3></td>
+                <td><h3 th:text="${product.category.nameCategory}"></h3></td>
+                <select class="form-control" th:field="*{status}" hidden>
+                    <div th:each="status: ${statuses}">
+                        <option th:value="${status.id}" th:text="${status.nameStatus}"/>
+                    </div>
+                </select>
             </tr>
         </div>
     </form>

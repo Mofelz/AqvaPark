@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-  <title>Категория</title>
+  <title>Статус</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body class="bg">
@@ -19,13 +19,16 @@
           <a href="/products">Блюда</a>
         </div>
         <div>
-          <a class="rest" href="/category">Категория</a>
+          <a  href="/category">Категория</a>
+        </div>
+        <div>
+          <a class="rest" href="/status">Статус</a>
         </div>
         <div>
           <a href="/withdrawals">Все заказы</a>
         </div>
         <div>
-          <a href="/category/add">Добавить</a>
+          <a href="/status/add">Добавить</a>
         </div>
       </div>
       <div>
@@ -35,9 +38,9 @@
         </form>
       </div>
 
-      <div class="role">
-        <p>Сотрудник Отдела продаж</p>
-      </div>
+<!--      <div class="role">-->
+<!--        <p>Сотрудник Отдела продаж</p>-->
+<!--      </div>-->
     </div>
   </section>
 </header>
@@ -55,17 +58,17 @@
     </tr>
     </thead>
     <tbody>
-    <div th:each="el : ${categories}">
+    <div th:each="el : ${status}">
       <tr>
         <td>
-          <p th:text="${el.nameCategory}"></p>
+          <p th:text="${el.nameStatus}"></p>
         </td>
         <div class="left">
           <th>
-            <a th:href=" '/category/' + ${el.id} + '/edit'">Редактировать</a>
+            <a th:href=" '/status/' + ${el.id} + '/edit'">Редактировать</a>
           </th>
           <th>
-            <form th:action=" '/category/' + ${el.id} + '/remove'" method="post" id="delForm" onchange="checkButton()">
+            <form th:action=" '/status/' + ${el.id} + '/remove'" method="post" id="delForm" onchange="checkButton()">
               <button id="dell" name="dell" value="Delete" type="button" >Удалить</button>
             </form>
           </th>

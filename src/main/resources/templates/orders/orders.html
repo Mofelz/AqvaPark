@@ -26,6 +26,9 @@
                     <a th:if="${isSaler}" href="/category">Категория</a>
                 </div>
                 <div>
+                    <a th:if="${isSaler}" href="/status">Статус</a>
+                </div>
+                <div>
                     <a th:if="${isUser}" href="/withdrawals">Мои заказы</a>
                 </div>
                 <div>
@@ -47,9 +50,9 @@
 <!--                    &lt;!&ndash;                <p th:text="${'Адрес: '+el.address}"></p>&ndash;&gt;-->
 <!--                </div>-->
 <!--            </div>-->
-            <div class="role">
-                <p th:if="${isSaler}">Сотрудник отдела Продаж</p>
-            </div>
+<!--            <div class="role">-->
+<!--                <p th:if="${isSaler}">Сотрудник отдела Продаж</p>-->
+<!--            </div>-->
             <div class="role">
                 <p th:if="${isAdmin}">Администратор</p>
             </div>

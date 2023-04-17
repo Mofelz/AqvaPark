@@ -28,7 +28,7 @@
                     <a class="rest" href="/withdrawals">Все заказы</a>
                 </div>
                 <div>
-                    <a th:href="@{/report/excel}" th:if="${isSaler}">Отчет</a>
+                    <a th:href="@{/report/excel}" th:if="${isSaler}">⬇ Отчет</a>
                 </div>
 
             </div>
@@ -55,7 +55,9 @@
     <th><h1 th:text="${'Логин пользователя'}"></h1></th>
     <th><h1 th:text="${'Код заказа'}"></h1></th>
     <th><h1 th:text="${'Номер столика'}"></h1></th>
-    <th><h1 th:text="${'Удаление'}"></h1></th>
+    <th><h1 th:text="${'Статус заказа'}"></h1></th>
+    <th><h1 th:text="${'Удаление'}" th:if="${isSaler}"></h1></th>
+
     </thead>
 
     <tbody>
@@ -64,8 +66,24 @@
             <td><p th:text="${el.user.username}"></p></td>
             <td><p th:text="${el.id}"></p></td>
             <td><p th:text="${el.tableNumber}"></p></td>
-
-            <th>
+            <td>
+                <form th:action="@{/orders/save}" method="post" th:if="${isSaler}">
+                    <div>
+                        <select class="form-control" name="status" onchange="this.form.submit()">
+                            <div th:each="status: ${statuses}">
+                                <option th:value="${status.id}" th:text="${status.nameStatus}" th:selected="${status.id==el.status.id}"/>
+                            </div>
+                        </select>
+                    </div>
+                    <input type="hidden" th:value="${el.id}" name="booking">
+                </form>
+                <p th:text="${el.status.nameStatus}" th:if="${isUser}"></p>
+            </td>
+<!--            <div th:each="product : ${products}">-->
+<!--                <td><h3 th:text="${product.category.nameCategory}"></h3></td>-->
+<!--                <td><h3 th:text="${product.price+ ' руб.'}"></h3></td>-->
+<!--                <td><h3 th:text="${product.weight+ ' г.'}"></h3></td>-->
+            <th th:if="${isSaler}">
                 <form th:action=" '/orders/' + ${el.id} + '/remove'" method="post">
                     <button type="submit" class="btn btn-del">Удалить</button>
                 </form>
@@ -91,6 +109,16 @@
         background-color: rgba(128, 128, 128, 50%);
     }
 
+    select{
+        color: rgba(128, 128, 128, 50%);
+        background-color: #2C3446;
+    }
+    @media (min-resolution: 150dpi) {
+        td {
+            font-size: 14px;
+        }
+    }
+
     @media screen and (max-width: 480px) {
         html {
             -webkit-text-size-adjust: none;
@@ -100,7 +128,11 @@
         }
         #container {
             font-size: 60%;
-            width: 90%;
+            width: 100%;
+        }
+        #p {
+            margin-top: 15px;
+            font-size: 15px;
         }
     }
 
@@ -115,6 +147,7 @@
     }
 
     body {
+        font-size: 15px;
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
         line-height: 1.42em;
@@ -169,7 +202,7 @@
 
     .container td {
         font-weight: normal;
-        font-size: 1em;
+        font-size: 0.5em;
         -webkit-box-shadow: 0 2px 2px -2px #0E1119;
         -moz-box-shadow: 0 2px 2px -2px #0E1119;
         box-shadow: 0 2px 2px -2px #0E1119;
@@ -178,7 +211,7 @@
     .container {
         text-align: left;
         overflow: hidden;
-        width: 50%;
+        width: 60%;
         margin: 0 auto;
         display: table;
         padding: 0 0 8em 0;
@@ -251,7 +284,7 @@
     }
     p{
         margin-top: 15px;
-        font-size: 25px;
+        font-size: 20px;
     }
     .role {
         display: flex;

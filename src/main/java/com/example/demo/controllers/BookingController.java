@@ -33,17 +33,19 @@ public class BookingController {
 
     private final SnackbarRepository snackbarRepository;
     private final CategoryRepository categoryRepository;
+    private final StatusRepository statusRepository;
 
     private final UserRepos userRepos;
     @Autowired
     private ReportService reportService;
 
-    public BookingController(BookingRepository bookingRepository,CategoryRepository categoryRepository, ProductRepository productRepository, SnackbarRepository snackbarRepository, UserRepos userRepos) {
+    public BookingController(BookingRepository bookingRepository,CategoryRepository categoryRepository, ProductRepository productRepository,StatusRepository statusRepository, SnackbarRepository snackbarRepository, UserRepos userRepos) {
         this.bookingRepository = bookingRepository;
         this.productRepository = productRepository;
         this.snackbarRepository = snackbarRepository;
         this.userRepos = userRepos;
         this.categoryRepository = categoryRepository;
+        this.statusRepository = statusRepository;
     }
 
     @RequestMapping("/")
@@ -73,6 +75,9 @@ public class BookingController {
         model.addAttribute("categories", categories);
         Iterable<Product> products = productRepository.findAll();
         model.addAttribute("products", products);
+
+        Iterable<Status> status = statusRepository.findAll();
+        model.addAttribute("statuses", status);
         return "orders/orders-add";
     }
 
@@ -116,6 +121,7 @@ public class BookingController {
         model.addAttribute("users", users);
         model.addAttribute("snackbars", snackbars);
         model.addAttribute("products", products);
+
         booking.setTimeArrival(new Date());
         bookingRepository.save(booking);
         return "orders/orders-add";
@@ -126,6 +132,8 @@ public class BookingController {
         Booking res = bookingRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id: " + id));
         model.addAttribute("booking", res);
         model.addAttribute("products", products);
+        Iterable<Status> status = statusRepository.findAll();
+        model.addAttribute("statuses", status);
 
         return "orders/orders-edit";
     }
@@ -139,6 +147,8 @@ public class BookingController {
         User user = userRepos.findByUsername(authentication.getName());
         Iterable<Product> products = productRepository.findAll();
         model.addAttribute("products", products);
+        Iterable<Status> status = statusRepository.findAll();
+        model.addAttribute("statuses", status);
         booking.setUser(user);
         bookingRepository.save(booking);
         return "redirect:/login";
@@ -158,6 +168,42 @@ public class BookingController {
         model.addAttribute("isSaler", auth.getAuthorities().toString().contains("SALER"));
         model.addAttribute("isUser", auth.getAuthorities().toString().contains("USER"));
         model.addAttribute("bookings", bookings);
+
+        Iterable<Product> products = productRepository.findAll();
+        model.addAttribute("products", products);
+
+        Iterable<Status> statuses = statusRepository.findAll();
+        model.addAttribute("statuses", statuses);
+
+        return "orders/withdrawals";
+    }
+
+    @PostMapping("/withdrawals")
+    public String wildMain(@PathVariable("id") long id,
+                           @ModelAttribute("booking")
+                           Booking booking, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Iterable<Booking> bookings = bookingRepository.findAllByUser(userRepos.findByUsername(auth.getName()));
+
+        if(auth.getAuthorities().toString().contains("SALER"))
+            bookings = bookingRepository.findAll();
+
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        model.addAttribute("isAuth", userDetails.getUsername());
+        List<User> users = (List<User>) userRepos.findAll();
+        model.addAttribute("users", users);
+        model.addAttribute("isSaler", auth.getAuthorities().toString().contains("SALER"));
+        model.addAttribute("isUser", auth.getAuthorities().toString().contains("USER"));
+        model.addAttribute("bookings", bookings);
+
+        Iterable<Product> products = productRepository.findAll();
+        model.addAttribute("products", products);
+
+        Iterable<Status> status = statusRepository.findAll();
+        model.addAttribute("statuses", status);
+
+        booking.setUser((User) users);
+        bookingRepository.save(booking);
 
         return "orders/withdrawals";
     }
@@ -180,9 +226,15 @@ public class BookingController {
     }
 
     @PostMapping("/orders/{id}/remove")
-    public String blogPostRemove(@PathVariable("id") long id, Model model) {
+    public String deleteOrder(@PathVariable("id") long id, Model model) {
         Booking booking = bookingRepository.findById(id).orElseThrow();
         bookingRepository.delete(booking);
+        return "redirect:/withdrawals";
+    }
+    @PostMapping("/orders/save")
+    public String saveStatus(@RequestParam Status status,@RequestParam Booking booking) {
+        booking.setStatus(status);
+        bookingRepository.save(booking);
         return "redirect:/withdrawals";
     }
 }

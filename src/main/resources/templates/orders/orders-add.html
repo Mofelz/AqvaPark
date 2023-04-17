@@ -27,7 +27,8 @@
                 </link>
             </div>
             <div th:each="el : ${booking}">
-                <a class="imageMain" th:href=" '/orders/' + ${el.id} + '/edit'"><img src="/wing.png" width="50" height="50"></a>
+                <a class="imageMain" th:href=" '/orders/' + ${el.id} + '/edit'"><img src="/wing.png" width="50"
+                                                                                     height="50"></a>
                 <!--            <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>-->
             </div>
         </div>
@@ -62,25 +63,31 @@
 <!--        sum.innerText = (price.innerText * numericUpDown.value)-->
 <!--    }-->
 <!--</script>-->
-<!--<div class="empty"></div>-->
-<section  id="inner">
-<!--    <input type="text" placeholder="Найти блюдо">-->
-<!--    <h1>Скромный завтрак</h1>-->
+
+<section id="inner">
     <form th:action="@{/cart/add}" method="post" th:object="${booking}" id="outer">
-        <div class="flex" id="navbar-sub-list">
+        <div id="navbar-sub-list">
             <input type="hidden" th:field="*{id}">
             <input type="hidden" th:field="*{tableNumber}">
-            <div th:each="product : ${products}">
-                <div class="element">
-                    <h3 th:text="${product.category.nameCategory}"></h3>
-                    <img style="width: 150px;height: 150px;" class="rounded img-fluid pt-4 align-center"
-                         th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt="">
-                    <h3 th:text="${product.nameProduct}"></h3>
-                    <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
-                    <span><h3 th:text="${product.price+ ' руб.'}"></h3></span>
-                    <span><h3 th:text="${product.weight+ ' г.'}"></h3></span>
-                    <input id="up" class="checkbox" type="checkbox" th:field="*{productList}"
-                           th:value="${product.id}" onchange="this.form.submit()"/>
+            <div th:each="category : ${categories}" class="block-list flex">
+                <h2 th:text="${category.nameCategory}"></h2>
+
+                <div th:each="product : ${products}" th:if="${product.category==category}" class="flex">
+                    <div class="element">
+                        <img style="width: 150px;height: 150px;"
+                             th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt="">
+                        <h3 th:text="${product.nameProduct}"></h3>
+                        <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
+                        <span><h3 th:text="${product.price+ ' руб.'}"></h3></span>
+                        <span><h3 th:text="${product.weight+ ' г.'}"></h3></span>
+                        <input id="up" class="checkbox" type="checkbox" th:field="*{productList}"
+                               th:value="${product.id}" onchange="this.form.submit()"/>
+                        <select class="form-control" th:field="*{status}" hidden>
+                            <div th:each="status: ${statuses}">
+                                <option th:value="${status.id}" th:text="${status.nameStatus}"/>
+                            </div>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -96,26 +103,48 @@
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
         line-height: 1.42em;
-        color: #A7A1AE;
+        /*color: #A7A1AE;*/
+        color: #4DC3FA;
         background-color: #1F2739;
     }
-    h1{
-        margin: 15px;
+
+    .block-list {
+        padding-top: 50px;
+        display: flex;
     }
+
+    .element {
+        margin: 10px;
+        width: 180px;
+        height: 380px;
+        background-color: rgb(31, 39, 57, 70%);
+        border-radius: 20px;
+    }
+
+    .flex {
+        padding-top: 50px;
+        /*display: flex;*/
+        /*flex-wrap: wrap;*/
+        /*width: 200px;*/
+    }
+
     * {
-        margin:0;
-        padding:0;
+        margin: 0;
+        padding: 0;
     }
-    .empty{
+
+    .empty {
         height: 250px;
     }
+
     .header {
         position: fixed;
         padding: 10px;
         width: 100%;
         height: 60px;
-            background-color: rgba(128, 128, 128, 100%);
+        background-color: rgba(128, 128, 128, 100%);
     }
+
     .imageMain {
         border: none;
         background: none;
@@ -126,9 +155,11 @@
     .imageMain:hover {
         background: none;
     }
-    .empty{
+
+    .empty {
         height: 60px;
     }
+
     .shapka {
         display: flex;
     }
@@ -137,61 +168,44 @@
         display: flex;
         margin-top: 15px;
     }
+
     .ErrorMassage {
         color: red;
     }
-    .imageMain {
-        border: none;
-        background: none;
-        margin: 0;
-        padding: 0;
-    }
 
-    .imageMain:hover {
-        background: none;
-    }
     #inner {
         display: table;
         margin: 0 auto;
     }
+
     #outer {
-        width:100%
+        width: 100%
     }
+
     @media screen and (max-width: 480px) {
         html {
             -webkit-text-size-adjust: none;
         }
-        #header{
+
+        #header {
             width: 100%;
         }
-        #navbar-sub-list{
+
+        #navbar-sub-list {
             width: 400px;
         }
     }
-    .take{
+
+    .take {
         margin-top: 50px;
     }
-    .checkbox{
+
+    .checkbox {
         width: 50px;
     }
-    .element {
-        margin: 10px;
-        width: 180px;
-        height: 380px;
-        background-color: rgb(31, 39, 57,70%);
-        border-radius: 20px;
-    }
 
-    .flex {
-        padding-top: 50px;
-        display: flex;
-        flex-wrap: wrap;
-        width: 1000px;
-    }
-    form {
-        align: center;
-        /*background-color: green;*/
-    }
+
+
     .bg {
         background-image: url("../../backНАСАЙТ.jpg");
         background-repeat: no-repeat;
@@ -202,6 +216,7 @@
         -o-background-size: cover;
         background-size: cover;
     }
+
     a, button {
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
