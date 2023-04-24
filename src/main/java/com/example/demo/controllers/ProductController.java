@@ -60,11 +60,12 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}/edit")
-    public String tarifEdit(@PathVariable("id") long id, Model model) {
+    public String productsEdit(@PathVariable("id") long id, Model model) {
         Product product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id: " + id));
         model.addAttribute("products", product);
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
+
         return "products/products-edit";
     }
 

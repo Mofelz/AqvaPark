@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Изменение продукции</title>
+    <title>Редактирование</title>
 </head>
 <body th:align="center" class="bg">
 <header>
@@ -12,18 +12,18 @@
                 <a class="imageMain" href="/"><img src="/ava.png" width="80" height="70"></a>
             </div>
             <div class="shapka2">
-                <div>
-                    <a href="/snackbar">Рестораны</a>
-                </div>
+<!--                <div>-->
+<!--                    <a href="/snackbar">Рестораны</a>-->
+<!--                </div>-->
                 <div>
                     <a class="rest" href="">Блюда</a>
                 </div>
-                <div>
-                    <a href="/category">Категория</a>
-                </div>
-                <div>
-                    <a href="/withdrawals">Все заказы</a>
-                </div>
+<!--                <div>-->
+<!--                    <a href="/category">Категория</a>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <a href="/withdrawals">Все заказы</a>-->
+<!--                </div>-->
                 <div>
                     <a href="/products/add">Добавить</a>
                 </div>
@@ -50,7 +50,6 @@
 </section>
 
 <form th:action="${'/products/'+products.id+'/edit'}" method="post" th:object="${products}" enctype="multipart/form-data">
-    <h2>Редактирование продукции</h2>
     <div class="back">
         <label>Наиманование продукции</label>
 
@@ -118,6 +117,32 @@
         position: fixed;
     }
 
+    select {
+        height: 30px;
+        width: 250px;
+        border-radius: 30px;
+        /*-webkit-appearance: button;*/
+        /*-moz-appearance: button;*/
+        /*-webkit-user-select: none;*/
+        /*-moz-user-select: none;*/
+        /*-webkit-padding-end: 20px;*/
+        /*-moz-padding-end: 20px;*/
+        /*-webkit-padding-start: 2px;*/
+        /*-moz-padding-start: 2px;*/
+        /*background-position: center right;*/
+        /*background-repeat: no-repeat;*/
+        /*border: 1px solid #AAA;*/
+
+        /*box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);*/
+        /*color: #555;*/
+        /*font-size: inherit;*/
+        /*margin: 0;*/
+        /*overflow: hidden;*/
+        /*padding-top: 2px;*/
+        /*padding-bottom: 2px;*/
+        /*text-overflow: ellipsis;*/
+        /*white-space: nowrap;*/
+    }
     .empty{
         height: 100px;
     }
@@ -186,7 +211,7 @@
         padding: 20px;
         background-color: #323C50;
         width: 250px;
-        height: 290px;
+        height: 340px;
     }
     input {
         margin-bottom: 20px;

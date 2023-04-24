@@ -12,18 +12,18 @@
                 <a class="imageMain" href="/"><img src="/ava.png" width="80" height="70"></a>
             </div>
             <div class="shapka2">
-                <div>
-                    <a href="/snackbar">Рестораны</a>
-                </div>
+<!--                <div>-->
+<!--                    <a href="/snackbar">Рестораны</a>-->
+<!--                </div>-->
                 <div>
                     <a class="rest" href="">Блюда</a>
                 </div>
-                <div>
-                    <a href="/category">Категория</a>
-                </div>
-                <div>
-                    <a href="/withdrawals">Все заказы</a>
-                </div>
+<!--                <div>-->
+<!--                    <a href="/category">Категория</a>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <a href="/withdrawals">Все заказы</a>-->
+<!--                </div>-->
             </div>
             <div>
                 <link sec:authorize="isAuthenticated()">
@@ -45,7 +45,6 @@
 </section>
 
 <form th:action="${'/products/add'}" method="post" th:object="${products}" enctype="multipart/form-data">
-    <h2>Добавление блюда</h2>
     <div class="back">
         <div>
             <label>Наиманование блюда</label>
@@ -103,6 +102,33 @@
         background: rgba(78,87,84,100%);
         height: 60px;
         position: fixed;
+    }
+
+    select {
+        height: 30px;
+        width: 250px;
+        border-radius: 30px;
+        /*-webkit-appearance: button;*/
+        /*-moz-appearance: button;*/
+        /*-webkit-user-select: none;*/
+        /*-moz-user-select: none;*/
+        /*-webkit-padding-end: 20px;*/
+        /*-moz-padding-end: 20px;*/
+        /*-webkit-padding-start: 2px;*/
+        /*-moz-padding-start: 2px;*/
+        /*background-position: center right;*/
+        /*background-repeat: no-repeat;*/
+        /*border: 1px solid #AAA;*/
+
+        /*box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);*/
+        /*color: #555;*/
+        /*font-size: inherit;*/
+        /*margin: 0;*/
+        /*overflow: hidden;*/
+        /*padding-top: 2px;*/
+        /*padding-bottom: 2px;*/
+        /*text-overflow: ellipsis;*/
+        /*white-space: nowrap;*/
     }
 
     body {
@@ -179,7 +205,7 @@
         padding: 20px;
         background-color: #323C50;
         width: 250px;
-        height: 290px;
+        height: 340px;
     }
     input {
         margin-bottom: 20px;

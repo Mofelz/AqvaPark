@@ -46,13 +46,13 @@
 <!--            <div th:if="${isUser}" class="rest">-->
 <!--                <div th:each="el : ${snackbars}">-->
 <!--                    <p th:text="${'Ресторан: ' +el.nameSnackbar}"></p>-->
-<!--                    &lt;!&ndash;                <p th:text="${'Время работы: '+el.workingTime}"></p>&ndash;&gt;-->
-<!--                    &lt;!&ndash;                <p th:text="${'Адрес: '+el.address}"></p>&ndash;&gt;-->
+<!--                                    <p th:text="${'Время работы: '+el.workingTime}"></p>-->
+<!--                                    <p th:text="${'Адрес: '+el.address}"></p>-->
 <!--                </div>-->
 <!--            </div>-->
-<!--            <div class="role">-->
-<!--                <p th:if="${isSaler}">Сотрудник отдела Продаж</p>-->
-<!--            </div>-->
+            <div class="role">
+                <p th:if="${isSaler}">Сотрудник отдела Продаж</p>
+            </div>
             <div class="role">
                 <p th:if="${isAdmin}">Администратор</p>
             </div>
@@ -83,17 +83,29 @@
 <!--        </div>-->
 <!--    </footer>-->
 <!--</section>-->
-
+<section>
+    <footer id="footer">
+        <h3>© 2023 ООО «ЛинТех»® - все права защищены. Mofelz Production</h3>
+    </footer>
+</section>
 </body>
 </html>
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
-    * {
-        margin: 0;
-        padding: 0;
+    @media screen and (max-width: 480px) {
+        html {
+            -webkit-text-size-adjust: none;
+        }
+        #header{
+            width: 100%;
+        }
+        #footer{
+            width: 100%;
+        }
     }
 
+    html{height: 100%;}
     body {
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
@@ -101,9 +113,28 @@
         white-space: normal;
         color: #A7A1AE;
         background-color: #1F2739;
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    footer{
+        padding: 10px;
+        width: 100%;
+        background-color: rgba(128, 128, 128, 50%);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 25px;
     }
 
     .header {
+        width: 100%;
         padding: 10px;
         height: 60px;
         background-color: rgba(128, 128, 128, 50%);
@@ -125,7 +156,6 @@
     }
 
     .bg {
-
         background-image: url("black2.png");
         background-repeat: no-repeat;
         background-position: center center;
@@ -162,15 +192,6 @@
     /*        width: 95%;*/
     /*    }*/
     /*}*/
-
-    @media screen and (max-width: 480px) {
-        html {
-            -webkit-text-size-adjust: none;
-        }
-        #header{
-            width: 100%;
-        }
-    }
 
     .shapka {
         display: flex;

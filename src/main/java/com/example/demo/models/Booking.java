@@ -33,10 +33,6 @@ public class Booking {
     @JoinColumn(name = "statusId", referencedColumnName = "id")
     private Status status;
 
-    @ManyToMany
-    @JoinTable(name = "collect", joinColumns = @JoinColumn(name = "orderId"), inverseJoinColumns = @JoinColumn(name = "productId"))
-    private List<Product> productList;
-
     public Booking(Integer tableNumber, Date timeArrival, Date timeDeparture, User user, Snackbar snackbar,Status status) {
         this.tableNumber = tableNumber;
         this.timeArrival = timeArrival;
@@ -95,14 +91,6 @@ public class Booking {
 
     public void setSnackbar(Snackbar snackbar) {
         this.snackbar = snackbar;
-    }
-
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
     }
     public Status getStatus() {
         return status;

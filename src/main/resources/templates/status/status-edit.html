@@ -2,7 +2,7 @@
 <html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>Добавление</title>
+  <title>Редактирование</title>
 </head>
 <body class="bg">
 <header>
@@ -11,20 +11,29 @@
       <div>
         <a class="imageMain" href="/"><img src="/ava.png" width="70" height="60"></a>
       </div>
-      <div class="shapka2">
-        <div>
-          <a  href="/snackbar">Рестораны</a>
+        <div class="shapka2">
+            <!--        <div>-->
+            <!--          <a  href="/snackbar">Рестораны</a>-->
+            <!--        </div>-->
+            <!--        <div>-->
+            <!--          <a href="/products">Блюда</a>-->
+            <!--        </div>-->
+            <!--        <div>-->
+            <!--          <a class="rest" href="/category">Категория</a>-->
+            <!--        </div>-->
+            <!--        <div>-->
+            <!--          <a href="/withdrawals">Все заказы</a>-->
+            <!--        </div>-->
+            <div>
+                <a class="rest" href="/status">Статус</a>
+            </div>
+            <!--        <div>-->
+            <!--          <a href="/withdrawals">Все заказы</a>-->
+            <!--        </div>-->
+            <!--        <div>-->
+            <!--          <a href="/status/add">Добавить</a>-->
+            <!--        </div>-->
         </div>
-        <div>
-          <a href="/products">Блюда</a>
-        </div>
-        <div>
-          <a class="rest" href="/category">Категория</a>
-        </div>
-        <div>
-          <a href="/withdrawals">Все заказы</a>
-        </div>
-      </div>
 
       <div>
         <link sec:authorize="isAuthenticated()">
@@ -49,11 +58,10 @@
     <div class="back">
       <label>Наименование ресторана</label>
       <input required th:field="*{nameStatus}" type="text" name="nameStatus">
-      <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nameStatus')}"
-           th:errors="*{nameStatus}"></div>
+      <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nameStatus')}" th:errors="*{nameStatus}"></div>
+        <br><br>
+        <button type="submit">Применить</button>
     </div>
-    <br>
-    <button type="submit">Добавить</button>
   </form>
 </section>
 
@@ -124,7 +132,7 @@
     margin-top: 15px;
   }
   .bg {
-    background-image: url("../black2.png");
+    background-image: url("../../black2.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
@@ -134,23 +142,23 @@
     background-size: cover;
   }
   .back {
-    /*margin-top: 150px;*/
-    margin-left: 600px;
+      margin:0 40% 0 40%;
+      width:17%;
 
-    display: block;
-    font-weight: 900;
-    text-align: left;
-    border-radius: 30px;
-    padding: 20px;
-    background-color: #323C50;
-    width: 250px;
-    height: 200px;
+      display: block;
+      font-weight: 900;
+      text-align: left;
+      border-radius: 30px;
+      padding: 20px;
+      background-color: #323C50;
+      /*width: 250px;*/
+      height: 60px;
   }
 
   input {
     margin-bottom: 20px;
     height: 30px;
-    width: 250px;
+      width: 100%;
     color: black;
     border-style: none;
     border-radius: 30px;

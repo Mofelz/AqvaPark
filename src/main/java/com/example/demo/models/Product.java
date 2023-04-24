@@ -34,10 +34,6 @@ public class Product {
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
     private Category category;
 
-    @ManyToMany
-    @JoinTable(name = "collect", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "orderId"))
-    private List<Booking> bookingList;
-
     public Product(String nameProduct, Image image, Integer price, Integer weight, Category category) {
         this.nameProduct = nameProduct;
         this.image = image;
@@ -58,14 +54,6 @@ public class Product {
 
     public Long getId() {
         return id;
-    }
-
-    public List<Booking> getOrderList() {
-        return bookingList;
-    }
-
-    public void setOrderList(List<Booking> bookingList) {
-        this.bookingList = bookingList;
     }
 
     public void setId(Long id) {

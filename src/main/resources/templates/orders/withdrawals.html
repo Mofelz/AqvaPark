@@ -15,20 +15,20 @@
             </div>
             <div class="shapka2">
 
-                <div th:if="${isSaler}">
-                    <a href="/snackbar">Рестораны</a>
-                </div>
-                <div th:if="${isSaler}">
-                    <a href="/products">Блюда</a>
-                </div>
-                <div>
-                    <a th:if="${isSaler}" href="/category">Категория</a>
-                </div>
+<!--                <div th:if="${isSaler}">-->
+<!--                    <a href="/snackbar">Рестораны</a>-->
+<!--                </div>-->
+<!--                <div th:if="${isSaler}">-->
+<!--                    <a href="/products">Блюда</a>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <a th:if="${isSaler}" href="/category">Категория</a>-->
+<!--                </div>-->
                 <div th:if="${isSaler}">
                     <a class="rest" href="/withdrawals">Все заказы</a>
                 </div>
                 <div>
-                    <a th:href="@{/report/excel}" th:if="${isSaler}">⬇ Отчет</a>
+                    <a th:href="@{/report/excel}" th:if="${isSaler}">🡇 Отчет</a>
                 </div>
 
             </div>
@@ -42,8 +42,6 @@
             <div class="role" th:if="${isSaler}">
                 <p>Сотрудник Отдела продаж</p>
             </div>
-
-        </div>
         </div>
     </section>
 </header>

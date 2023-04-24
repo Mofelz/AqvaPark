@@ -4,7 +4,6 @@ import com.example.demo.Service.ExportExel;
 import com.example.demo.Service.ReportService;
 import com.example.demo.models.*;
 import com.example.demo.repo.*;
-import org.apache.poi.ss.formula.functions.Irr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,13 +37,16 @@ public class BookingController {
     @Autowired
     private ReportService reportService;
 
-    public BookingController(BookingRepository bookingRepository,CategoryRepository categoryRepository, ProductRepository productRepository,StatusRepository statusRepository, SnackbarRepository snackbarRepository, UserRepos userRepos) {
+    private CartRepository cartRepository;
+
+    public BookingController(BookingRepository bookingRepository, CategoryRepository categoryRepository, ProductRepository productRepository, StatusRepository statusRepository, SnackbarRepository snackbarRepository, UserRepos userRepos, CartRepository cartRepository) {
         this.bookingRepository = bookingRepository;
         this.productRepository = productRepository;
         this.snackbarRepository = snackbarRepository;
         this.userRepos = userRepos;
         this.categoryRepository = categoryRepository;
         this.statusRepository = statusRepository;
+        this.cartRepository = cartRepository;
     }
 
     @RequestMapping("/")
@@ -76,8 +77,6 @@ public class BookingController {
         Iterable<Product> products = productRepository.findAll();
         model.addAttribute("products", products);
 
-        Iterable<Status> status = statusRepository.findAll();
-        model.addAttribute("statuses", status);
         return "orders/orders-add";
     }
 
@@ -122,8 +121,18 @@ public class BookingController {
         model.addAttribute("snackbars", snackbars);
         model.addAttribute("products", products);
 
+        booking.setStatus(statusRepository.findFirstByOrderByIdAsc());
         booking.setTimeArrival(new Date());
         bookingRepository.save(booking);
+        Iterable<Cart> carts = cartRepository.findAllByBooking(booking);
+        int cartCount = 0;
+        for(Cart cart : carts){
+            cartCount += cart.getCount();
+        }
+//        if(cartCount == 0){
+//
+//        }
+        model.addAttribute("cartCount", cartCount);
         return "orders/orders-add";
     }
     @GetMapping("/orders/{id}/edit")
@@ -134,6 +143,7 @@ public class BookingController {
         model.addAttribute("products", products);
         Iterable<Status> status = statusRepository.findAll();
         model.addAttribute("statuses", status);
+        model.addAttribute("carts", cartRepository.findAllByBooking(res));
 
         return "orders/orders-edit";
     }
@@ -150,6 +160,7 @@ public class BookingController {
         Iterable<Status> status = statusRepository.findAll();
         model.addAttribute("statuses", status);
         booking.setUser(user);
+        model.addAttribute("carts", cartRepository.findAllByBooking(booking));
         bookingRepository.save(booking);
         return "redirect:/login";
     }

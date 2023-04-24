@@ -4,7 +4,6 @@
     <title>Покупка</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width; initial-scale=1.0">
-
 </head>
 <body th:align="center" class="bg">
 <header>
@@ -27,71 +26,42 @@
                 </link>
             </div>
             <div th:each="el : ${booking}">
-                <a class="imageMain" th:href=" '/orders/' + ${el.id} + '/edit'"><img src="/wing.png" width="50"
-                                                                                     height="50"></a>
-                <!--            <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>-->
+                <a class="cart" id="cart" th:href=" '/orders/' + ${el.id} + '/edit'">
+                    <img class="cart__image" src="/cart.png" alt="Cart" width="45"
+                         height="45" />
+                    <div class="cart__num" id="cart_num" th:text="${cartCount}"></div>
+                </a>
             </div>
         </div>
     </section>
 </header>
+
 <section>
     <div class="empty"></div>
 </section>
-<!--<div id="price">555</div>-->
-<!--<input id="numericUpDown" type="number" value="0" />-->
-<!--<input  type="button" class="up" value="+">-->
-<!--<input id="down" type="button" class="up" value="-">-->
-<!--<div id="sum">0</div>-->
-<!--<script>-->
-<!--    let price = document.getElementById("price");-->
-<!--    let sum = document.getElementById("sum");-->
-<!--    let numericUpDown = document.getElementById("numericUpDown");-->
-<!--    let up = document.getElementById("up");-->
-<!--    let down = document.getElementById("down");-->
-<!--    up.onclick = () => {-->
-<!--        numericUpDown.value = (isNaN(numericUpDown.value)) ? 1 : +numericUpDown.value + 1;-->
-<!--        setSum();-->
-<!--    };-->
-<!--    down.onclick = () =>{-->
-<!--        numericUpDown.value = (numericUpDown.value) > 0 ? +numericUpDown.value - 1 : 0;-->
-<!--        setSum();-->
-<!--    }-->
-
-<!--    numericUpDown.oninput = setSum;-->
-
-<!--    function setSum() {-->
-<!--        sum.innerText = (price.innerText * numericUpDown.value)-->
-<!--    }-->
-<!--</script>-->
 
 <section id="inner">
-    <form th:action="@{/cart/add}" method="post" th:object="${booking}" id="outer">
         <div id="navbar-sub-list">
-            <input type="hidden" th:field="*{id}">
-            <input type="hidden" th:field="*{tableNumber}">
             <div th:each="category : ${categories}" class="block-list flex">
                 <h2 th:text="${category.nameCategory}"></h2>
-
                 <div th:each="product : ${products}" th:if="${product.category==category}" class="flex">
                     <div class="element">
-                        <img style="width: 150px;height: 150px;"
-                             th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt="">
+                        <img class="image" style="width: 150px;height: 150px;" th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt="">
                         <h3 th:text="${product.nameProduct}"></h3>
                         <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
                         <span><h3 th:text="${product.price+ ' руб.'}"></h3></span>
                         <span><h3 th:text="${product.weight+ ' г.'}"></h3></span>
-                        <input id="up" class="checkbox" type="checkbox" th:field="*{productList}"
-                               th:value="${product.id}" onchange="this.form.submit()"/>
-                        <select class="form-control" th:field="*{status}" hidden>
-                            <div th:each="status: ${statuses}">
-                                <option th:value="${status.id}" th:text="${status.nameStatus}"/>
-                            </div>
-                        </select>
+                        <form th:action="@{/cart/add}" method="post" th:object="${booking}">
+                            <input type="hidden" th:field="*{id}">
+                            <input type="hidden" th:field="*{tableNumber}">
+                            <input type="hidden" th:field="*{status}">
+                            <input class="caption" value="В корзину" type="submit">
+                            <input th:value="${product.id}" name="product" type="hidden">
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
 </section>
 
 </body>
@@ -107,6 +77,10 @@
         color: #4DC3FA;
         background-color: #1F2739;
     }
+    image:hover {
+        transform: scale(1.2);
+    }
+
 
     .block-list {
         padding-top: 50px;
@@ -116,7 +90,7 @@
     .element {
         margin: 10px;
         width: 180px;
-        height: 380px;
+        height: 300px;
         background-color: rgb(31, 39, 57, 70%);
         border-radius: 20px;
     }
@@ -155,7 +129,6 @@
     .imageMain:hover {
         background: none;
     }
-
     .empty {
         height: 60px;
     }
@@ -195,16 +168,6 @@
             width: 400px;
         }
     }
-
-    .take {
-        margin-top: 50px;
-    }
-
-    .checkbox {
-        width: 50px;
-    }
-
-
 
     .bg {
         background-image: url("../../backНАСАЙТ.jpg");
@@ -250,11 +213,64 @@
     }
 
     input {
+        background-color: #1F3749;
+        margin-top: 15px;
+        color: white;
+        width: 120px;
+        height: 50px;
+        border: none;
+        border-radius: 15px;
+
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+    input:hover{
+        background-color: white;
         margin-top: 15px;
         color: black;
-        width: 250px;
+        width: 120px;
         height: 50px;
+        border: none;
         border-radius: 15px;
-        border-width: 1px;
+    }
+
+    .cart {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #364364;
+        transition: 0.1s;
+        cursor: pointer;
+        position: fixed; /* Фиксированное расположение */
+        top: 10px; /* в правом верхнем углу */
+        right: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        object-fit: contain;
+        padding: 15px;
+        box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Увеличиваем кнопку при наведении на нее */
+    .cart:hover {
+        transform: scale(1.1);
+    }
+
+    /* Стилизуем счетчик товаров */
+    .cart__num {
+        position: absolute;
+        background-color: #d62240;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 500;
+        top: -5px;
+        right: -5px;
     }
 </style>

@@ -9,36 +9,47 @@
 <h1>Корзина</h1>
 <table class="container" id="container">
     <tr>
-        <th><h1 th:text="${'Код заказа'}"></h1></th>
-        <th><h1 th:text="${'Номер столика'}"></h1></th>
         <th><h1 th:text="${'Изображение'}"></h1></th>
         <th><h1 th:text="${'Наименование'}"></h1></th>
         <th><h1 th:text="${'Цена'}"></h1></th>
         <th><h1 th:text="${'Вес'}"></h1></th>
-        <th><h1 th:text="${'Категория'}"></h1></th>
+        <th><h1 th:text="${'Количество'}"></h1></th>
+        <th><h1 th:text="${'Удаление'}"></h1></th>
     </tr>
     <form th:action="${'/orders/'+booking.id+'/edit'}" method="post" th:object="${booking}" id="container2">
         <button type="submit">Подтвердить</button>
         <br>
         <br>
-        <div th:each="product : ${booking.productList}">
-            <tr>
-                <td><input type="text" readonly th:field="*{id}" id="th"></td>
-                <td><input type="text" readonly th:field="*{tableNumber}"></td>
-                <td><img style="width: 70px;height: 70px;" class="rounded img-fluid pt-4 align-center"
-                         th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt=""></td>
-                <td><h3 th:text="${product.nameProduct}"></h3></td>
-                <td><h3 th:text="${product.price+ ' руб.'}"></h3></td>
-                <td><h3 th:text="${product.weight+ ' г.'}"></h3></td>
-                <td><h3 th:text="${product.category.nameCategory}"></h3></td>
-                <select class="form-control" th:field="*{status}" hidden>
-                    <div th:each="status: ${statuses}">
-                        <option th:value="${status.id}" th:text="${status.nameStatus}"/>
-                    </div>
-                </select>
-            </tr>
+        <div th:each="cart : ${carts}" >
+            <div >
+                <th><img style="width: 75px;height: 75px;" th:if="${cart.product.image!=null}" th:src="'/image/' + ${cart.product.image.idImage}" alt=""></th>
+                <th><h3 th:text="${cart.product.nameProduct}"></h3></th>
+                <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
+                <th><h3 th:text="${cart.product.price+ ' руб.'}"></h3></th>
+                <th><h3 th:text="${cart.product.weight+ ' г.'}"></h3></th>
+
+                <form th:action="@{/cart/add}" method="post" th:object="${booking}">
+                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" th:field="*{tableNumber}">
+                    <input type="hidden" th:field="*{status}">
+                    <!--                    <input value="В корзину" type="submit">-->
+                    <input th:value="${cart.product.id}" name="product" type="hidden">
+                    <th>
+                        <div class="cart__num" id="cart_num" th:text="${cart.count+' шт'}"></div>
+                    </th>
+                </form>
+                <th>
+                    <form th:action=" '/cart/' + ${cart.product.id} + '/remove'" method="post">
+                        <button type="submit" class="btn-del">Удалить</button>
+                    </form>
+                </th>
+            </div>
         </div>
+
     </form>
+    <tr>
+
+    </tr>
 </table>
 
 </body>

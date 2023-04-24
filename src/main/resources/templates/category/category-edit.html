@@ -12,18 +12,18 @@
         <a class="imageMain" href="/"><img src="/ava.png" width="70" height="60"></a>
       </div>
       <div class="shapka2">
-        <div>
-          <a  href="/snackbar">Рестораны</a>
-        </div>
-        <div>
-          <a href="/products">Блюда</a>
-        </div>
+<!--        <div>-->
+<!--          <a  href="/snackbar">Рестораны</a>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <a href="/products">Блюда</a>-->
+<!--        </div>-->
         <div>
           <a class="rest" href="/category">Категория</a>
         </div>
-        <div>
-          <a href="/withdrawals">Все заказы</a>
-        </div>
+<!--        <div>-->
+<!--          <a href="/withdrawals">Все заказы</a>-->
+<!--        </div>-->
       </div>
 
       <div>
@@ -47,13 +47,16 @@
 <section>
   <form th:action="${'/category/'+category.id+'/edit'}" method="post" th:object="${category}">
     <div class="back">
-      <label>Наименование ресторана</label>
+      <label>Наименование</label>
+
       <input required th:field="*{nameCategory}" type="text" name="nameCategory">
-      <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nameCategory')}"
-           th:errors="*{nameCategory}"></div>
+
+      <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('nameCategory')}" th:errors="*{nameCategory}"></div>
+
+        <br><br>
+        <button type="submit">Добавить</button>
     </div>
-    <br>
-    <button type="submit">Добавить</button>
+
   </form>
 </section>
 
@@ -124,7 +127,7 @@
     margin-top: 15px;
   }
   .bg {
-    background-image: url("../black2.png");
+    background-image: url("../../black2.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
@@ -134,17 +137,17 @@
     background-size: cover;
   }
   .back {
-    /*margin-top: 150px;*/
-    margin-left: 600px;
+      margin:0 40% 0 40%;
+      width:17%;
 
-    display: block;
-    font-weight: 900;
-    text-align: left;
-    border-radius: 30px;
-    padding: 20px;
-    background-color: #323C50;
-    width: 250px;
-    height: 200px;
+      display: block;
+      font-weight: 900;
+      text-align: left;
+      border-radius: 30px;
+      padding: 20px;
+      background-color: #323C50;
+      /*width: 250px;*/
+      height: 60px;
   }
 
   input {
