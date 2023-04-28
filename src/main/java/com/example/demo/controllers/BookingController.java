@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -129,27 +131,32 @@ public class BookingController {
         for(Cart cart : carts){
             cartCount += cart.getCount();
         }
-//        if(cartCount == 0){
-//
-//        }
         model.addAttribute("cartCount", cartCount);
         return "orders/orders-add";
     }
     @GetMapping("/orders/{id}/edit")
-    public String blogEdit(@PathVariable("id") long id, Model model) {
+    public String ordersEdit(@PathVariable("id") long id, Model model) {
         Iterable<Product> products = productRepository.findAll();
-        Booking res = bookingRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id: " + id));
-        model.addAttribute("booking", res);
+        Booking booking = bookingRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id: " + id));
+        Iterable<Cart> carts = cartRepository.findAllByBooking(booking);
+
+        model.addAttribute("booking", booking);
         model.addAttribute("products", products);
         Iterable<Status> status = statusRepository.findAll();
         model.addAttribute("statuses", status);
-        model.addAttribute("carts", cartRepository.findAllByBooking(res));
+        model.addAttribute("carts", cartRepository.findAllByBooking(booking));
 
+        int fullPrice = 0;
+        for(Cart cart : carts){
+            fullPrice += cart.getCount() * cart.getProduct().getPrice();
+        }
+
+        model.addAttribute("fullPrice",fullPrice);
         return "orders/orders-edit";
     }
 
     @PostMapping("/orders/{id}/edit")
-    public String blogPostUpdate(@PathVariable("id") long id,
+    public String ordersUpdate(@PathVariable("id") long id,
                                  @ModelAttribute("booking")
                                  Booking booking, Model model) {
         booking.setId(id);
@@ -160,7 +167,9 @@ public class BookingController {
         Iterable<Status> status = statusRepository.findAll();
         model.addAttribute("statuses", status);
         booking.setUser(user);
-        model.addAttribute("carts", cartRepository.findAllByBooking(booking));
+
+
+
         bookingRepository.save(booking);
         return "redirect:/login";
     }
@@ -185,13 +194,25 @@ public class BookingController {
 
         Iterable<Status> statuses = statusRepository.findAll();
         model.addAttribute("statuses", statuses);
+        List<Cart> carts = new ArrayList<>();
+        List<String> fullPrices = new ArrayList<>();
 
+        for (Booking booking1 : bookings){
+            Iterable<Cart> carts1 = cartRepository.findAllByBooking(booking1);
+            carts.addAll((List)carts1);
+            int fullPrice = 0;
+            for(Cart cart : carts1){
+                fullPrice += cart.getCount() * cart.getProduct().getPrice();
+            }
+            fullPrices.add("" + fullPrice + "");
+        }
+        model.addAttribute("fullPrice", fullPrices);
+        model.addAttribute("carts", carts);
         return "orders/withdrawals";
     }
 
     @PostMapping("/withdrawals")
-    public String wildMain(@PathVariable("id") long id,
-                           @ModelAttribute("booking")
+    public String wildMain(@ModelAttribute("booking")
                            Booking booking, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Iterable<Booking> bookings = bookingRepository.findAllByUser(userRepos.findByUsername(auth.getName()));

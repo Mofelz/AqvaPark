@@ -37,8 +37,7 @@ public class ExportExel {
         createCell(row, 0, "Код заказа", style);
         createCell(row, 1, "Пользователь", style);
         createCell(row, 2, "Номер столика", style);
-//        createCell(row, 3, "Наименование бара", style);
-
+        createCell(row, 3, "Статус заказа", style);
     }
 
     private void createCell(Row row, int columnCount, Object value, CellStyle style) {
@@ -70,7 +69,7 @@ public class ExportExel {
             createCell(row, columnCount++, user.getId().toString(), style);
             createCell(row, columnCount++, user.getUser().getUsername().toString(), style);
             createCell(row, columnCount++, user.getTableNumber().toString(), style);
-            //            createCell(row, columnCount++, user.getSnackbar().toString(), style);
+            createCell(row, columnCount++, user.getStatus().getNameStatus().toString(), style);
         }
     }
 

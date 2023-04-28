@@ -26,9 +26,10 @@
                 </link>
             </div>
             <div th:each="el : ${booking}">
-                <a class="cart" id="cart" th:href=" '/orders/' + ${el.id} + '/edit'">
+
+                <a th:if="${cartCount != 0}" class="cart" id="cart" th:href=" '/orders/' + ${el.id} + '/edit'">
                     <img class="cart__image" src="/cart.png" alt="Cart" width="45"
-                         height="45" />
+                         height="45"/>
                     <div class="cart__num" id="cart_num" th:text="${cartCount}"></div>
                 </a>
             </div>
@@ -40,34 +41,49 @@
     <div class="empty"></div>
 </section>
 
-<section id="inner">
-        <div id="navbar-sub-list">
-            <div th:each="category : ${categories}" class="block-list flex">
-                <h2 th:text="${category.nameCategory}"></h2>
-                <div th:each="product : ${products}" th:if="${product.category==category}" class="flex">
-                    <div class="element">
-                        <img class="image" style="width: 150px;height: 150px;" th:if="${product.image!=null}" th:src="'/image/' + ${product.image.idImage}" alt="">
-                        <h3 th:text="${product.nameProduct}"></h3>
-                        <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
-                        <span><h3 th:text="${product.price+ ' руб.'}"></h3></span>
-                        <span><h3 th:text="${product.weight+ ' г.'}"></h3></span>
-                        <form th:action="@{/cart/add}" method="post" th:object="${booking}">
-                            <input type="hidden" th:field="*{id}">
-                            <input type="hidden" th:field="*{tableNumber}">
-                            <input type="hidden" th:field="*{status}">
-                            <input class="caption" value="В корзину" type="submit">
-                            <input th:value="${product.id}" name="product" type="hidden">
-                        </form>
-                    </div>
-                </div>
+<section>
+    <div th:each="category : ${categories}">
+        <h2 th:text="${category.nameCategory}"></h2>
+        <div th:each="product : ${products}" th:if="${product.category==category}" class="flex-box">
+            <div class="element">
+                <img class="image" style="width: 150px;height: 150px;" th:if="${product.image!=null}"
+                     th:src="'/image/' + ${product.image.idImage}" alt="">
+                <h3 th:text="${product.nameProduct}"></h3>
+                <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
+                <span><h3 th:text="${product.price+ ' руб.'}"></h3></span>
+                <span><h3 th:text="${product.weight+ ' г.'}"></h3></span>
+                <form th:action="@{/cart/add}" method="post" th:object="${booking}">
+                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" th:field="*{tableNumber}">
+                    <input type="hidden" th:field="*{status}">
+                    <br><input value="В корзину" type="submit">
+                    <input th:value="${product.id}" name="product" type="hidden">
+                </form>
             </div>
         </div>
+    </div>
 </section>
 
 </body>
 </html>
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    .flex-box{
+        display: inline-flex;
+    }
+    #inner {
+        display: table;
+        margin: 0 auto;
+    }
+
+    #outer {
+        width: 100%
+    }
 
     body {
         font-family: 'Open Sans', sans-serif;
@@ -77,38 +93,21 @@
         color: #4DC3FA;
         background-color: #1F2739;
     }
+
     image:hover {
         transform: scale(1.2);
-    }
-
-
-    .block-list {
-        padding-top: 50px;
-        display: flex;
     }
 
     .element {
         margin: 10px;
         width: 180px;
-        height: 300px;
+        height: 320px;
         background-color: rgb(31, 39, 57, 70%);
         border-radius: 20px;
     }
 
-    .flex {
-        padding-top: 50px;
-        /*display: flex;*/
-        /*flex-wrap: wrap;*/
-        /*width: 200px;*/
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-    }
-
     .empty {
-        height: 250px;
+        padding-bottom: 50px;
     }
 
     .header {
@@ -129,6 +128,7 @@
     .imageMain:hover {
         background: none;
     }
+
     .empty {
         height: 60px;
     }
@@ -144,15 +144,6 @@
 
     .ErrorMassage {
         color: red;
-    }
-
-    #inner {
-        display: table;
-        margin: 0 auto;
-    }
-
-    #outer {
-        width: 100%
     }
 
     @media screen and (max-width: 480px) {
@@ -213,25 +204,35 @@
     }
 
     input {
-        background-color: #1F3749;
-        margin-top: 15px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+
+        text-decoration: none;
         color: white;
-        width: 120px;
-        height: 50px;
-        border: none;
+
+        font-size: 15px;
+        border-width: 0px;
+        border-style: solid;
         border-radius: 15px;
+
+        background-color: #1F2739;
+
+        margin-left: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        text-transform: uppercase;
 
         -webkit-transition: all 0.5s ease;
         transition: all 0.5s ease;
     }
-    input:hover{
-        background-color: white;
-        margin-top: 15px;
-        color: black;
-        width: 120px;
-        height: 50px;
-        border: none;
-        border-radius: 15px;
+
+    input:hover {
+        color: white;
+        background-color: #2C3446;
     }
 
     .cart {

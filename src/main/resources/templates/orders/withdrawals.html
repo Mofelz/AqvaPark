@@ -5,8 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width; initial-scale=1.0">
     <title>Заказы</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <link th:href="@{/wb.css}" rel="stylesheet">
 </head>
 <body th:align="center" class="bg">
+
 <header>
     <section class="header">
         <div class="shapka">
@@ -15,15 +18,15 @@
             </div>
             <div class="shapka2">
 
-<!--                <div th:if="${isSaler}">-->
-<!--                    <a href="/snackbar">Рестораны</a>-->
-<!--                </div>-->
-<!--                <div th:if="${isSaler}">-->
-<!--                    <a href="/products">Блюда</a>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <a th:if="${isSaler}" href="/category">Категория</a>-->
-<!--                </div>-->
+                <!--                <div th:if="${isSaler}">-->
+                <!--                    <a href="/snackbar">Рестораны</a>-->
+                <!--                </div>-->
+                <!--                <div th:if="${isSaler}">-->
+                <!--                    <a href="/products">Блюда</a>-->
+                <!--                </div>-->
+                <!--                <div>-->
+                <!--                    <a th:if="${isSaler}" href="/category">Категория</a>-->
+                <!--                </div>-->
                 <div th:if="${isSaler}">
                     <a class="rest" href="/withdrawals">Все заказы</a>
                 </div>
@@ -48,19 +51,20 @@
 <section>
     <div class="empty"></div>
 </section>
-<table class="container" id="container">
+<table class="fold-table">
     <thead>
-    <th><h1 th:text="${'Логин пользователя'}"></h1></th>
-    <th><h1 th:text="${'Код заказа'}"></h1></th>
-    <th><h1 th:text="${'Номер столика'}"></h1></th>
-    <th><h1 th:text="${'Статус заказа'}"></h1></th>
-    <th><h1 th:text="${'Удаление'}" th:if="${isSaler}"></h1></th>
-
+    <tr>
+        <th>Логин пользователя</th>
+        <th>Код заказа</th>
+        <th>Номер столика</th>
+        <th>Статус заказа</th>
+        <th th:if="${isSaler}">Удаление</th>
+    </tr>
     </thead>
-
     <tbody>
+
     <div th:each="el : ${bookings}" th:if="${(el.user.username == isAuth) || isSaler}">
-        <tr>
+        <tr class="view">
             <td><p th:text="${el.user.username}"></p></td>
             <td><p th:text="${el.id}"></p></td>
             <td><p th:text="${el.tableNumber}"></p></td>
@@ -69,7 +73,8 @@
                     <div>
                         <select class="form-control" name="status" onchange="this.form.submit()">
                             <div th:each="status: ${statuses}">
-                                <option th:value="${status.id}" th:text="${status.nameStatus}" th:selected="${status.id==el.status.id}"/>
+                                <option th:value="${status.id}" th:text="${status.nameStatus}"
+                                        th:selected="${status.id==el.status.id}"/>
                             </div>
                         </select>
                     </div>
@@ -77,40 +82,78 @@
                 </form>
                 <p th:text="${el.status.nameStatus}" th:if="${isUser}"></p>
             </td>
-<!--            <div th:each="product : ${products}">-->
-<!--                <td><h3 th:text="${product.category.nameCategory}"></h3></td>-->
-<!--                <td><h3 th:text="${product.price+ ' руб.'}"></h3></td>-->
-<!--                <td><h3 th:text="${product.weight+ ' г.'}"></h3></td>-->
-            <th th:if="${isSaler}">
-                <form th:action=" '/orders/' + ${el.id} + '/remove'" method="post">
+            <td th:if="${isSaler}">
+                <form th:action=" '/orders/' + ${el.id} + '/remove'" method="post" >
                     <button type="submit" class="btn btn-del">Удалить</button>
                 </form>
-            </th>
+            </td>
         </tr>
-    </div>
+
+
+    <tr class="fold">
+        <td colspan="7">
+            <div class="fold-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Наименование</th>
+                            <th>Категория</th>
+                            <th>Вес</th>
+                            <th>Цена</th>
+                            <th>Количество</th>
+                            <th>Итоговая цена</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <div th:each="cart : ${carts}" th:if="${cart.booking == el}">
+                            <tr class="view">
+                                <td><p th:text="${cart.product.nameProduct}"></p></td>
+                                <td><p th:text="${cart.product.category.nameCategory}"></p></td>
+                                <td><p th:text="${cart.product.weight + ' г.'}"></p></td>
+                                <td><p th:text="${cart.product.price + ' р.'}"></p></td>
+                                <td><p th:text="${cart.count + ' шт.'}"></p></td>
+                                <td><p th:text="${cart.count * cart.product.price  + ' р.'}"></p></td>
+
+                            </tr>
+                        </div>
+                    <tr>
+                        <td colspan="4"></td>
+                        <td><p></p>Итого</td>
+                        <td><p th:text="${fullPrice[elStat.index] + ' р.'}"></p></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </td>
+    </tr>
     </div>
     </tbody>
 </table>
-<br>
+<script th:src="@{/jees.js}"></script>
 </body>
 </html>
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
     * {
-        margin:0;
-        padding:0;
+        margin: 0;
+        padding: 0;
     }
+
     .header {
         padding: 10px;
         height: 60px;
         background-color: rgba(128, 128, 128, 50%);
     }
 
-    select{
-        color: rgba(128, 128, 128, 50%);
-        background-color: #2C3446;
+    select {
+        font-size: 20px;
+        color: #0E1119;
+        /*color: rgba(128, 128, 128, 50%);*/
+        /*background-color: #2C3446;*/
+        background-color: #F8F8F8;
     }
+
     @media (min-resolution: 150dpi) {
         td {
             font-size: 14px;
@@ -121,13 +164,16 @@
         html {
             -webkit-text-size-adjust: none;
         }
-        #header{
+
+        #header {
             width: 100%;
         }
+
         #container {
             font-size: 60%;
             width: 100%;
         }
+
         #p {
             margin-top: 15px;
             font-size: 15px;
@@ -136,12 +182,13 @@
 
     @media (max-width: 800px) {
         .container td:nth-child(4),
-        .container th:nth-child(4) { display: none; }
+        .container th:nth-child(4) {
+            display: none;
+        }
     }
 
-
-    .empty{
-        height: 100px;
+    .empty {
+        height: 50px;
     }
 
     body {
@@ -152,6 +199,7 @@
         color: #A7A1AE;
         background-color: #1F2739;
     }
+
     .rest {
         pointer-events: none; /* делаем ссылку некликабельной */
         cursor: default; /* устанавливаем курсор в виде стрелки */
@@ -163,20 +211,21 @@
         user-select: none;
         background-color: green;
     }
+
     h1 {
-        font-size:3em;
+        font-size: 3em;
         font-weight: 300;
-        line-height:1em;
+        line-height: 1em;
         text-align: center;
         color: #4DC3FA;
     }
 
     h2 {
-        font-size:1em;
+        font-size: 1em;
         font-weight: 300;
         text-align: center;
         display: block;
-        line-height:1em;
+        line-height: 1em;
         padding-bottom: 2em;
         color: #FB667A;
     }
@@ -188,8 +237,13 @@
         text-decoration: none;
     }
 
-    .blue { color: #185875; }
-    .yellow { color: #FFF842; }
+    .blue {
+        color: #185875;
+    }
+
+    .yellow {
+        color: #FFF842;
+    }
 
     .container th h1 {
         font-weight: bold;
@@ -218,7 +272,7 @@
     .container td, .container th {
         padding-bottom: 1%;
         padding-top: 1%;
-        padding-left:1%;
+        padding-left: 1%;
     }
 
     /* Background-color of the odd rows */
@@ -235,7 +289,9 @@
         background-color: #1F2739;
     }
 
-    .container td:first-child { color: #FB667A; }
+    .container td:first-child {
+        color: #FB667A;
+    }
 
     .container tr:hover {
         background-color: #464A52;
@@ -280,14 +336,17 @@
         -o-background-size: cover;
         background-size: cover;
     }
-    p{
+
+    p {
         margin-top: 15px;
         font-size: 20px;
     }
+
     .role {
         display: flex;
         margin-left: 15px;
     }
+
     .shapka {
         display: flex;
     }
@@ -296,6 +355,7 @@
         display: flex;
         margin-top: 15px;
     }
+
     a, button {
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
@@ -328,3 +388,4 @@
         background-color: #FFF842;
     }
 </style>
+

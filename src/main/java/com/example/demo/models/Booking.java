@@ -33,6 +33,9 @@ public class Booking {
     @JoinColumn(name = "statusId", referencedColumnName = "id")
     private Status status;
 
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.REMOVE)
+    private List<Cart> carts;
+
     public Booking(Integer tableNumber, Date timeArrival, Date timeDeparture, User user, Snackbar snackbar,Status status) {
         this.tableNumber = tableNumber;
         this.timeArrival = timeArrival;
@@ -44,7 +47,13 @@ public class Booking {
 
     public Booking(){}
 
+    public List<Cart> getCarts() {
+        return carts;
+    }
 
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
+    }
     public Long getId() {
         return id;
     }

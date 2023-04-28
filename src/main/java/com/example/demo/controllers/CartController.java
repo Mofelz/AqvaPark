@@ -4,10 +4,8 @@ import com.example.demo.models.*;
 import com.example.demo.repo.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class CartController {
@@ -54,10 +52,60 @@ public class CartController {
         model.addAttribute("cartCount", cartCount);
         return "orders/orders-add";
     }
-    @PostMapping("/cart/{id}/remove")
-    public String deleteProductCart(@PathVariable("id") long id, Model model) {
-        Cart cart = cartRepository.findById(id).orElseThrow();
+    @PostMapping("/cart/delete")
+    public String deleteProductCart(@RequestParam Booking booking, @RequestParam Cart cart, Model model) {
+        Iterable<Status> status = statusRepository.findAll();
+        Iterable<Product> products = productRepository.findAll();
+        model.addAttribute("booking", booking);
+        model.addAttribute("products", products);
+        model.addAttribute("statuses", status);
+
         cartRepository.delete(cart);
-        return "redirect:/orders-edit";
+        int cartCount = 0;
+        for(Cart cart1: cartRepository.findAllByBooking(booking)){
+            cartCount++;
+        }
+        model.addAttribute("cartCount", cartCount);
+        model.addAttribute("carts", cartRepository.findAllByBooking(booking));
+        return "orders/orders-edit";
+    }
+    @PostMapping("/cart/remove1")
+    public String delete1ProductCart(@RequestParam Booking booking, @RequestParam Cart cart, Model model) {
+
+        Iterable<Status> status = statusRepository.findAll();
+        Iterable<Product> products = productRepository.findAll();
+        model.addAttribute("booking", booking);
+        model.addAttribute("products", products);
+        model.addAttribute("statuses", status);
+        if (cart.getCount() -1 == 0 ){
+            cartRepository.delete(cart);
+        }
+        else {
+            cart.setCount(cart.getCount()-1);
+            cartRepository.save(cart);
+        }
+        int cartCount = 0;
+        for(Cart cart1: cartRepository.findAllByBooking(booking)){
+            cartCount++;
+        }
+        model.addAttribute("cartCount", cartCount);
+        model.addAttribute("carts", cartRepository.findAllByBooking(booking));
+        return "orders/orders-edit";
+    }
+    @GetMapping("/cart/returnToOrder")
+    public String returnToOrder(@RequestParam Booking booking, Model model) {
+        Iterable<Cart> carts = cartRepository.findAllByBooking(booking);
+        int cartCount = 0;
+        for(Cart cart : carts){
+            cartCount += cart.getCount();
+        }
+        model.addAttribute("cartCount", cartCount);
+        model.addAttribute("booking", booking);
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+        Iterable<Product> products = productRepository.findAll();
+        model.addAttribute("products", products);
+
+        return "orders/orders-add";
     }
 }
