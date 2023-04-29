@@ -54,7 +54,7 @@
 <table class="fold-table">
     <thead>
     <tr>
-        <th>Логин пользователя</th>
+        <th th:if="${isSaler}">Логин пользователя</th>
         <th>Код заказа</th>
         <th>Номер столика</th>
         <th>Статус заказа</th>
@@ -65,7 +65,7 @@
 
     <div th:each="el : ${bookings}" th:if="${(el.user.username == isAuth) || isSaler}">
         <tr class="view">
-            <td><p th:text="${el.user.username}"></p></td>
+            <td th:if="${isSaler}"><p th:text="${el.user.username}"></p></td>
             <td><p th:text="${el.id}"></p></td>
             <td><p th:text="${el.tableNumber}"></p></td>
             <td>

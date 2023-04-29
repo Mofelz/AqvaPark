@@ -29,7 +29,7 @@
                     <a th:if="${isSaler}" href="/status">Статус</a>
                 </div>
                 <div>
-                    <a th:if="${isUser}" href="/withdrawals">Мои заказы</a>
+                    <a th:if="${isUser}" href="/withdrawals">Заказы</a>
                 </div>
                 <div>
                     <a th:if="${isSaler}" href="/withdrawals">Все заказы</a>
@@ -61,11 +61,27 @@
 </header>
 
 <section>
+<!--    <div class="greeting" id="greeting">-->
+<!--        <h1>Welcome!</h1>-->
+
+<!--        <h3>Добро пожаловать! Разрабатывай и трапезничай с Электронное меню ООО "ЛинТех"</h3>-->
+<!--        -->
+<!--        <h3>Добро пожаловать в Электронное меню ООО "ЛинТех"</h3>-->
+<!--        <h3>После усердной разработки или долгой починки робота всегда хочется перекусить.</h3>-->
+<!--        <h3>Но это не проблема для нашего меню, где Вы можете выбрать любые блюда, </h3>-->
+<!--        <h3>предложенные столовой, находясь за своим столиком и не отходя от него!</h3>-->
+<!--    </div>-->
+    <h1 id="hello">Разрабатывай, <span class="underlined underline-clip">Изучай</span>
+        <br>& Обедай <span class="underlined underline-mask">Вместе с </span>
+        <br><span class="underlined underline-overflow">Электронным меню от ООО "ЛинТех"</span></h1>
+</section>
+
+<section>
     <div class="stolik" th:if="${isUser}">
-        <h1>Введите номер своего стола</h1>
+        <h2>Введите номер своего стола</h2>
         <br>
         <form th:action="${'/orders/add'}" method="post" th:object="${booking}">
-            <input required th:field="*{tableNumber}" type="number">
+            <input required th:field="*{tableNumber}" type="number" id="tableNumber">
             <div th:if="${#fields.hasErrors('tableNumber')}" th:errors="*{tableNumber}"></div>
 
             <input type="hidden" th:value="${booking.id}" name="booking">
@@ -101,16 +117,44 @@
             width: 100%;
         }
         #footer{
+            height: 50px;
             width: 100%;
+        }
+        #hello{
+            font-size: clamp(2rem, 5vmin, 2rem);
+            /*font-size: 10px*/
+        }
+        #tableNumber{
+            width: 40%;
+            height: 40px;
+        }
+    }
+    @media screen and (max-width: 1080px) {
+        html {
+            -webkit-text-size-adjust: none;
+        }
+        #header{
+            width: 100%;
+        }
+        #footer{
+            height: 50px;
+            width: 100%;
+        }
+        #hello{
+            font-size: clamp(2rem, 5vmin, 2rem);
+            /*font-size: 10px*/
+        }
+        #tableNumber{
+            width: 40%;
+            height: 40px;
         }
     }
 
-    html{height: 100%;}
     body {
+        display: grid;
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
-        line-height: 1.42em;
-        white-space: normal;
+
         color: #A7A1AE;
         background-color: #1F2739;
         position: relative;
@@ -118,16 +162,79 @@
         width: 100%;
     }
 
+    h1 {
+        font-size: clamp(2rem, 7vmin, 4rem);
+        color: hsl(0 0% 98%);
+    }
+
+    .underlined {
+        position: relative;
+    }
+
+    .underline-mask:after {
+        content: '';
+        position: absolute;
+        top: 95%;
+        width: 150%;
+        aspect-ratio: 3 / 1;
+        left: 50%;
+        transform: translate(-50%, 0);
+        border-radius: 50%;
+        border: 6px solid hsl(280 80% 50%);
+        /* Use a conic gradient mask to hide and show the bits you want */
+        --spread: 140deg;
+        --start: 290deg;
+        mask: conic-gradient(from var(--start), white 0 var(--spread), transparent var(--spread));
+    }
+
+
+    .underline-overflow {
+        display: inline-block;
+        /* A little extra padding and overflow hidden   */
+        overflow: hidden;
+        padding-bottom: clamp(1rem, 2vmin, 2rem);
+    }
+    .underline-overflow:after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        height: 150%;
+        aspect-ratio: 2.5 / 1;
+        left: 50%;
+        transform: translate(-50%, -10%);
+        border-radius: 50%;
+        border: 6px solid hsl(10 80% 50%);
+    }
+
+    .underline-clip:after {
+        content: '';
+        position: absolute;
+        top: 95%;
+        width: 150%;
+        aspect-ratio: 3 / 1;
+        left: 50%;
+        transform: translate(-50%, 0);
+        border-radius: 50%;
+        border: 6px solid hsl(130 80% 50%);
+        /* Use a clip-path to hide and show the bits you want */
+        clip-path: polygon(0 0, 50% 50%, 100% 0);
+    }
+
+    html{height: 100%;}
+
     * {
         margin: 0;
         padding: 0;
+    }
+    .greeting{
+
     }
 
     footer{
         padding: 10px;
         width: 100%;
         background-color: rgba(128, 128, 128, 50%);
-        position: absolute;
+        position: fixed;
         left: 0;
         bottom: 0;
         height: 25px;
@@ -172,27 +279,13 @@
     }
 
     .stolik {
-        margin-top: 235px;
+        margin-top: 70px;
     }
 
     .role {
         display: flex;
         margin-left: 15px;
     }
-
-    .rest {
-        text-align: right;
-        display: flex;
-        margin-left: 600px;
-    }
-    /*@media screen and (max-width: 420px) {*/
-    /*    .stolik{*/
-    /*        margin-top: 535px;*/
-    /*        font-size: 30px;*/
-    /*        width: 95%;*/
-    /*    }*/
-    /*}*/
-
     .shapka {
         display: flex;
     }
