@@ -19,19 +19,21 @@
 <!--    </div>-->
 <!--</div>-->
 
-<div align="center" class="con" id="auth">
+<div class="con" id="auth">
     <h1>Авторизация</h1>
     <form th:action="@{/login}" method="post" id="form">
-        <label>Login</label>
-        <br>
-        <input required type="text" name="username" data-mask="phoneNumber"/><br>
-        <br>
-        <label>Password</label><br>
-        <input required type="password" name="password"/>
-        <br><br>
-        <button type="submit" value="Войти">Войти</button>
-        <br>
-        <a class="button" href="/registration">Регистрация</a>
+        <div>
+            <label>Номер телефона</label>
+            <input required type="text" name="username" data-mask="phoneNumber"/><br>
+        </div>
+        <div>
+            <label class="password">Пароль</label><br>
+            <input required type="password" name="password"/>
+        </div>
+        <div>
+            <button type="submit" value="Войти">Войти</button>
+            <a class="button" href="/registration">Регистрация</a>
+        </div>
     </form>
 </div>
 
@@ -70,14 +72,12 @@
         }
         #auth{
             /*margin-top: 200px;*/
-            margin-left: 40px;
+            margin-left: 30px;
         }
     }
-
     h1 {
         padding-top: 20px;
     }
-
     .logout {
         text-align: center;
         vertical-align: center;
@@ -104,7 +104,7 @@
         margin-left: 970px;
         background-color: #1F2739;
         width: 330px;
-        height: 430px;
+        height: 390px;
         border-radius: 20px;
     }
     .con2 {
@@ -124,9 +124,9 @@
     }
 
     .button {
-        margin-top: 10px;
+        margin-left: 38px;
         display: block;
-        width: 240px;
+        width: 235px;
         height: 30px;
 
         background-color: #323C50;
@@ -159,6 +159,8 @@
 
         background-color: #323C50;
 
+        margin-top: 10px;
+
         padding-top: 15px;
         padding-bottom: 15px;
         padding-left: 100px;
@@ -166,8 +168,8 @@
 
         text-transform: uppercase;
 
-        -webkit-transition: all 0.5s ease;
-        transition: all 0.5s ease;
+        -webkit-transition: all 1s ease;
+        transition: all 1s ease;
     }
 
     a:hover, button:hover {

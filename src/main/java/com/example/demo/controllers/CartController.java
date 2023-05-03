@@ -92,6 +92,29 @@ public class CartController {
         model.addAttribute("carts", cartRepository.findAllByBooking(booking));
         return "orders/orders-edit";
     }
+    @PostMapping("/cart/plus1")
+    public String plus1ProductCart(@RequestParam Booking booking, @RequestParam Cart cart, Model model) {
+
+        Iterable<Status> status = statusRepository.findAll();
+        Iterable<Product> products = productRepository.findAll();
+        model.addAttribute("booking", booking);
+        model.addAttribute("products", products);
+        model.addAttribute("statuses", status);
+        if (cart.getCount() +1 == 0 ){
+            cartRepository.delete(cart);
+        }
+        else {
+            cart.setCount(cart.getCount()+1);
+            cartRepository.save(cart);
+        }
+        int cartCount = 0;
+        for(Cart cart1: cartRepository.findAllByBooking(booking)){
+            cartCount++;
+        }
+        model.addAttribute("cartCount", cartCount);
+        model.addAttribute("carts", cartRepository.findAllByBooking(booking));
+        return "orders/orders-edit";
+    }
     @GetMapping("/cart/returnToOrder")
     public String returnToOrder(@RequestParam Booking booking, Model model) {
         Iterable<Cart> carts = cartRepository.findAllByBooking(booking);

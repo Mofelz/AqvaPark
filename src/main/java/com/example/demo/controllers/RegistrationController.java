@@ -46,4 +46,12 @@ public class RegistrationController {
         userRepository.save(user);
         return "redirect:/login";
     }
+    @GetMapping("/userAccept")
+    public String UserAccept(@ModelAttribute("user") User user){
+        return "accept-user/userAccept";
+    }
+    @GetMapping("/policy-terms")
+    public String PolicyTerms(@ModelAttribute("user") User user){
+        return "accept-user/policy-terms";
+    }
 }

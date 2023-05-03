@@ -23,12 +23,13 @@
         </thead>
         <tbody>
 
-            <form th:action="${'/orders/'+booking.id+'/edit'}" method="post" th:object="${booking}" id="container2">
-                <button type="submit">Подтвердить</button>
-                <br><br>
-                <div th:each="cart : ${carts}">
-                    <tr>
-                    <td><img style="width: 75px;height: 75px;" th:if="${cart.product.image!=null}" th:src="'/image/' + ${cart.product.image.idImage}" alt=""></td>
+        <form th:action="${'/orders/'+booking.id+'/edit'}" method="post" th:object="${booking}" id="container2">
+                            <button type="submit">Подтвердить</button>
+            <br><br>
+            <div th:each="cart : ${carts}">
+                <tr>
+                    <td><img style="width: 75px;height: 75px;" th:if="${cart.product.image!=null}"
+                             th:src="'/image/' + ${cart.product.image.idImage}" alt=""></td>
                     <td><h3 th:text="${cart.product.nameProduct}"></h3></td>
                     <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
                     <td><h3 th:text="${cart.product.price+ ' руб.'}"></h3></td>
@@ -39,15 +40,7 @@
                             <input type="hidden" th:field="*{tableNumber}">
                             <input type="hidden" th:field="*{status}">
                             <input th:value="${cart.product.id}" name="product" type="hidden">
-                            <div class="cart__num" id="cart_num" th:text="${cart.count+' шт'}"></div>
-                        </form>
-                    </td>
-
-                    <td>
-                        <form th:action="@{/cart/delete}" method="post">
-                            <input type="hidden" name="cart" th:value="${cart.id}">
-                            <input type="hidden" name="booking" th:value="${booking.id}">
-                            <button type="submit" class="btn-del">Удалить</button>
+                            <div class="cart__num" id="cart_num" th:text="${cart.count+' шт.'}"></div>
                         </form>
                     </td>
                     <td>
@@ -57,15 +50,29 @@
                             <button type="submit" class="btn-del">-</button>
                         </form>
                     </td>
-                    </tr>
-                </div>
+                    <td>
+                        <form th:action="@{/cart/plus1}" method="post">
+                            <input type="hidden" name="cart" th:value="${cart.id}">
+                            <input type="hidden" name="booking" th:value="${booking.id}">
+                            <button type="submit" class="btn-del">+</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/cart/delete}" method="post">
+                            <input type="hidden" name="cart" th:value="${cart.id}">
+                            <input type="hidden" name="booking" th:value="${booking.id}">
+                            <button type="submit" class="btn-del">✕</button>
+                        </form>
+                    </td>
+                </tr>
+            </div>
 
-            </form>
-            <tr>
+        </form>
+        <tr>
 
-                <td><p></p>Итого</td>
-                <td><p th:text="${fullPrice + ' р.'}"></p></td>
-            </tr>
+            <td><h3>Итого</h3></td>
+            <td><h3 th:text="${fullPrice + ' р.'}"></h3></td>
+        </tr>
         <tbody>
     </table>
 </div>
@@ -73,7 +80,8 @@
 <div th:if="${cartCount == 0}">
     <form th:action="@{/cart/returnToOrder}" method="get">
         <input type="hidden" name="booking" th:value="${booking.id}">
-        <h3>Корзина пуста</h3>
+        <h4>Вы убрали все товары из корзины</h4>
+        <h4>Чтобы снова перейти к списку блюд нажмите на кнопку ниже</h4>
         <button type="submit">Вернуться</button>
     </form>
 </div>
@@ -81,11 +89,12 @@
 </body>
 </html>
 <style>
-    *{
+    * {
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
     }
+
     .bg {
         background-image: url("../../black2.png");
         background-repeat: no-repeat;
@@ -96,7 +105,8 @@
         -o-background-size: cover;
         background-size: cover;
     }
-    h1{
+
+    h1 {
         text-align: center;
         font-size: 25px;
         text-transform: uppercase;
@@ -104,7 +114,8 @@
         color: white;
         padding: 30px 0;
     }
-    h2{
+
+    h2 {
         text-align: center;
         font-size: 18px;
         text-transform: uppercase;
@@ -113,11 +124,15 @@
         padding: 30px 0;
     }
 
+    h4{
+        color: white;
+        line-height: 10px;
+    }
     /* Table Styles */
 
-    .table-wrapper{
+    .table-wrapper {
         margin: 10px 70px 70px;
-        box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+        box-shadow: 0px 35px 50px rgba(0, 0, 0, 0.2);
     }
 
     .fl-table {
@@ -163,7 +178,8 @@
             display: block;
             width: 100%;
         }
-        .table-wrapper:before{
+
+        .table-wrapper:before {
 
             display: block;
             text-align: right;
@@ -171,20 +187,25 @@
             color: white;
             padding: 0 0 10px;
         }
+
         .fl-table thead, .fl-table tbody, .fl-table thead th {
             display: block;
         }
-        .fl-table thead th:last-child{
+
+        .fl-table thead th:last-child {
             border-bottom: none;
         }
+
         .fl-table thead {
             float: left;
         }
+
         .fl-table tbody {
             width: auto;
             position: relative;
             overflow-x: auto;
         }
+
         .fl-table td, .fl-table th {
             padding: 20px .625em .625em .625em;
             height: 60px;
@@ -196,31 +217,39 @@
             font-size: 13px;
             text-overflow: ellipsis;
         }
+
         .fl-table thead th {
             text-align: left;
             border-bottom: 1px solid #f7f7f9;
         }
+
         .fl-table tbody tr {
             display: table-cell;
         }
+
         .fl-table tbody tr:nth-child(odd) {
             background: none;
         }
+
         .fl-table tr:nth-child(even) {
             background: transparent;
         }
+
         .fl-table tr td:nth-child(odd) {
             background: #F8F8F8;
             border-right: 1px solid #E6E4E4;
         }
+
         .fl-table tr td:nth-child(even) {
             border-right: 1px solid #E6E4E4;
         }
+
         .fl-table tbody td {
             display: block;
             text-align: center;
         }
     }
+
     a, button {
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
