@@ -4,7 +4,15 @@ import com.example.demo.Service.ExportExel;
 import com.example.demo.Service.ReportService;
 import com.example.demo.models.*;
 import com.example.demo.repo.*;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,11 +24,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -30,8 +40,10 @@ public class BookingController {
     private final BookingRepository bookingRepository;
 
     private final ProductRepository productRepository;
+    private final ResourceLoader resourceLoader;
+    private static final String FONT = "fonts\\calibri.ttf";
 
-    private final SnackbarRepository snackbarRepository;
+
     private final CategoryRepository categoryRepository;
     private final StatusRepository statusRepository;
 
@@ -41,10 +53,10 @@ public class BookingController {
 
     private CartRepository cartRepository;
 
-    public BookingController(BookingRepository bookingRepository, CategoryRepository categoryRepository, ProductRepository productRepository, StatusRepository statusRepository, SnackbarRepository snackbarRepository, UserRepos userRepos, CartRepository cartRepository) {
+    public BookingController(BookingRepository bookingRepository, ResourceLoader resourceLoader, CategoryRepository categoryRepository, ProductRepository productRepository, StatusRepository statusRepository, UserRepos userRepos, CartRepository cartRepository) {
         this.bookingRepository = bookingRepository;
+        this.resourceLoader = resourceLoader;
         this.productRepository = productRepository;
-        this.snackbarRepository = snackbarRepository;
         this.userRepos = userRepos;
         this.categoryRepository = categoryRepository;
         this.statusRepository = statusRepository;
@@ -56,12 +68,10 @@ public class BookingController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Iterable<Booking> bookings = bookingRepository.findAll();
-        Iterable<Snackbar> snackbars = snackbarRepository.findAll();
         Iterable<Product> products = productRepository.findAll();
         Iterable<User> users = userRepos.findAll();
 
         model.addAttribute("products", products);
-        model.addAttribute("snackbars", snackbars);
         model.addAttribute("User", users);
         model.addAttribute("bookings", bookings);
 
@@ -86,7 +96,7 @@ public class BookingController {
     public String blogAdd(@ModelAttribute("booking") Booking booking, BindingResult result, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Booking booking1 = bookingRepository.findTopByTableNumberOrderByIdDesc(booking.getTableNumber());
-        if (booking1 != null && booking1.getTimeDeparture() == null) {
+        if (booking1 != null && (booking1.getTimeDeparture() == null || booking1.getTimeDeparture().after(new Date()))) {
             result.addError(new ObjectError("tableNumber", "Данный стол уже занят!"));
             model.addAttribute("ErrorMassage", "Данный стол уже занят!");
         }
@@ -94,7 +104,6 @@ public class BookingController {
         if (result.hasErrors()) {
 
             Iterable<Booking> bookings = bookingRepository.findAll();
-            Iterable<Snackbar> snackbars = snackbarRepository.findAll();
             Iterable<Product> products = productRepository.findAll();
             Iterable<User> users = userRepos.findAll();
 
@@ -102,7 +111,6 @@ public class BookingController {
             model.addAttribute("categories", categories);
 
             model.addAttribute("products", products);
-            model.addAttribute("snackbars", snackbars);
             model.addAttribute("User", users);
             model.addAttribute("bookings", bookings);
 
@@ -112,15 +120,13 @@ public class BookingController {
 
             return "orders/orders";
         }
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-        model.addAttribute("isAuth", userDetails.getUsername());
-        Iterable<Snackbar> snackbars = snackbarRepository.findAll();
+//        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+//        model.addAttribute("isAuth", userDetails.getUsername());
         Iterable<Product> products = productRepository.findAll();
         Iterable<User> users = userRepos.findAll();
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
         model.addAttribute("users", users);
-        model.addAttribute("snackbars", snackbars);
         model.addAttribute("products", products);
 
         booking.setStatus(statusRepository.findFirstByOrderByIdAsc());
@@ -167,7 +173,7 @@ public class BookingController {
         Iterable<Status> status = statusRepository.findAll();
         model.addAttribute("statuses", status);
         booking.setUser(user);
-
+        booking.setTimeArrival(new Date());
 
 
         bookingRepository.save(booking);
@@ -196,7 +202,7 @@ public class BookingController {
         model.addAttribute("statuses", statuses);
         List<Cart> carts = new ArrayList<>();
         List<String> fullPrices = new ArrayList<>();
-
+        int bookingCount = 0;
         for (Booking booking1 : bookings){
             Iterable<Cart> carts1 = cartRepository.findAllByBooking(booking1);
             carts.addAll((List)carts1);
@@ -205,7 +211,9 @@ public class BookingController {
                 fullPrice += cart.getCount() * cart.getProduct().getPrice();
             }
             fullPrices.add("" + fullPrice + "");
+            if (!booking1.isPayment())bookingCount++;
         }
+        model.addAttribute("bookingCount", bookingCount);
         model.addAttribute("fullPrice", fullPrices);
         model.addAttribute("carts", carts);
         return "orders/withdrawals";
@@ -268,5 +276,76 @@ public class BookingController {
         booking.setStatus(status);
         bookingRepository.save(booking);
         return "redirect:/withdrawals";
+    }
+    @PostMapping("/pay")
+    public ResponseEntity<Resource> exportPDF(@RequestParam Booking booking) throws IOException, DocumentException {
+        booking.setPayment(true);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(booking.getTimeArrival());
+        calendar.add(Calendar.HOUR_OF_DAY,1);
+        booking.setTimeDeparture(calendar.getTime());
+        bookingRepository.save(booking);
+        Document document = new Document();
+        Resource resource = resourceLoader.getResource(Paths.get("fonts\\cheque.pdf").toUri().toString());
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(resource.getFile()));
+        document.open();
+        BaseFont baseFont = BaseFont.createFont(FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        Font font = new Font(baseFont, 11, Font.NORMAL);
+
+        addTable(document, font, booking);
+        document.close();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + resource.getFilename())
+                .contentLength(resource.contentLength())
+                .body(resource);
+    }
+    public void addTable(Document document, Font font, Booking booking) throws DocumentException {
+        Paragraph paragraph = new Paragraph("Чек о покупке", font);
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        document.add(paragraph);
+        paragraph = new Paragraph("Whitespace", font);
+        font.setColor(BaseColor.WHITE);
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        document.add(paragraph);
+        font.setColor(BaseColor.BLACK);
+        PdfPTable table = new PdfPTable(6);
+
+        font.setSize(11);
+        String[] items = {"Логин пользователя", "Код заказа", "Номер столика", "Время выдачи чека"};
+        String[] items1 = {"Наименование", "Категория", "Вес", "Цена", "Количество", "Итоговая цена"};
+        for (int i = 0; i < 6; i++) {
+            if (i == 4 || i == 5) {
+
+                table.addCell(new Paragraph("", font));
+                continue;
+            }
+            table.addCell(new Paragraph(items[i], font));
+        }
+        for (int i = 0; i < 6; i++) {
+            switch (i) {
+                case 0 -> table.addCell(new Paragraph(booking.getUser().getUsername(), font));
+                case 1 -> table.addCell(new Paragraph(booking.getId().toString(), font));
+                case 2 -> table.addCell(new Paragraph(booking.getTableNumber().toString(), font));
+                case 3 -> table.addCell(new Paragraph(booking.getTimeArrival().toString().split("\\.")[0], font));
+                default -> table.addCell(new Paragraph("", font));
+            }
+            if (i == 5) {
+                for (int j = 0; j < 6; j++) {
+                    table.addCell(new Paragraph(items1[j], font));
+                }
+                for (Cart cart : booking.getCarts()) {
+                    table.addCell(new Paragraph(cart.getProduct().getNameProduct(), font));
+                    table.addCell(new Paragraph(cart.getProduct().getCategory().getNameCategory(), font));
+                    table.addCell(new Paragraph(cart.getProduct().getWeight().toString(), font));
+                    table.addCell(new Paragraph(cart.getProduct().getPrice().toString(), font));
+                    table.addCell(new Paragraph(String.valueOf(cart.getCount()), font));
+                    table.addCell(new Paragraph(String.valueOf(cart.getCount() * cart.getProduct().getPrice()), font));
+                }
+            }
+        }
+
+        font.setStyle(Font.NORMAL);
+        document.add(table);
     }
 }

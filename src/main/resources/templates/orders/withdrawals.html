@@ -51,7 +51,7 @@
 <section>
     <div class="empty"></div>
 </section>
-<table class="fold-table">
+<table class="fold-table" th:if="${bookingCount != 0 || isSaler}">
     <thead>
     <tr>
         <th th:if="${isSaler}">Логин пользователя</th>
@@ -63,14 +63,14 @@
     </thead>
     <tbody>
 
-    <div th:each="el : ${bookings}" th:if="${(el.user.username == isAuth) || isSaler}">
+    <div th:each="el : ${bookings}" th:if="${el.user.username == isAuth || isSaler}" >
         <tr class="view">
             <td th:if="${isSaler}"><p th:text="${el.user.username}"></p></td>
             <td><p th:text="${el.id}"></p></td>
             <td><p th:text="${el.tableNumber}"></p></td>
             <td>
                 <form th:action="@{/orders/save}" method="post" th:if="${isSaler}">
-                    <div>
+                    <div th:if="${el.payment == false}">
                         <select class="form-control" name="status" onchange="this.form.submit()">
                             <div th:each="status: ${statuses}">
                                 <option th:value="${status.id}" th:text="${status.nameStatus}"
@@ -80,7 +80,7 @@
                     </div>
                     <input type="hidden" th:value="${el.id}" name="booking">
                 </form>
-                <p th:text="${el.status.nameStatus}" th:if="${isUser}"></p>
+                <p th:text="${el.status.nameStatus}" th:if="${isUser || el.payment == true}"></p>
             </td>
             <td th:if="${isSaler}">
                 <form th:action=" '/orders/' + ${el.id} + '/remove'" method="post" >
@@ -120,6 +120,12 @@
                         <td colspan="4"></td>
                         <td><p></p>Итого</td>
                         <td><p th:text="${fullPrice[elStat.index] + ' р.'}"></p></td>
+                        <td th:if="${el.status.nameStatus == 'Готов' && el.payment == false && isUser}">
+                            <form th:action="@{/pay}" method="post">
+                                <input type="hidden" name="booking" th:value="${el.id}">
+                                <button type="submit">Оплатить</button>
+                            </form>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -129,6 +135,11 @@
     </div>
     </tbody>
 </table>
+<div th:if="${bookingCount == 0 && isUser}">
+    <h2>Вы еще не сделали ни одного заказа</h2>
+    <h2>Либо оплатили все новые заказы</h2>
+    <h2>Для создания нового заказа перейдите на главное меню</h2>
+</div>
 <script th:src="@{/jees.js}"></script>
 </body>
 </html>

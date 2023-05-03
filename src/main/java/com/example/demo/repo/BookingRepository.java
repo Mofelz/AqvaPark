@@ -9,5 +9,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     Iterable<Booking> findAllByUser(User user);
     Booking findTopByTableNumberOrderByIdDesc(int tableNumber);
     Booking findTopByUserOrderByIdDesc(User user);
+    Booking findFirstByOrderByIdDesc();
 }
 

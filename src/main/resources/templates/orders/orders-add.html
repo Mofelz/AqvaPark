@@ -56,7 +56,7 @@
                     <input type="hidden" th:field="*{id}">
                     <input type="hidden" th:field="*{tableNumber}">
                     <input type="hidden" th:field="*{status}">
-                    <br><input value="В корзину" type="submit">
+                    <br><input id="button" value="В корзину" type="submit">
                     <input th:value="${product.id}" name="product" type="hidden">
                 </form>
             </div>
@@ -68,6 +68,22 @@
 </html>
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+    @media screen and (max-width: 480px) {
+        html {
+            -webkit-text-size-adjust: none;
+        }
+
+        #header {
+            width: 100%;
+        }
+        #button{
+            height: 20px;
+        }
+        #navbar-sub-list {
+            width: 400px;
+        }
+    }
 
     * {
         margin: 0;
@@ -144,20 +160,6 @@
 
     .ErrorMassage {
         color: red;
-    }
-
-    @media screen and (max-width: 480px) {
-        html {
-            -webkit-text-size-adjust: none;
-        }
-
-        #header {
-            width: 100%;
-        }
-
-        #navbar-sub-list {
-            width: 400px;
-        }
     }
 
     .bg {

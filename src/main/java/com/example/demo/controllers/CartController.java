@@ -53,30 +53,12 @@ public class CartController {
         return "orders/orders-add";
     }
     @PostMapping("/cart/delete")
-    public String deleteProductCart(@RequestParam Booking booking, @RequestParam Cart cart, Model model) {
-        Iterable<Status> status = statusRepository.findAll();
-        Iterable<Product> products = productRepository.findAll();
-        model.addAttribute("booking", booking);
-        model.addAttribute("products", products);
-        model.addAttribute("statuses", status);
-
+    public String deleteProductCart(@RequestParam Booking booking, @RequestParam Cart cart) {
         cartRepository.delete(cart);
-        int cartCount = 0;
-        for(Cart cart1: cartRepository.findAllByBooking(booking)){
-            cartCount++;
-        }
-        model.addAttribute("cartCount", cartCount);
-        model.addAttribute("carts", cartRepository.findAllByBooking(booking));
-        return "orders/orders-edit";
+        return "redirect:/orders/" + booking.getId() + "/edit";
     }
     @PostMapping("/cart/remove1")
-    public String delete1ProductCart(@RequestParam Booking booking, @RequestParam Cart cart, Model model) {
-
-        Iterable<Status> status = statusRepository.findAll();
-        Iterable<Product> products = productRepository.findAll();
-        model.addAttribute("booking", booking);
-        model.addAttribute("products", products);
-        model.addAttribute("statuses", status);
+    public String delete1ProductCart(@RequestParam Booking booking, @RequestParam Cart cart) {
         if (cart.getCount() -1 == 0 ){
             cartRepository.delete(cart);
         }
@@ -84,36 +66,13 @@ public class CartController {
             cart.setCount(cart.getCount()-1);
             cartRepository.save(cart);
         }
-        int cartCount = 0;
-        for(Cart cart1: cartRepository.findAllByBooking(booking)){
-            cartCount++;
-        }
-        model.addAttribute("cartCount", cartCount);
-        model.addAttribute("carts", cartRepository.findAllByBooking(booking));
-        return "orders/orders-edit";
+        return "redirect:/orders/" + booking.getId() + "/edit";
     }
     @PostMapping("/cart/plus1")
-    public String plus1ProductCart(@RequestParam Booking booking, @RequestParam Cart cart, Model model) {
-
-        Iterable<Status> status = statusRepository.findAll();
-        Iterable<Product> products = productRepository.findAll();
-        model.addAttribute("booking", booking);
-        model.addAttribute("products", products);
-        model.addAttribute("statuses", status);
-        if (cart.getCount() +1 == 0 ){
-            cartRepository.delete(cart);
-        }
-        else {
-            cart.setCount(cart.getCount()+1);
-            cartRepository.save(cart);
-        }
-        int cartCount = 0;
-        for(Cart cart1: cartRepository.findAllByBooking(booking)){
-            cartCount++;
-        }
-        model.addAttribute("cartCount", cartCount);
-        model.addAttribute("carts", cartRepository.findAllByBooking(booking));
-        return "orders/orders-edit";
+    public String plus1ProductCart(@RequestParam Booking booking, @RequestParam Cart cart) {
+        cart.setCount(cart.getCount()+1);
+        cartRepository.save(cart);
+        return "redirect:/orders/" + booking.getId() + "/edit";
     }
     @GetMapping("/cart/returnToOrder")
     public String returnToOrder(@RequestParam Booking booking, Model model) {

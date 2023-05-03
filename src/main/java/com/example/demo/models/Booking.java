@@ -19,6 +19,8 @@ public class Booking {
     @NotNull
     private Integer tableNumber;
 
+    private boolean payment;
+
     private Date timeArrival;
 
     private Date timeDeparture;
@@ -27,21 +29,17 @@ public class Booking {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "snackbarId", referencedColumnName = "id")
-    private Snackbar snackbar;
-    @ManyToOne
     @JoinColumn(name = "statusId", referencedColumnName = "id")
     private Status status;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.REMOVE)
     private List<Cart> carts;
 
-    public Booking(Integer tableNumber, Date timeArrival, Date timeDeparture, User user, Snackbar snackbar,Status status) {
+    public Booking(Integer tableNumber, Date timeArrival, Date timeDeparture, User user,Status status) {
         this.tableNumber = tableNumber;
         this.timeArrival = timeArrival;
         this.timeDeparture = timeDeparture;
         this.user = user;
-        this.snackbar = snackbar;
         this.status = status;
     }
 
@@ -49,6 +47,13 @@ public class Booking {
 
     public List<Cart> getCarts() {
         return carts;
+    }
+    public boolean isPayment() {
+        return payment;
+    }
+
+    public void setPayment(boolean payment) {
+        this.payment = payment;
     }
 
     public void setCarts(List<Cart> carts) {
@@ -94,13 +99,6 @@ public class Booking {
         this.user = user;
     }
 
-    public Snackbar getSnackbar() {
-        return snackbar;
-    }
-
-    public void setSnackbar(Snackbar snackbar) {
-        this.snackbar = snackbar;
-    }
     public Status getStatus() {
         return status;
     }

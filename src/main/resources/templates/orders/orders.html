@@ -28,7 +28,7 @@
                 <div>
                     <a th:if="${isSaler}" href="/status">Статус</a>
                 </div>
-                <div>
+                <div >
                     <a th:if="${isUser}" href="/withdrawals">Заказы</a>
                 </div>
                 <div>
@@ -77,11 +77,11 @@
 </section>
 
 <section>
-    <div class="stolik" th:if="${isUser}">
+    <div class="stolik" >
         <h2>Введите номер своего стола</h2>
         <br>
         <form th:action="${'/orders/add'}" method="post" th:object="${booking}">
-            <input required th:field="*{tableNumber}" type="number" id="tableNumber">
+            <input required th:field="*{tableNumber}" type="number" min="1" max="100" id="tableNumber">
             <div th:if="${#fields.hasErrors('tableNumber')}" th:errors="*{tableNumber}"></div>
 
             <input type="hidden" th:value="${booking.id}" name="booking">
