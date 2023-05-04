@@ -25,8 +25,15 @@
                 </form>
                 </link>
             </div>
+            <div>
+                <form th:action="@{/orders/search}" method="get">
+<!--                    <img src="/zoom.png" alt="" style="width: 20px;height: 20px;">-->
+                    <input type="text" name="search" placeholder="Поиск блюд">
+                    <button type="submit">Найти</button>
+                    <input type="hidden" name="booking" th:value="${booking.id}">
+                </form>
+            </div>
             <div th:each="el : ${booking}">
-
                 <a th:if="${cartCount != 0}" class="cart" id="cart" th:href=" '/orders/' + ${el.id} + '/edit'">
                     <img class="cart__image" src="/cart.png" alt="Cart" width="45"
                          height="45"/>
@@ -42,7 +49,7 @@
 </section>
 
 <section>
-    <div th:each="category : ${categories}">
+    <div th:each="category : ${categories}" th:if="${productCount != 0}">
         <h2 th:text="${category.nameCategory}"></h2>
         <div th:each="product : ${products}" th:if="${product.category==category}" class="flex-box">
             <div class="element">
@@ -61,6 +68,11 @@
                 </form>
             </div>
         </div>
+    </div>
+    <div th:if="${productCount == 0}">
+        <h2>
+            Такого блюда пока нет, но мы его обязательно добавим!
+        </h2>
     </div>
 </section>
 
@@ -106,7 +118,7 @@
         font-weight: 700;
         line-height: 1.42em;
         /*color: #A7A1AE;*/
-        color: #4DC3FA;
+        color: lightyellow;
         background-color: #1F2739;
     }
 
@@ -220,11 +232,8 @@
 
         background-color: #1F2739;
 
-        margin-left: 10px;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        padding-left: 30px;
-        padding-right: 30px;
+        margin: 0 0 0 15px;
+        padding: 15px 30px 15px 30px;
 
         text-transform: uppercase;
 
@@ -236,6 +245,7 @@
         color: white;
         background-color: #2C3446;
     }
+    input::placeholder {color: white;}
 
     .cart {
         width: 30px;

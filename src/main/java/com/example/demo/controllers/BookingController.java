@@ -13,6 +13,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -83,17 +84,43 @@ public class BookingController {
     }
 
     @GetMapping("/orders/add")
-    public String blogAdd(@ModelAttribute("booking") @Validated Booking booking, Model model) {
+    public String ordersAdd(@ModelAttribute("booking") @Validated Booking booking, Model model) {
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
-        Iterable<Product> products = productRepository.findAll();
+        Iterable<Product>
+        products = productRepository.findAll();
+
         model.addAttribute("products", products);
 
         return "orders/orders-add";
     }
-
+    @GetMapping("/orders/search")
+    public String getSearch(@RequestParam (required = false) String search, @RequestParam (required = false) Booking booking,Model model) {
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+        Iterable<Product> products;
+        if(search != null && !search.equals("")){
+            products = productRepository.findByNameProductContains(search);
+        }
+        else {
+            products = productRepository.findAll();
+        }
+        int productCount = 0;
+        for(Product product : products){
+            productCount++;
+        }
+        model.addAttribute("productCount", productCount);
+        model.addAttribute("products", products);
+        model.addAttribute("booking", booking);
+        int cartCount = 0;
+        for(Cart cart : booking.getCarts()){
+            cartCount += cart.getCount();
+        }
+        model.addAttribute("cartCount", cartCount);
+        return "orders/orders-add";
+    }
     @PostMapping("/orders/add")
-    public String blogAdd(@ModelAttribute("booking") Booking booking, BindingResult result, Model model) {
+    public String ordersAdd(@ModelAttribute("booking") Booking booking, BindingResult result, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Booking booking1 = bookingRepository.findTopByTableNumberOrderByIdDesc(booking.getTableNumber());
         if (booking1 != null && (booking1.getTimeDeparture() == null || booking1.getTimeDeparture().after(new Date()))) {
@@ -151,12 +178,13 @@ public class BookingController {
         Iterable<Status> status = statusRepository.findAll();
         model.addAttribute("statuses", status);
         model.addAttribute("carts", cartRepository.findAllByBooking(booking));
-
+        int cartCount = 0;
         int fullPrice = 0;
         for(Cart cart : carts){
+            cartCount += cart.getCount();
             fullPrice += cart.getCount() * cart.getProduct().getPrice();
         }
-
+        model.addAttribute("cartCount", cartCount);
         model.addAttribute("fullPrice",fullPrice);
         return "orders/orders-edit";
     }
@@ -282,7 +310,7 @@ public class BookingController {
         booking.setPayment(true);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(booking.getTimeArrival());
-        calendar.add(Calendar.HOUR_OF_DAY,1);
+        calendar.add(Calendar.MINUTE,1);
         booking.setTimeDeparture(calendar.getTime());
         bookingRepository.save(booking);
         Document document = new Document();

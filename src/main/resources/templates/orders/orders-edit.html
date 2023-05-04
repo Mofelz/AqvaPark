@@ -79,9 +79,10 @@
 <div th:if="${cartCount == 0}">
     <form th:action="@{/cart/returnToOrder}" method="get">
         <input type="hidden" name="booking" th:value="${booking.id}">
-        <h4>Вы убрали все товары из корзины</h4>
-        <h4>Чтобы снова перейти к списку блюд нажмите на кнопку ниже</h4>
-        <button type="submit">Вернуться</button>
+        <img src="/EmptyCartBag.svg" width="80" height="70">
+        <h4>В вашей корзине пока пусто</h4>
+        <h4>Тут появятся товары, которые вы закажете.</h4>
+        <button type="submit">В каталог</button>
     </form>
 </div>
 
