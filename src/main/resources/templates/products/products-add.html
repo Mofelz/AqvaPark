@@ -72,6 +72,10 @@
             <br>
             <input required th:field="*{price}" type="text">
             <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('price')}" th:errors="*{price}"></div>
+            <label>Подробная информация</label>
+            <br>
+            <input required th:field="*{details}" type="text">
+            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('details')}" th:errors="*{details}"></div>
             <label>Категория</label>
             <br>
             <select th:field="*{category}" class="border">
@@ -87,6 +91,15 @@
 </form>
 </body>
 </html>
+<script>
+    var uploadField = document.querySelector("input[name=file]");
+    uploadField.onchange = function() {
+        if(this.files[0].size > 1048576){
+            alert("Размер файла превышает 1МБ!");
+            this.value = "";
+        };
+    };
+</script>
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 

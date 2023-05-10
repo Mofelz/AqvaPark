@@ -78,9 +78,10 @@
         <h2>Введите номер своего стола</h2>
         <br>
         <form th:action="${'/orders/add'}" method="post" th:object="${booking}">
-            <input required th:field="*{tableNumber}" type="number" min="1" max="100" id="tableNumber">
-            <div th:if="${#fields.hasErrors('tableNumber')}" th:errors="*{tableNumber}"></div>
-
+            <div class="flex-errors">
+                <input required th:field="*{tableNumber}" type="number" min="1" max="100" id="tableNumber">
+                <div th:if="${#fields.hasErrors('tableNumber')}" th:errors="*{tableNumber}"></div>
+            </div>
             <input type="hidden" th:value="${booking.id}" name="booking">
             <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
 
@@ -163,7 +164,9 @@
         font-size: clamp(2rem, 7vmin, 4rem);
         color: hsl(0 0% 98%);
     }
-
+    .flex-errors{
+        display: inline-flex;
+    }
     .underlined {
         position: relative;
     }

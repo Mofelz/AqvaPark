@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width; initial-scale=1.0">
     <script src="https://unpkg.com/imask"></script>
+    <link rel="stylesheet" type="text/css" href="toggleCheckbox.scss">
     <title>Вход</title>
 </head>
 <body th:align="center" class="bg">
@@ -28,7 +29,11 @@
         </div>
         <div>
             <label class="password">Пароль</label><br>
-            <input required type="password" name="password"/>
+            <input type="password" name="password" class="form-control password1" value="pass" placeholder=""/><br>
+        </div>
+        <div class="div-show-password">
+            <label class="label-show-password">Показать пароль</label>
+            <input type="checkbox" class="show-password">
         </div>
         <div>
             <button type="submit" value="Войти">Войти</button>
@@ -55,6 +60,24 @@
 
 </body>
 </html>
+<script>
+    window.addEventListener("load", function() {
+        // иконка для отображения пароля
+        showPassword = document.querySelector('.show-password');
+        showPassword.addEventListener('click', () => {
+            // элементы ввода типа пароля
+            password1 = document.querySelector('.password1');
+            password2 = document.querySelector('.password2');
+            if ( password1.type === "text" ) {
+                password1.type = "password"
+                password2.type = "password"
+            } else {
+                password1.type = "text"
+                password2.type = "text"
+            }
+        })
+    });
+</script>
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
@@ -75,8 +98,20 @@
             margin-left: 30px;
         }
     }
+    .div-show-password{
+        text-align: left;
+        margin: 10px 0 0 40px;
+    }
+    .label-show-password{
+        margin: 0;
+    }
     h1 {
         padding-top: 20px;
+    }
+    .show-password{
+        margin: 0;
+        width: 15px;
+        height: 15px;
     }
     .logout {
         text-align: center;
@@ -104,7 +139,7 @@
         margin-left: 890px;
         background-color: #1F2739;
         width: 330px;
-        height: 390px;
+        height: 420px;
         border-radius: 20px;
     }
     .con2 {

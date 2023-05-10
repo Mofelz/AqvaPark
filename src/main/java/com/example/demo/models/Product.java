@@ -1,11 +1,11 @@
 package com.example.demo.models;
 
 import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Product {
@@ -26,6 +26,11 @@ public class Product {
     @Range(min = 1, max = 1000, message = "От 1 до 100 символов")
     private Integer weight;
 
+    private boolean hiddenDish;
+
+    @NotEmpty(message = "Поле не может быть пустым")
+    private String details;
+
     @OneToOne(optional = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "imageId")
     private Image image;
@@ -34,14 +39,31 @@ public class Product {
     @JoinColumn(name = "categoryId", referencedColumnName = "id")
     private Category category;
 
-    public Product(String nameProduct, Image image, Integer price, Integer weight, Category category) {
+    public Product(String nameProduct, Integer price, Integer weight, boolean hiddenDish, String details, Image image, Category category) {
         this.nameProduct = nameProduct;
-        this.image = image;
         this.price = price;
         this.weight = weight;
+        this.hiddenDish = hiddenDish;
+        this.details = details;
+        this.image = image;
         this.category = category;
     }
 
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public boolean isHiddenDish() {
+        return hiddenDish;
+    }
+
+    public void setHiddenDish(boolean hiddenDish) {
+        this.hiddenDish = hiddenDish;
+    }
     public Category getCategory() {
         return category;
     }

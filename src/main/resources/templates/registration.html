@@ -31,10 +31,15 @@
 
             <label>Пароль</label><br>
             <div style="width: 250px; height: 40px; margin: 1px">
-                <input required type="password" th:field="*{password}"/>
+                <input required type="password" th:field="*{password}" name="password" class="form-control password1"/>
             </div>
+
             <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-            <br><br>
+            <div class="div-show-password">
+                <label class="label-show-password">Показать пароль</label>
+                <input type="checkbox" class="show-password">
+            </div>
+
             <div>
                 <button type="submit">Далее</button>
                 <br><br>
@@ -69,9 +74,26 @@
         })
     })
 </script>
-
 </body>
 </html>
+<script>
+    window.addEventListener("load", function() {
+        // иконка для отображения пароля
+        showPassword = document.querySelector('.show-password');
+        showPassword.addEventListener('click', () => {
+            // элементы ввода типа пароля
+            password1 = document.querySelector('.password1');
+            password2 = document.querySelector('.password2');
+            if ( password1.type === "text" ) {
+                password1.type = "password"
+                password2.type = "password"
+            } else {
+                password1.type = "text"
+                password2.type = "text"
+            }
+        })
+    });
+</script>
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
@@ -112,8 +134,20 @@
         }
     }
 
+    .div-show-password{
+        text-align: left;
+        margin: 40px 0 10px 40px;
+    }
+    .label-show-password{
+        margin: 0;
+    }
     h1 {
         padding-top: 20px;
+    }
+    .show-password{
+        margin: 0;
+        width: 15px;
+        height: 15px;
     }
 
     .logout {
@@ -142,7 +176,7 @@
         margin-left: 890px;
         background-color: #1F2739;
         width: 330px;
-        height: 480px;
+        height: 510px;
         border-radius: 20px;
     }
     .con2 {

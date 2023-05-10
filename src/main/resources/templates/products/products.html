@@ -50,6 +50,7 @@
    <section>
        <table class="container">
            <tr>
+               <th><h1 th:text="${'Скрыть блюдо'}"></h1></th>
                <th><h1 th:text="${'Наименование'}"></h1></th>
                <th><h1 th:text="${'Изображение'}"></h1></th>
                <th><h1 th:text="${'Цена'}"></h1></th>
@@ -61,6 +62,12 @@
 
            <div th:each="el : ${products}">
                <tr>
+                   <td>
+                       <form th:action="@{/hiddenDish}" method="post">
+                           <input th:checked="${el.hiddenDish}" type="checkbox" style="width: 20px;height: 20px;" onchange="this.form.submit()">
+                           <input th:value="${el.id}" name="product" type="hidden">
+                       </form>
+                   </td>
                    <td><p th:text="${el.nameProduct}"></p></td>
                    <td><img style="width: 75px;height: 75px;" class="rounded img-fluid pt-4 align-center"
                             th:if="${el.image!=null}" th:src="'/image/' + ${el.image.idImage}" alt=""></td>
@@ -76,6 +83,20 @@
                </tr>
            </div>
        </table>
+       <div class="buttons-inline-flex">
+           <form th:action="@{/productsSort}">
+               <div>
+                   <button type="submit">Назад</button>
+                   <input name="offset" th:value="${offset}" type="hidden">
+               </div>
+           </form>
+           <form th:action="@{/productsSort}">
+               <div>
+                   <input name="offset" th:value="${offset+2}" type="hidden">
+                   <button type="submit">Вперед</button>
+               </div>
+           </form>
+       </div>
    </section>
 </body>
 </html>
@@ -101,6 +122,9 @@
         background: rgba(78,87,84,100%);
         height: 60px;
         position: fixed;
+    }
+    .buttons-inline-flex{
+        display: inline-flex;
     }
     .back{
         position: fixed;
@@ -160,7 +184,7 @@
         width: 75%;
         margin: 0 auto;
         display: table;
-        padding: 0 0 8em 0;
+        padding: 0 0 1em 0;
     }
 
     .container td, .container th {

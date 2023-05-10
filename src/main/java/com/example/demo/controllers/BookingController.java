@@ -88,44 +88,52 @@ public class BookingController {
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
         Iterable<Product>
-        products = productRepository.findAll();
+                products = productRepository.findAll();
 
         model.addAttribute("products", products);
 
         return "orders/orders-add";
     }
+
     @GetMapping("/orders/search")
-    public String getSearch(@RequestParam (required = false) String search, @RequestParam (required = false) Booking booking,Model model) {
+    public String getSearch(@RequestParam(required = false) String search, @RequestParam(required = false) Booking booking, Model model) {
         Iterable<Category> categories = categoryRepository.findAll();
         model.addAttribute("categories", categories);
         Iterable<Product> products;
-        if(search != null && !search.equals("")){
+        if (search != null && !search.equals("")) {
             products = productRepository.findByNameProductContains(search);
-        }
-        else {
+            int count = 0;
+            for (Product product : products) {
+                count++;
+            }
+            if (count == 0) {
+                products = productRepository.findAllByCategoryNameCategoryContains(search);
+            }
+        } else {
             products = productRepository.findAll();
         }
         int productCount = 0;
-        for(Product product : products){
+        for (Product product : products) {
             productCount++;
         }
         model.addAttribute("productCount", productCount);
         model.addAttribute("products", products);
         model.addAttribute("booking", booking);
         int cartCount = 0;
-        for(Cart cart : booking.getCarts()){
+        for (Cart cart : booking.getCarts()) {
             cartCount += cart.getCount();
         }
         model.addAttribute("cartCount", cartCount);
         return "orders/orders-add";
     }
+
     @PostMapping("/orders/add")
     public String ordersAdd(@ModelAttribute("booking") Booking booking, BindingResult result, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Booking booking1 = bookingRepository.findTopByTableNumberOrderByIdDesc(booking.getTableNumber());
         if (booking1 != null && (booking1.getTimeDeparture() == null || booking1.getTimeDeparture().after(new Date()))) {
             result.addError(new ObjectError("tableNumber", "Данный стол уже занят!"));
-            model.addAttribute("ErrorMassage", "Данный стол уже занят!");
+            model.addAttribute("ErrorMassage", "*Данный стол уже занят!" + "\r" + "Попробуйте ввести другой");
         }
 
         if (result.hasErrors()) {
@@ -147,8 +155,6 @@ public class BookingController {
 
             return "orders/orders";
         }
-//        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-//        model.addAttribute("isAuth", userDetails.getUsername());
         Iterable<Product> products = productRepository.findAll();
         Iterable<User> users = userRepos.findAll();
         Iterable<Category> categories = categoryRepository.findAll();
@@ -161,12 +167,13 @@ public class BookingController {
         bookingRepository.save(booking);
         Iterable<Cart> carts = cartRepository.findAllByBooking(booking);
         int cartCount = 0;
-        for(Cart cart : carts){
+        for (Cart cart : carts) {
             cartCount += cart.getCount();
         }
         model.addAttribute("cartCount", cartCount);
         return "orders/orders-add";
     }
+
     @GetMapping("/orders/{id}/edit")
     public String ordersEdit(@PathVariable("id") long id, Model model) {
         Iterable<Product> products = productRepository.findAll();
@@ -180,19 +187,19 @@ public class BookingController {
         model.addAttribute("carts", cartRepository.findAllByBooking(booking));
         int cartCount = 0;
         int fullPrice = 0;
-        for(Cart cart : carts){
+        for (Cart cart : carts) {
             cartCount += cart.getCount();
             fullPrice += cart.getCount() * cart.getProduct().getPrice();
         }
         model.addAttribute("cartCount", cartCount);
-        model.addAttribute("fullPrice",fullPrice);
+        model.addAttribute("fullPrice", fullPrice);
         return "orders/orders-edit";
     }
 
     @PostMapping("/orders/{id}/edit")
     public String ordersUpdate(@PathVariable("id") long id,
-                                 @ModelAttribute("booking")
-                                 Booking booking, Model model) {
+                               @ModelAttribute("booking")
+                               Booking booking, Model model) {
         booking.setId(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepos.findByUsername(authentication.getName());
@@ -203,16 +210,49 @@ public class BookingController {
         booking.setUser(user);
         booking.setTimeArrival(new Date());
 
-
         bookingRepository.save(booking);
         return "redirect:/login";
     }
-    @GetMapping("/withdrawals")
-    public String profileMain(Model model) {
+
+    @PostMapping("/orders/details")
+    public String detailedDish(@RequestParam Booking booking,
+                               @RequestParam Product product,
+                               Model model) {
+        Iterable<Cart> carts = cartRepository.findAllByBooking(booking);
+        int cartCount = 0;
+        for (Cart cart : carts) {
+            cartCount += cart.getCount();
+        }
+        model.addAttribute("cartCount", cartCount);
+        model.addAttribute("booking", booking);
+        model.addAttribute("product", product);
+        return "orders/details";
+    }
+
+    @PostMapping("/orders/return")
+    public String ordersReturn(@RequestParam Booking booking, Model model) {
+        Iterable<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+        Iterable<Product> products =
+                productRepository.findAll();
+        model.addAttribute("products", products);
+        model.addAttribute("booking", booking);
+        int cartCount = 0;
+        Iterable<Cart> carts = cartRepository.findAllByBooking(booking);
+        for (Cart cart : carts) {
+            cartCount += cart.getCount();
+        }
+        model.addAttribute("booking", booking);
+        model.addAttribute("cartCount", cartCount);
+        return "orders/orders-add";
+    }
+    @PostMapping("/hiddenBoughtOrders")
+    public String hiddenBoughtOrders(@RequestParam (required = false) boolean payment, Model model){
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Iterable<Booking> bookings = bookingRepository.findAllByUser(userRepos.findByUsername(auth.getName()));
 
-        if(auth.getAuthorities().toString().contains("SALER"))
+        if (auth.getAuthorities().toString().contains("SALER"))
             bookings = bookingRepository.findAll();
 
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
@@ -231,15 +271,55 @@ public class BookingController {
         List<Cart> carts = new ArrayList<>();
         List<String> fullPrices = new ArrayList<>();
         int bookingCount = 0;
-        for (Booking booking1 : bookings){
+        for (Booking booking1 : bookings) {
             Iterable<Cart> carts1 = cartRepository.findAllByBooking(booking1);
-            carts.addAll((List)carts1);
+            carts.addAll((List) carts1);
             int fullPrice = 0;
-            for(Cart cart : carts1){
+            for (Cart cart : carts1) {
                 fullPrice += cart.getCount() * cart.getProduct().getPrice();
             }
             fullPrices.add("" + fullPrice + "");
-            if (!booking1.isPayment())bookingCount++;
+            if (!booking1.isPayment()) bookingCount++;
+        }
+        model.addAttribute("bookingCount", bookingCount);
+        model.addAttribute("fullPrice", fullPrices);
+        model.addAttribute("carts", carts);
+        model.addAttribute("payment", payment);
+        return "orders/withdrawals";
+    }
+    @GetMapping("/withdrawals")
+    public String withdrawals(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Iterable<Booking> bookings = bookingRepository.findAllByUser(userRepos.findByUsername(auth.getName()));
+
+        if (auth.getAuthorities().toString().contains("SALER"))
+            bookings = bookingRepository.findAll();
+
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        model.addAttribute("isAuth", userDetails.getUsername());
+        List<User> users = (List<User>) userRepos.findAll();
+        model.addAttribute("users", users);
+        model.addAttribute("isSaler", auth.getAuthorities().toString().contains("SALER"));
+        model.addAttribute("isUser", auth.getAuthorities().toString().contains("USER"));
+        model.addAttribute("bookings", bookings);
+
+        Iterable<Product> products = productRepository.findAll();
+        model.addAttribute("products", products);
+
+        Iterable<Status> statuses = statusRepository.findAll();
+        model.addAttribute("statuses", statuses);
+        List<Cart> carts = new ArrayList<>();
+        List<String> fullPrices = new ArrayList<>();
+        int bookingCount = 0;
+        for (Booking booking1 : bookings) {
+            Iterable<Cart> carts1 = cartRepository.findAllByBooking(booking1);
+            carts.addAll((List) carts1);
+            int fullPrice = 0;
+            for (Cart cart : carts1) {
+                fullPrice += cart.getCount() * cart.getProduct().getPrice();
+            }
+            fullPrices.add("" + fullPrice + "");
+            if (!booking1.isPayment()) bookingCount++;
         }
         model.addAttribute("bookingCount", bookingCount);
         model.addAttribute("fullPrice", fullPrices);
@@ -253,7 +333,7 @@ public class BookingController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Iterable<Booking> bookings = bookingRepository.findAllByUser(userRepos.findByUsername(auth.getName()));
 
-        if(auth.getAuthorities().toString().contains("SALER"))
+        if (auth.getAuthorities().toString().contains("SALER"))
             bookings = bookingRepository.findAll();
 
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
@@ -299,18 +379,20 @@ public class BookingController {
         bookingRepository.delete(booking);
         return "redirect:/withdrawals";
     }
+
     @PostMapping("/orders/save")
-    public String saveStatus(@RequestParam Status status,@RequestParam Booking booking) {
+    public String saveStatus(@RequestParam Status status, @RequestParam Booking booking) {
         booking.setStatus(status);
         bookingRepository.save(booking);
         return "redirect:/withdrawals";
     }
+
     @PostMapping("/pay")
     public ResponseEntity<Resource> exportPDF(@RequestParam Booking booking) throws IOException, DocumentException {
         booking.setPayment(true);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(booking.getTimeArrival());
-        calendar.add(Calendar.MINUTE,1);
+        calendar.add(Calendar.MINUTE, 1);
         booking.setTimeDeparture(calendar.getTime());
         bookingRepository.save(booking);
         Document document = new Document();
@@ -328,8 +410,9 @@ public class BookingController {
                 .contentLength(resource.contentLength())
                 .body(resource);
     }
+
     public void addTable(Document document, Font font, Booking booking) throws DocumentException {
-        Paragraph paragraph = new Paragraph("Чек о покупке", font);
+        Paragraph paragraph = new Paragraph("Кассовый чек", font);
         paragraph.setAlignment(Element.ALIGN_CENTER);
         document.add(paragraph);
         paragraph = new Paragraph("Whitespace", font);
@@ -340,7 +423,7 @@ public class BookingController {
         PdfPTable table = new PdfPTable(6);
 
         font.setSize(11);
-        String[] items = {"Логин пользователя", "Код заказа", "Номер столика", "Время выдачи чека"};
+        String[] items = {"Логин пользователя", "Номер заказа", "Номер столика", "Время выдачи чека"};
         String[] items1 = {"Наименование", "Категория", "Вес", "Цена", "Количество", "Итоговая цена"};
         for (int i = 0; i < 6; i++) {
             if (i == 4 || i == 5) {
@@ -350,6 +433,7 @@ public class BookingController {
             }
             table.addCell(new Paragraph(items[i], font));
         }
+        int fullPrice = 0;
         for (int i = 0; i < 6; i++) {
             switch (i) {
                 case 0 -> table.addCell(new Paragraph(booking.getUser().getUsername(), font));
@@ -363,6 +447,7 @@ public class BookingController {
                     table.addCell(new Paragraph(items1[j], font));
                 }
                 for (Cart cart : booking.getCarts()) {
+                    fullPrice+=cart.getCount()*cart.getProduct().getPrice();
                     table.addCell(new Paragraph(cart.getProduct().getNameProduct(), font));
                     table.addCell(new Paragraph(cart.getProduct().getCategory().getNameCategory(), font));
                     table.addCell(new Paragraph(cart.getProduct().getWeight().toString(), font));
@@ -372,8 +457,13 @@ public class BookingController {
                 }
             }
         }
-
         font.setStyle(Font.NORMAL);
+        table.addCell(new Paragraph(""));
+        table.addCell(new Paragraph(""));
+        table.addCell(new Paragraph(""));
+        table.addCell(new Paragraph(""));
+        table.addCell(new Paragraph("ИТОГО",font));
+        table.addCell(new Paragraph(String.valueOf(fullPrice),font));
         document.add(table);
     }
 }

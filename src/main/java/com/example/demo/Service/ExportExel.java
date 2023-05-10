@@ -47,7 +47,7 @@ public class ExportExel {
         cellStyle.setFont(font);
         style.setFont(font);
 
-        createCell(row, 0, "Код заказа", style);
+        createCell(row, 0, "Номер заказа", style);
         createCell(row, 1, "Пользователь", style);
         createCell(row, 2, "Номер столика", style);
         createCell(row, 3, "Статус заказа", style);
@@ -69,7 +69,7 @@ public class ExportExel {
 
     private void writeDataLines() {
         int rowCount = 1;
-
+        int fullPrice = 0;
         CellStyle style = workbook.createCellStyle();
         XSSFFont font = workbook.createFont();
         font.setFontHeight(14);
@@ -77,6 +77,7 @@ public class ExportExel {
 
 
         for (Booking booking : listReport) {
+            int fullPriceOneOrder = 0;
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
             int columnCount1 = 0;
@@ -92,15 +93,14 @@ public class ExportExel {
             createCell(row1,columnCount1++,"Вес",style);
             createCell(row1,columnCount1++,"Цена",style);
             createCell(row1,columnCount1++,"Количество",style);
-            createCell(row1,columnCount1++,"Итоговая цена заказа",style);
+            createCell(row1,columnCount1++,"Итоговая цена",style);
 
             for (Cart cart : booking.getCarts()) {
 
                 Row row2 = sheet.createRow(rowCount++);
-
-
                 int columnCount2 = 0;
-
+                fullPriceOneOrder+=cart.getCount()*cart.getProduct().getPrice();
+                fullPrice+=cart.getCount()*cart.getProduct().getPrice();
                 createCell(row2, columnCount2++, cart.getProduct().getNameProduct().toString(), style);
                 createCell(row2, columnCount2++, cart.getProduct().getCategory().getNameCategory().toString(), style);
                 createCell(row2, columnCount2++, cart.getProduct().getWeight().toString(), style);
@@ -108,18 +108,32 @@ public class ExportExel {
                 createCell(row2, columnCount2++, cart.getCount(), style);
                 createCell(row2, columnCount2++, cart.getCount() * cart.getProduct().getPrice(), style);
             }
-        }
 
+            row1 = sheet.createRow(rowCount++);
+            columnCount1 = 0;
+            createCell(row1, columnCount1++, "", style);
+            createCell(row1, columnCount1++, "", style);
+            createCell(row1, columnCount1++, "", style);
+            createCell(row1, columnCount1++, "", style);
+            createCell(row1, columnCount1++, "Итого", style);
+            createCell(row1, columnCount1++, fullPriceOneOrder, style);
+        }
+        Row row1 = sheet.createRow(rowCount++);
+        int columnCount1 = 0;
+        createCell(row1, columnCount1++, "", style);
+        createCell(row1, columnCount1++, "", style);
+        createCell(row1, columnCount1++, "", style);
+        createCell(row1, columnCount1++, "", style);
+        createCell(row1, columnCount1++, "ИТОГ ПО ВСЕМ ЗАКАЗАМ", style);
+        createCell(row1, columnCount1++, fullPrice, style);
     }
 
     public void export(HttpServletResponse response) throws IOException {
         writeHeaderLine();
         writeDataLines();
-
         ServletOutputStream outputStream = response.getOutputStream();
         workbook.write(outputStream);
         workbook.close();
-
         outputStream.close();
     }
 }

@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width; initial-scale=1.0">
 </head>
-<body th:align="center" class="bg">
 <header>
     <section class="header" id="header">
         <div class="shapka">
@@ -13,9 +12,9 @@
                 <a class="imageMain" href="/"><img src="/ava.png" width="80" height="70"></a>
             </div>
             <div class="shapka2">
-<!--                <div>-->
-<!--                    <a href="/withdrawals">Заказы</a>-->
-<!--                </div>-->
+                <!--                <div>-->
+                <!--                    <a href="/withdrawals">Заказы</a>-->
+                <!--                </div>-->
             </div>
 
             <div>
@@ -24,14 +23,6 @@
                     <button type="submit">Выйти</button>
                 </form>
                 </link>
-            </div>
-            <div>
-                <form th:action="@{/orders/search}" method="get">
-<!--                    <img src="/zoom.png" alt="" style="width: 20px;height: 20px;">-->
-                    <input type="text" name="search" placeholder="Поиск блюд">
-                    <button type="submit">Найти</button>
-                    <input type="hidden" name="booking" th:value="${booking.id}">
-                </form>
             </div>
             <div th:each="el : ${booking}">
                 <a th:if="${cartCount != 0}" class="cart" id="cart" th:href=" '/orders/' + ${el.id} + '/edit'">
@@ -48,39 +39,32 @@
     <div class="empty"></div>
 </section>
 
+<body class="bg" th:align="center">
 <section>
-    <div th:each="category : ${categories}" th:if="${productCount != 0}">
-        <h2 th:text="${category.nameCategory}"></h2>
-        <div th:each="product : ${products}" th:if="${product.category==category && product.hiddenDish == false}" class="flex-box">
-            <div class="element">
-                <img class="image" style="width: 150px;height: 150px;" th:if="${product.image!=null}"
-                     th:src="'/image/' + ${product.image.idImage}" alt="">
-                <h3 th:text="${product.nameProduct}"></h3>
-                <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
-                <span><h3 th:text="${product.price+ ' руб.'}"></h3></span>
-                <span><h3 th:text="${product.weight+ ' г.'}"></h3></span>
-                <form th:action="@{/cart/add}" method="post" th:object="${booking}">
-                    <input type="hidden" th:field="*{id}">
-                    <input type="hidden" th:field="*{tableNumber}">
-                    <input type="hidden" th:field="*{status}">
-                    <input id="button" value="В корзину" type="submit" class="buttons-elements">
-                    <input th:value="${product.id}" name="product" type="hidden">
-                </form>
-                <form th:action="@{/orders/details}" method="post">
-                    <input value="Подробнее" type="submit" class="buttons-elements">
-                    <input th:value="${product.id}" type="hidden" name="product">
-                    <input th:value="${booking.id}" type="hidden" name="booking">
-                </form>
-            </div>
-        </div>
+    <div class="flex-box">
+        <form th:action="@{/orders/return}" method="post">
+            <input value="Все блюда" type="submit" class="href-dish">
+            <input th:value="${booking.id}" name="booking" type="hidden">
+        </form>
+        <label class="href-dish-bird">></label>
+        <input th:value="${product.nameProduct}" type="button" class="href-dish">
     </div>
-    <div th:if="${productCount == 0}">
-        <h2>
-            Такого блюда или категории пока нет, но мы их обязательно добавим!
-        </h2>
+    <div class="element">
+        <img class="image" style="width: 300px;height: 300px;" th:if="${product.image!=null}"
+             th:src="'/image/' + ${product.image.idImage}" alt="">
+        <h3 th:text="${product.nameProduct}"></h3>
+        <span><h3 th:text="${product.price+ ' руб.'}"></h3></span>
+        <span><h3 th:text="${product.weight+ ' г.'}"></h3></span>
+        <span><h3 th:text="${product.details}"></h3></span>
+        <form th:action="@{/cart/add}" method="post" th:object="${booking}">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{tableNumber}">
+            <input type="hidden" th:field="*{status}">
+            <input id="button" value="В корзину" type="submit" class="buttons-elements">
+            <input th:value="${product.id}" name="product" type="hidden">
+        </form>
     </div>
 </section>
-
 </body>
 </html>
 <style>
@@ -105,6 +89,25 @@
     * {
         margin: 0;
         padding: 0;
+    }
+    .href-dish-bird{
+        margin-top: 15px;
+    }
+    .href-dish{
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        line-height: 1.42em;
+        background: none;
+        text-decoration: none;
+        color: white;
+        font-size: 15px;
+
+        margin: 0 0 0 2px;
+        padding: 15px 15px 15px 15px;
+    }
+    .href-dish:hover{
+        color: #4DC3FA;
+        background: none;
     }
     .flex-box{
         display: inline-flex;
@@ -136,8 +139,8 @@
 
     .element {
         margin: 10px;
-        width: 180px;
-        height: 360px;
+        width: 480px;
+        height: 560px;
         background-color: rgb(31, 39, 57, 70%);
         border-radius: 20px;
     }
