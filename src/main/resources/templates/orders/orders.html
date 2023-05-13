@@ -77,16 +77,19 @@
     <div class="stolik" >
         <h2>Введите номер своего стола</h2>
         <br>
+<!--        <div th:each="freeNumberTable : ${freeNumberTables}" class="flex-errors">-->
+<!--            <label th:text="${freeNumberTable}"></label>-->
+<!--        </div>-->
         <form th:action="${'/orders/add'}" method="post" th:object="${booking}">
             <div class="flex-errors">
                 <input required th:field="*{tableNumber}" type="number" min="1" max="100" id="tableNumber">
-                <div th:if="${#fields.hasErrors('tableNumber')}" th:errors="*{tableNumber}"></div>
             </div>
+            <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage[0]}"></div>
+            <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage[1]}"></div>
             <input type="hidden" th:value="${booking.id}" name="booking">
-            <div class="ErrorMassage" th:if="${ErrorMassage != null}" th:text="${ErrorMassage}"></div>
-
             <button type="submit">Продолжить</button>
         </form>
+
     </div>
 </section>
 <!--<section>-->
@@ -123,8 +126,8 @@
             /*font-size: 10px*/
         }
         #tableNumber{
-            width: 40%;
-            height: 40px;
+
+
         }
     }
     @media screen and (max-width: 1080px) {
@@ -143,8 +146,7 @@
             /*font-size: 10px*/
         }
         #tableNumber{
-            width: 40%;
-            height: 40px;
+
         }
     }
 
@@ -263,7 +265,7 @@
     }
 
     .bg {
-        background-image: url("black2.png");
+        background-image: url("../black2.png");
         background-repeat: no-repeat;
         background-position: center center;
         background-attachment: fixed;

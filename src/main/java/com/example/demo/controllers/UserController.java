@@ -28,24 +28,15 @@ public class UserController {
 
     @GetMapping("/{id}/edit")
     public String userEdit(@PathVariable(value = "id") long id, Model model) {
-        Optional<User> user = userRepository.findById(id);
-        ArrayList<User> res = new ArrayList<>();
-        user.ifPresent(res::add);
-        model.addAttribute("user", res);
-        model.addAttribute("roles", Role.values());
+        User user = userRepository.findById(id).get();
+        model.addAttribute("user", user);
+        model.addAttribute("rolesList", Role.values());
         return "admin/userEdit";
     }
 
     @PostMapping
-    public String userSave(@RequestParam String username, @RequestParam(name = "roles[]", required = false) String[] roles,
-                           @RequestParam("userId") User user) {
-        user.setUsername(username);
-        user.getRoles().clear();
-        if (roles != null) {
-            Arrays.stream(roles).forEach(r -> user.getRoles().add(Role.valueOf(r)));
-        }
+    public String userSave(@ModelAttribute User user) {
         userRepository.save(user);
-
         return "redirect:/admin";
     }
     @PostMapping("/delete")

@@ -1,37 +1,55 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Редактирование пользователя</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body th:align="center" class="bg">
+<header>
+    <section class="header">
+        <div class="shapka">
+            <div>
+                <a class="imageMain" href="/"><img src="/ava.png" width="80" height="70"></a>
+            </div>
+            <div>
+                <link sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Выйти</button>
+                </form>
+                </link>
+            </div>
+        </div>
+    </section>
+</header>
+<div class="empty"></div>
 <div align="center">
-
-    <form th:action="${'/admin'}" method="post">
+    <form th:action="${'/admin'}" method="post" th:object="${user}">
         <div class="text-field">
-            <div th:each="el : ${user}">
-                <input type="hidden" th:value="${el.id}" name="userId">
-                <p class="text-field__label">Логин
-                    <input class="text-field__input" type="text" name="username" th:value="${el.username}">
-                </p>
-            </div>
-            <div th:each="role : ${roles}">
-                <div th:each="el : ${user}">
-                    <input th:id="${role}" style="width: 20px; height: 20px;" type="checkbox" th:name="${'roles[]'}"
-                           th:value="${role}"
-                           th:checked="${#lists.contains(el.roles, role)}"/>
 
-                    <label th:text="${role}"/></label>
-                </div>
-            </div>
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{password}">
+            <input type="hidden" th:field="*{active}">
+            <p class="text-field__label">Номер телефона</p>
+            <input class="text-field__input" type="text" th:field="*{username}">
 
-            <br>
+            <div>
+                <p class="text-field__label">Роль</p>
+
+                <td class="text-center">
+                    <div class="btn-group">
+                        <select th:field="*{roles}" class="form-control">
+                            <div th:each="role: ${rolesList}">
+                                <option th:selected="${user.roles.contains(role)}" th:value="${role}" th:text="${role.roleName}"/>
+                            </div>
+                        </select>
+                    </div>
+                </td>
+            </div>
             <br>
             <button type="submit">Применить</button>
         </div>
     </form>
 </div>
-
 </body>
 </html>
 <style>
@@ -41,33 +59,57 @@
         font-family: 'Open Sans', sans-serif;
         font-weight: 300;
         line-height: 1.42em;
-        color:#A7A1AE;
-        background-color:#1F2739;
-    }
-    h1 {
-        font-size:3em;
-        font-weight: 300;
-        line-height:1em;
-        text-align: center;
-        color: #4DC3FA;
+        color: #A7A1AE;
+        background-color: #1F2739;
     }
 
-    h2 {
-        font-size:1em;
-        font-weight: 300;
-        text-align: center;
-        display: block;
-        line-height:1em;
-        padding-bottom: 2em;
-        color: #FB667A;
+    .header {
+        padding: 10px;
+        height: 60px;
+        background-color: rgba(128, 128, 128, 50%);
     }
 
-    h2 a {
-        font-weight: 700;
-        text-transform: uppercase;
-        color: #FB667A;
-        text-decoration: none;
+    select {
+        width: 250px;
+        height: 50px;
+        border-radius: 15px;
+        border-width: 1px;
     }
+
+
+
+    .text-field {
+        padding: 10px;
+        width: 300px;
+        height: 250px;
+        background-color: #1F2739;
+        border-radius: 30px;
+    }
+
+    .shapka {
+        display: flex;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .imageMain {
+        border: none;
+        background: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .imageMain:hover {
+        background: none;
+    }
+
+    .empty {
+        height: 60px;
+    }
+
     .bg {
 
 
@@ -79,20 +121,6 @@
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-    }
-
-    table {
-        text-align: center;
-        align: center;
-    }
-
-    th {
-        width: 150px;
-        border-style: solid;
-        border-color: limegreen;
-
-        /*background-color: green;*/
-        background: rgba(0, 255, 0, 0.3);
     }
 
     a, button {

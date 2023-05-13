@@ -30,10 +30,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 public class BookingController {
@@ -72,9 +71,17 @@ public class BookingController {
         Iterable<Product> products = productRepository.findAll();
         Iterable<User> users = userRepos.findAll();
 
+        List<String> tablesArray = new ArrayList<>();
+        for (int i =0;i< 100;i++){
+            tablesArray.add(String.valueOf(i+1));
+        }
+        for (Booking booking1 : bookings){
+            tablesArray.removeIf(tableNumber -> (booking1.getTimeDeparture() == null || booking1.getTimeDeparture().after(new Date())) && Integer.parseInt(tableNumber) == booking1.getTableNumber());
+        }
         model.addAttribute("products", products);
         model.addAttribute("User", users);
         model.addAttribute("bookings", bookings);
+        model.addAttribute("freeNumberTables", tablesArray);
 
         model.addAttribute("isAdmin", authentication.getAuthorities().toString().contains("ADMIN"));
         model.addAttribute("isSaler", authentication.getAuthorities().toString().contains("SALER"));
@@ -133,7 +140,8 @@ public class BookingController {
         Booking booking1 = bookingRepository.findTopByTableNumberOrderByIdDesc(booking.getTableNumber());
         if (booking1 != null && (booking1.getTimeDeparture() == null || booking1.getTimeDeparture().after(new Date()))) {
             result.addError(new ObjectError("tableNumber", "Данный стол уже занят!"));
-            model.addAttribute("ErrorMassage", "*Данный стол уже занят!" + "\r" + "Попробуйте ввести другой");
+            String[] errorsMessage = {"*Данный стол уже занят!", "Попробуйте ввести другой"};
+            model.addAttribute("ErrorMassage",errorsMessage );
         }
 
         if (result.hasErrors()) {
@@ -148,7 +156,7 @@ public class BookingController {
             model.addAttribute("products", products);
             model.addAttribute("User", users);
             model.addAttribute("bookings", bookings);
-
+            model.addAttribute("freeNumberTables", IntStream.range(1,100).toArray());
             model.addAttribute("isAdmin", auth.getAuthorities().toString().contains("ADMIN"));
             model.addAttribute("isSaler", auth.getAuthorities().toString().contains("SALER"));
             model.addAttribute("isUser", auth.getAuthorities().toString().contains("USER"));

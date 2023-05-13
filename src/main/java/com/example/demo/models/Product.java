@@ -28,7 +28,6 @@ public class Product {
 
     private boolean hiddenDish;
 
-    @NotEmpty(message = "Поле не может быть пустым")
     private String details;
 
     @OneToOne(optional = true, cascade = CascadeType.ALL)

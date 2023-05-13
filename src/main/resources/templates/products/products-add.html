@@ -72,18 +72,19 @@
             <br>
             <input required th:field="*{price}" type="text">
             <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('price')}" th:errors="*{price}"></div>
-            <label>Подробная информация</label>
             <br>
-            <input required th:field="*{details}" type="text">
-            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('details')}" th:errors="*{details}"></div>
             <label>Категория</label>
-            <br>
             <select th:field="*{category}" class="border">
                 <div th:each="el : ${categories}">
-                    <option th:value="${el.id}" th:text="${el.nameCategory}"/>
+                    <option th:value="${el.id}" th:text="${el.nameCategory}" style="background-color: darkblue;color: white;border-radius: 20px"/>
                 </div>
             </select>
             <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('category')}" th:errors="*{category}"></div>
+            <br>
+            <label>Подробная информация</label>
+            <br>
+            <input required th:field="*{details}" type="text" class="text-for-detail-info">
+            <div style="width: 250px; height: 40px; margin-left: 600px" th:if="*{#fields.hasErrors('details')}" th:errors="*{details}"></div>
         </div>
     </div>
     <br>
@@ -116,7 +117,10 @@
         height: 60px;
         position: fixed;
     }
-
+    .text-for-detail-info{
+        height: 70px;
+        border-radius: 10px;
+    }
     select {
         height: 30px;
         width: 250px;
@@ -218,7 +222,7 @@
         padding: 20px;
         background-color: #323C50;
         width: 250px;
-        height: 340px;
+        height: 430px;
     }
     input {
         margin-bottom: 20px;

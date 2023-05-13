@@ -12,11 +12,7 @@
                 <a class="imageMain" href="/"><img src="/ava.png" width="80" height="70"></a>
             </div>
             <div class="shapka2">
-                <!--                <div>-->
-                <!--                    <a href="/withdrawals">Заказы</a>-->
-                <!--                </div>-->
             </div>
-
             <div>
                 <link sec:authorize="isAuthenticated()">
                 <form th:action="@{/logout}" method="post">
@@ -39,7 +35,7 @@
     <div class="empty"></div>
 </section>
 
-<body class="bg" th:align="center">
+<body class="bg" >
 <section>
     <div class="flex-box">
         <form th:action="@{/orders/return}" method="post">
@@ -50,12 +46,16 @@
         <input th:value="${product.nameProduct}" type="button" class="href-dish">
     </div>
     <div class="element">
-        <img class="image" style="width: 300px;height: 300px;" th:if="${product.image!=null}"
-             th:src="'/image/' + ${product.image.idImage}" alt="">
-        <h3 th:text="${product.nameProduct}"></h3>
-        <span><h3 th:text="${product.price+ ' руб.'}"></h3></span>
-        <span><h3 th:text="${product.weight+ ' г.'}"></h3></span>
-        <span><h3 th:text="${product.details}"></h3></span>
+        <div class="flex-box">
+            <img class="image" style="width: 300px;height: 300px;" th:if="${product.image!=null}"
+                 th:src="'/image/' + ${product.image.idImage}" alt="">
+            <div class="block">
+                <h3 th:text="${product.nameProduct}"></h3>
+                <h3 th:text="${product.price+ ' руб.'}"></h3>
+                <h3 th:text="${product.weight+ ' г.'}"></h3>
+            </div>
+        </div>
+       <h3 th:text="${product.details}"></h3>
         <form th:action="@{/cart/add}" method="post" th:object="${booking}">
             <input type="hidden" th:field="*{id}">
             <input type="hidden" th:field="*{tableNumber}">
@@ -112,6 +112,9 @@
     .flex-box{
         display: inline-flex;
     }
+    .block{
+        display: block;
+    }
     .buttons-elements{
         margin-top: 10px;
     }
@@ -138,15 +141,16 @@
     }
 
     .element {
-        margin: 10px;
+        padding: 20px;
+        margin: 50px 0 0 420px;
         width: 480px;
-        height: 560px;
+        height: 460px;
         background-color: rgb(31, 39, 57, 70%);
         border-radius: 20px;
     }
 
     .empty {
-        padding-bottom: 50px;
+        padding-bottom: 20px;
     }
 
     .header {
