@@ -213,6 +213,7 @@ public class BookingController {
         User user = userRepos.findByUsername(authentication.getName());
         Iterable<Product> products = productRepository.findAll();
         model.addAttribute("products", products);
+
         Iterable<Status> status = statusRepository.findAll();
         model.addAttribute("statuses", status);
         booking.setUser(user);
@@ -236,7 +237,6 @@ public class BookingController {
         model.addAttribute("product", product);
         return "orders/details";
     }
-
     @PostMapping("/orders/return")
     public String ordersReturn(@RequestParam Booking booking, Model model) {
         Iterable<Category> categories = categoryRepository.findAll();

@@ -25,7 +25,7 @@
     <form th:action="@{/login}" method="post" id="form">
         <div>
             <label>Номер телефона</label>
-            <input required type="text" name="username" data-mask="phoneNumber"/><br>
+            <input required type="text" name="username" data-mask="phoneNumber" min="11"/><br>
         </div>
         <div>
             <label class="password">Пароль</label><br>

@@ -23,7 +23,6 @@ public class Cart {
     @JoinColumn(name = "productId", referencedColumnName = "id")
     private Product product;
 
-
     public Cart() {
     }
 

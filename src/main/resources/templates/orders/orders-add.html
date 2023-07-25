@@ -25,10 +25,10 @@
                 </form>
                 </link>
             </div>
-            <div>
+            <div class="search-result" id="desktop-search">
                 <form th:action="@{/orders/search}" method="get">
 <!--                    <img src="/zoom.png" alt="" style="width: 20px;height: 20px;">-->
-                    <input type="text" name="search" placeholder="Поиск блюд">
+                    <input type="text" name="search" placeholder="Поиск">
                     <button type="submit">Найти</button>
                     <input type="hidden" name="booking" th:value="${booking.id}">
                 </form>
@@ -47,7 +47,14 @@
 <section>
     <div class="empty"></div>
 </section>
-
+<div class="search-result" id="mobile-search">
+    <form th:action="@{/orders/search}" method="get">
+        <!--                    <img src="/zoom.png" alt="" style="width: 20px;height: 20px;">-->
+        <input type="text" name="search" placeholder="Поиск">
+        <button type="submit">Найти</button>
+        <input type="hidden" name="booking" th:value="${booking.id}">
+    </form>
+</div>
 <section>
     <div th:each="category : ${categories}" th:if="${productCount != 0}">
         <h2 th:text="${category.nameCategory}"></h2>
@@ -86,16 +93,31 @@
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
+    @media screen and (max-width: 1840px) {
+        #mobile-search{
+            visibility: hidden;
+        }
+    }
+
     @media screen and (max-width: 480px) {
         html {
             -webkit-text-size-adjust: none;
         }
+        .search-result{
 
+        }
         #header {
             width: 100%;
         }
         #button{
             height: 20px;
+        }
+        #desktop-search{
+            visibility: hidden;
+        }
+        #mobile-search{
+            visibility: inherit;
+            margin: 0 0 20px 0;
         }
         #navbar-sub-list {
             width: 400px;

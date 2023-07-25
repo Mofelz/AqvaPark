@@ -45,7 +45,7 @@
         <label class="href-dish-bird">></label>
         <input th:value="${product.nameProduct}" type="button" class="href-dish">
     </div>
-    <div class="element">
+    <div class="element" id="details-element">
         <div class="flex-box">
             <img class="image" style="width: 300px;height: 300px;" th:if="${product.image!=null}"
                  th:src="'/image/' + ${product.image.idImage}" alt="">
@@ -74,7 +74,10 @@
         html {
             -webkit-text-size-adjust: none;
         }
-
+        #details-element{
+            width: 350px;
+            margin: 0 0 0 10px;
+        }
         #header {
             width: 100%;
         }

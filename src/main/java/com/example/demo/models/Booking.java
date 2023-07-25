@@ -25,7 +25,7 @@ public class Booking {
 
     private Date timeDeparture;
 
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = true, cascade = CascadeType.ALL)
     private User user;
 
     @ManyToOne
